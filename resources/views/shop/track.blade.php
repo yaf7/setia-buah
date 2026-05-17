@@ -17,8 +17,8 @@
                 <h1 class="text-xl font-bold">Status Pesanan Anda</h1>
                 <p class="opacity-80">Order ID: #ORD-{{ str_pad($order->id, 5, '0', STR_PAD_LEFT) }}</p>
                 <div class="mt-2 flex flex-wrap gap-2 text-xs">
-                    <span class="px-2 py-1 rounded bg-white/20">Status: {{ strtoupper($order->status) }}</span>
-                    <span class="px-2 py-1 rounded bg-white/20">Bayar: {{ strtoupper($order->payment_status) }}</span>
+                    <span class="px-2 py-1 rounded bg-white/20">Status: {{ strtoupper($order->status === 'processing' ? 'dibayar' : $order->status) }}</span>
+                    <span class="px-2 py-1 rounded bg-white/20">Bayar: {{ strtoupper($order->payment_status === 'paid' ? 'dibayar' : $order->payment_status) }}</span>
                 </div>
             </div>
             
@@ -85,7 +85,7 @@
                         <p class="font-bold text-gray-800 mb-1">Total Tagihan:</p>
                         <p class="text-xl font-bold text-green-700">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</p>
                         <p class="mt-1">Bayar via: <span class="uppercase font-semibold">{{ str_replace('_', ' ', $order->payment_method) }}</span></p>
-                        <p>Status Bayar: <span class="uppercase {{ $order->payment_status == 'paid' ? 'text-green-600' : 'text-yellow-600' }} font-bold">{{ $order->payment_status }}</span></p>
+                        <p>Status Bayar: <span class="uppercase {{ $order->payment_status == 'paid' ? 'text-green-600' : 'text-yellow-600' }} font-bold">{{ $order->payment_status == 'paid' ? 'dibayar' : $order->payment_status }}</span></p>
                     </div>
                 </div>
             </div>

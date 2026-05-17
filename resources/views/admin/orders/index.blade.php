@@ -59,7 +59,7 @@
                                             bg-red-100 text-red-800
                                         @endif
                                     ">
-                                        {{ ucfirst($order->status) }}
+                                        {{ $order->status === 'processing' ? 'Dibayar' : ucfirst($order->status) }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-sm">

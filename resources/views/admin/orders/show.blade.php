@@ -45,7 +45,7 @@
                         </div>
                         <div>
                             <p class="text-sm text-gray-600">Status Saat Ini:</p>
-                            <p class="text-2xl font-bold">{{ ucfirst($order->status) }}</p>
+                            <p class="text-2xl font-bold">{{ $order->status === 'processing' ? 'Dibayar' : ucfirst($order->status) }}</p>
                         </div>
                     </div>
 
@@ -163,7 +163,7 @@
                                     bg-red-100 text-red-800
                                 @endif
                             ">
-                                {{ ucfirst($order->payment_status) }}
+                                {{ $order->payment_status === 'paid' ? 'Dibayar' : ucfirst($order->payment_status) }}
                             </span>
                         </p>
                         <p>

@@ -69,7 +69,7 @@
                                             @if($order->status === 'pending')
                                                 Menunggu Persetujuan
                                             @elseif($order->status === 'processing')
-                                                Sedang Diproses
+                                                Dibayar
                                             @elseif($order->status === 'shipped')
                                                 Dalam Perjalanan
                                             @elseif($order->status === 'delivered')
@@ -129,7 +129,7 @@
                                     ">
                                         Pembayaran: 
                                         @if($order->payment_status === 'paid')
-                                            ✓ Berhasil
+                                            ✓ Dibayar
                                         @elseif($order->payment_status === 'pending')
                                             ⏳ Menunggu
                                         @else
