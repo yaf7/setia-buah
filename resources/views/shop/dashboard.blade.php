@@ -97,10 +97,10 @@
                                     @foreach($order->orderItems as $item)
                                         <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
                                             <div class="flex-1">
-                                                <p class="font-semibold text-gray-900">{{ $item->inventory->product_name ?? 'Produk' }}</p>
-                                                <p class="text-sm text-gray-600">{{ $item->quantity }} Kg</p>
+                                                <p class="font-semibold text-gray-900">{{ $item->inventory->fruit_type ?? 'Produk' }} (Grade {{ $item->inventory->grade ?? '-' }})</p>
+                                                <p class="text-sm text-gray-600">{{ $item->quantity_kg }} Kg</p>
                                             </div>
-                                            <p class="font-semibold text-gray-900">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</p>
+                                            <p class="font-semibold text-gray-900">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
                                         </div>
                                     @endforeach
                                 </div>

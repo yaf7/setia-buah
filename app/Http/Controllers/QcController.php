@@ -13,11 +13,18 @@ class QcController extends Controller
 {
     public function create(PetaniProduct $product)
     {
+        if ($product->status !== 'pending') {
+            return redirect()->route('admin.dashboard')->with('info', 'Produk ini sudah melalui proses Quality Control.');
+        }
         return view('admin.qc.create', compact('product'));
     }
 
     public function store(StoreQcReportRequest $request, PetaniProduct $product)
     {
+        if ($product->status !== 'pending') {
+            return redirect()->route('admin.dashboard')->with('error', 'Produk ini sudah melalui proses Quality Control.');
+        }
+
         $data = $request->validated();
         $data['admin_id'] = $request->user()->id;
 

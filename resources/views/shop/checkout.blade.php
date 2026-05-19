@@ -1,139 +1,220 @@
 <x-app-layout>
     <x-slot name="meta">
-        <x-seo-meta title="Checkout Pembayaran - Setia Buah" />
+        <x-seo-meta title="Formulir Checkout & Pengiriman - SetiaBuah" />
     </x-slot>
 
-    <div class="max-w-5xl mx-auto px-4 py-8">
-        <h1 class="text-3xl font-bold mb-8">Checkout & Pengiriman</h1>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        
+        <!-- Checkout Progress Stepper -->
+        <div class="max-w-3xl mx-auto mb-12">
+            <div class="flex items-center justify-between relative">
+                <!-- Line background -->
+                <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-gray-200 -z-10"></div>
+                <!-- Active Line -->
+                <div class="absolute left-0 right-1/2 top-1/2 -translate-y-1/2 h-0.5 bg-brand-500 -z-10 transition-all duration-300"></div>
 
-        <div class="flex flex-col-reverse lg:flex-row gap-8">
-            <!-- Form -->
-            <div class="flex-1 bg-white p-6 rounded-lg shadow">
-                <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST" class="space-y-6">
-                    @csrf
-
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-4">1. Data Penerima</h2>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Nama Penerima</label>
-                                <input type="text" name="customer_name" value="{{ auth('buyer')->user()->name ?? '' }}" class="mt-1 block w-full rounded border-gray-300 min-h-[44px] px-3" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">No. HP</label>
-                                <input type="text" name="customer_phone" class="mt-1 block w-full rounded border-gray-300 min-h-[44px] px-3" required>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <label class="block text-sm font-medium text-gray-700">Alamat Lengkap</label>
-                            <textarea name="shipping_address" rows="3" class="mt-1 block w-full rounded border-gray-300 p-3" required></textarea>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Provinsi</label>
-                                <input type="text" name="shipping_province" class="mt-1 block w-full rounded border-gray-300 min-h-[44px] px-3" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Kota</label>
-                                <input type="text" name="shipping_city" class="mt-1 block w-full rounded border-gray-300 min-h-[44px] px-3" required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700">Kode Pos</label>
-                                <input type="text" name="shipping_postal_code" id="shipping_postal_code" class="mt-1 block w-full rounded border-gray-300 min-h-[44px] px-3" required>
-                            </div>
-                        </div>
+                <!-- Step 1 -->
+                <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
+                    <div class="h-9 w-9 rounded-full bg-brand-600 border-4 border-brand-100 flex items-center justify-center text-white text-xs font-black shadow-md shadow-brand-500/10">
+                        ✓
                     </div>
+                    <span class="text-[10px] font-extrabold text-brand-600 uppercase tracking-wider">Keranjang</span>
+                </div>
 
-                    <hr class="border-gray-200">
-
-                    <div>
-                        <h2 class="text-xl font-bold text-gray-800 mb-4">2. Pilih Kurir</h2>
-                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="jne" checked>
-                                <span class="text-sm">JNE</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="jnt" checked>
-                                <span class="text-sm">J&T</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="sicepat" checked>
-                                <span class="text-sm">SiCepat</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="anteraja" checked>
-                                <span class="text-sm">Anteraja</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="ninja" checked>
-                                <span class="text-sm">Ninja</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="tiki" checked>
-                                <span class="text-sm">TIKI</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="pos" checked>
-                                <span class="text-sm">POS</span>
-                            </label>
-                            <label class="flex items-center gap-2 min-h-[44px] rounded border border-gray-200 px-3">
-                                <input type="checkbox" class="courier-option" value="lion" checked>
-                                <span class="text-sm">Lion</span>
-                            </label>
-                        </div>
-                        <div class="mt-3">
-                            <button type="button" id="btn-check-rates" class="min-h-[44px] px-5 bg-indigo-600 text-white rounded hover:bg-indigo-700">Cek Ongkir</button>
-                        </div>
-
-                        <div id="courier-list" class="mt-4 space-y-3"></div>
+                <!-- Step 2 -->
+                <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
+                    <div class="h-9 w-9 rounded-full bg-brand-500 border-4 border-brand-100 flex items-center justify-center text-white text-xs font-black shadow-md shadow-brand-500/20 animate-pulse">
+                        2
                     </div>
+                    <span class="text-[10px] font-extrabold text-brand-600 uppercase tracking-wider">Pengiriman</span>
+                </div>
 
-                    <input type="hidden" name="couriers" id="couriers" value="jne,jnt,sicepat,anteraja,ninja,tiki,pos,lion">
-
-                    <input type="hidden" name="courier_name" id="courier_name">
-                    <input type="hidden" name="courier_service" id="courier_service">
-                    <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
-                    <input type="hidden" name="payment_method" value="midtrans">
-
-                    <button type="submit" id="btn-pay" class="w-full min-h-[50px] bg-green-600 text-white rounded-lg hover:bg-green-700 font-bold shadow-lg mt-4">
-                        Bayar Sekarang
-                    </button>
-                    <p class="text-xs text-center text-gray-500 mt-2">Pembayaran menggunakan Midtrans Snap (Sandbox).</p>
-                </form>
-            </div>
-
-            <!-- Summary -->
-            <div class="w-full lg:w-1/3">
-                <div class="bg-gray-50 p-6 rounded-lg border border-gray-200 sticky top-4">
-                    <h3 class="text-lg font-bold text-gray-800 mb-4">Ringkasan Pesanan</h3>
-                    <ul class="space-y-3 mb-4">
-                        @foreach($cartItems as $item)
-                            <li class="flex justify-between text-sm">
-                                <span class="text-gray-600">{{ $item->quantity_kg }}x {{ $item->inventory->fruit_type ?? 'Produk' }}</span>
-                                <span class="font-medium">Rp {{ number_format(($item->quantity_kg * ($item->inventory->price_per_kg ?? 0)), 0, ',', '.') }}</span>
-                            </li>
-                        @endforeach
-                    </ul>
-                    <div class="border-t border-gray-300 pt-4 space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Subtotal</span>
-                            <span class="font-semibold">Rp {{ number_format($total, 0, ',', '.') }}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Ongkir</span>
-                            <span class="font-semibold" id="summary-shipping">Rp 0</span>
-                        </div>
+                <!-- Step 3 -->
+                <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
+                    <div class="h-9 w-9 rounded-full bg-gray-200 border-4 border-gray-100 flex items-center justify-center text-gray-500 text-xs font-black">
+                        3
                     </div>
-                    <div class="border-t border-gray-300 pt-4 flex justify-between">
-                        <span class="font-bold text-gray-800">Grand Total</span>
-                        <span class="font-bold text-green-700" id="summary-total">Rp {{ number_format($total, 0, ',', '.') }}</span>
-                    </div>
+                    <span class="text-[10px] font-extrabold text-gray-400 uppercase tracking-wider">Pembayaran</span>
                 </div>
             </div>
         </div>
+
+        <div class="flex flex-col-reverse lg:flex-row gap-8 items-start">
+            
+            <!-- Left Side: Receiver Data & Shipping Selection Form -->
+            <div class="flex-grow w-full lg:max-w-[620px] xl:max-w-none">
+                <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-6 sm:p-8">
+                    
+                    <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST" class="space-y-8">
+                        @csrf
+
+                        <!-- Section 1: Customer Data -->
+                        <div class="space-y-5">
+                            <div class="flex items-center gap-2.5 pb-2 border-b border-gray-100">
+                                <span class="h-6 w-6 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-black">1</span>
+                                <h2 class="font-heading font-extrabold text-gray-800 text-base">Informasi Penerima Paket</h2>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="space-y-1">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Nama Lengkap</label>
+                                    <input type="text" name="customer_name" value="{{ auth('buyer')->user()->name ?? '' }}" placeholder="Contoh: Budi Santoso" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition" required>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Nomor Handphone (HP)</label>
+                                    <input type="text" name="customer_phone" placeholder="Contoh: 08123456789" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition" required>
+                                </div>
+                            </div>
+
+                            <div class="space-y-1">
+                                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alamat Pengiriman Lengkap</label>
+                                <textarea name="shipping_address" rows="3" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kelurahan, dan kecamatan..." class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 p-3.5 text-sm transition" required></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="space-y-1">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Provinsi</label>
+                                    <input type="text" name="shipping_province" placeholder="Contoh: Jawa Barat" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition" required>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Kota / Kabupaten</label>
+                                    <input type="text" name="shipping_city" placeholder="Contoh: Bogor" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition" required>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Kode Pos</label>
+                                    <input type="text" name="shipping_postal_code" id="shipping_postal_code" placeholder="Contoh: 16115" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition font-bold text-center" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Courier Selection -->
+                        <div class="space-y-5">
+                            <div class="flex items-center gap-2.5 pb-2 border-b border-gray-100">
+                                <span class="h-6 w-6 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-black">2</span>
+                                <h2 class="font-heading font-extrabold text-gray-800 text-base">Pilihan Jasa Ekspedisi (Kurir)</h2>
+                            </div>
+                            
+                            <p class="text-xs text-gray-400 font-medium">Aktifkan kurir-kurir yang ingin Anda bandingkan ongkos kirimnya:</p>
+                            
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="jne" checked>
+                                    <span class="text-xs font-bold text-gray-700">JNE</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="jnt" checked>
+                                    <span class="text-xs font-bold text-gray-700">J&T</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="sicepat" checked>
+                                    <span class="text-xs font-bold text-gray-700">SiCepat</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="anteraja" checked>
+                                    <span class="text-xs font-bold text-gray-700">Anteraja</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="ninja" checked>
+                                    <span class="text-xs font-bold text-gray-700">Ninja</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="tiki" checked>
+                                    <span class="text-xs font-bold text-gray-700">TIKI</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="pos" checked>
+                                    <span class="text-xs font-bold text-gray-700">POS</span>
+                                </label>
+                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
+                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="lion" checked>
+                                    <span class="text-xs font-bold text-gray-700">Lion Parcel</span>
+                                </label>
+                            </div>
+                            
+                            <div class="pt-2">
+                                <button type="button" id="btn-check-rates" class="min-h-[44px] inline-flex items-center justify-center px-6 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow shadow-brand-500/10 active:scale-98 transition flex items-center gap-2">
+                                    Cek Tarif Ongkir
+                                </button>
+                            </div>
+
+                            <!-- Dynamic rates loaded here -->
+                            <div id="courier-list" class="mt-4 space-y-3.5"></div>
+                        </div>
+
+                        <!-- Hidden fields to hold API parameters -->
+                        <input type="hidden" name="couriers" id="couriers" value="jne,jnt,sicepat,anteraja,ninja,tiki,pos,lion">
+                        <input type="hidden" name="courier_name" id="courier_name">
+                        <input type="hidden" name="courier_service" id="courier_service">
+                        <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
+                        <input type="hidden" name="payment_method" value="midtrans">
+
+                        <!-- Main Submit Pay Button -->
+                        <div class="pt-4 border-t border-gray-100">
+                            <button type="submit" id="btn-pay" class="w-full min-h-[50px] bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-extrabold text-sm sm:text-base shadow-md shadow-brand-500/10 active:scale-98 transition flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                Selesaikan & Bayar
+                            </button>
+                            <p class="text-[10px] text-center text-gray-400 mt-2.5 font-medium">
+                                Pembayaran diproses secara aman menggunakan **Midtrans Snap Secure Gateway** (Sandbox).
+                            </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Side: Order Summary Panel Card -->
+            <aside class="w-full lg:w-80 lg:sticky lg:top-28">
+                <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-6">
+                    <h3 class="font-heading font-extrabold text-gray-800 text-base pb-3 border-b border-gray-200/50">Tinjau Pesanan</h3>
+                    
+                    <ul class="space-y-4">
+                        @foreach($cartItems as $item)
+                            <li class="flex justify-between items-start gap-4 text-xs">
+                                <div class="space-y-1">
+                                    <span class="block font-bold text-gray-700 line-clamp-1">{{ $item->inventory->fruit_type ?? 'Produk' }}</span>
+                                    <span class="block text-gray-400 font-extrabold">({{ $item->quantity_kg }} Kg x Rp {{ number_format(optional($item->inventory)->price_per_kg ?? 0, 0, ',', '.') }})</span>
+                                </div>
+                                <span class="font-black text-gray-800 shrink-0">
+                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->price_per_kg ?? 0)), 0, ',', '.') }}
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                    
+                    <div class="border-t border-gray-200/80 pt-4 space-y-3 text-xs font-semibold text-gray-500">
+                        <div class="flex justify-between">
+                            <span>Subtotal Buah</span>
+                            <span class="text-gray-700 font-bold">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Ongkos Kirim</span>
+                            <span class="text-gray-700 font-bold" id="summary-shipping">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-brand-200/60 pt-4 flex flex-col gap-1">
+                        <span class="text-[9px] font-black text-gray-400 uppercase tracking-widest leading-none">Total Keseluruhan</span>
+                        <span class="font-heading font-black text-xl sm:text-2xl text-brand-700 mt-1" id="summary-total">
+                            Rp {{ number_format($total, 0, ',', '.') }}
+                        </span>
+                    </div>
+
+                    <!-- Trust Badge -->
+                    <div class="h-px bg-gray-200 my-2"></div>
+                    <div class="flex items-center gap-2.5 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-brand-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                        <div class="text-[9px] leading-tight font-medium">
+                            <p class="font-bold text-gray-500">Secure Payment</p>
+                            <p>Pembayaran terenkripsi aman.</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
     </div>
 
+    <!-- Midtrans Snap Client Scripts -->
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
     <script>
         const form = document.getElementById('checkout-form');
@@ -162,22 +243,23 @@
             courierList.innerHTML = '';
 
             if (!rates.length) {
-                courierList.innerHTML = '<p class="text-sm text-gray-500">Ongkir tidak ditemukan. Coba kurir lain.</p>';
+                courierList.innerHTML = '<div class="p-4 bg-amber-50 border border-amber-100 rounded-xl text-xs font-bold text-amber-700 text-center">Ongkos kirim tidak ditemukan untuk kode pos ini. Silakan coba kombinasi kurir lain.</div>';
                 return;
             }
 
             rates.forEach((rate) => {
                 const button = document.createElement('button');
                 button.type = 'button';
-                button.className = 'w-full text-left border rounded p-4 hover:border-green-500 hover:bg-green-50 transition';
+                button.className = 'w-full text-left border border-gray-150 rounded-xl p-4 hover:border-brand-500 hover:bg-brand-50/20 active:scale-99 transition flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3';
                 button.innerHTML = `
-                    <div class="flex justify-between items-center">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-gray-100 flex items-center justify-center font-black text-[10px] text-gray-500 uppercase">${rate.courier_code || 'EXP'}</div>
                         <div>
-                            <p class="font-semibold text-gray-800">${rate.courier_name} - ${rate.courier_service_name}</p>
-                            <p class="text-xs text-gray-500">ETD: ${rate.shipment_duration_range || '-'} hari</p>
+                            <p class="font-heading font-extrabold text-sm text-gray-800">${rate.courier_name} - ${rate.courier_service_name}</p>
+                            <p class="text-[10px] font-bold text-gray-400">Estimasi Durasi: ${rate.shipment_duration_range || '-'} Hari</p>
                         </div>
-                        <div class="font-bold text-green-700">Rp ${formatRupiah(rate.price)}</div>
                     </div>
+                    <div class="font-heading font-black text-brand-700 text-base text-right sm:shrink-0">Rp ${formatRupiah(rate.price)}</div>
                 `;
 
                 button.addEventListener('click', () => {
@@ -187,9 +269,9 @@
                     updateSummary();
 
                     [...courierList.children].forEach((child) => {
-                        child.classList.remove('border-green-600', 'bg-green-50');
+                        child.classList.remove('border-brand-600', 'bg-brand-50/30', 'ring-2', 'ring-brand-500/20');
                     });
-                    button.classList.add('border-green-600', 'bg-green-50');
+                    button.classList.add('border-brand-600', 'bg-brand-50/30', 'ring-2', 'ring-brand-500/20');
                 });
 
                 courierList.appendChild(button);
@@ -199,7 +281,7 @@
         btnCheckRates.addEventListener('click', async () => {
             const postalCode = document.getElementById('shipping_postal_code').value.trim();
             if (!postalCode) {
-                alert('Isi kode pos terlebih dahulu.');
+                alert('Silakan isi kode pos pengiriman terlebih dahulu.');
                 return;
             }
 
@@ -209,7 +291,10 @@
             document.getElementById('couriers').value = couriers;
 
             btnCheckRates.disabled = true;
-            btnCheckRates.textContent = 'Memuat...';
+            btnCheckRates.innerHTML = `
+                <svg class="animate-spin h-4.5 w-4.5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Menghubungkan Biteship...
+            `;
 
             try {
                 const response = await fetch('{{ route('checkout.shipping-rates') }}', {
@@ -231,10 +316,10 @@
                 const rates = data?.pricing || data?.prices || data?.data?.pricing || data?.data?.prices || [];
                 renderCouriers(rates);
             } catch (error) {
-                alert(error.message || 'Gagal mengambil ongkir. Coba lagi.');
+                alert(error.message || 'Gagal terhubung dengan layanan logistik Biteship. Pastikan internet Anda aktif.');
             } finally {
                 btnCheckRates.disabled = false;
-                btnCheckRates.textContent = 'Cek Ongkir';
+                btnCheckRates.textContent = 'Cek Tarif Ongkir';
             }
         });
 
@@ -242,11 +327,18 @@
             event.preventDefault();
 
             if (!courierNameInput.value || !courierServiceInput.value) {
-                alert('Pilih kurir terlebih dahulu.');
+                alert('Harap pilih salah satu tarif kurir yang tersedia terlebih dahulu.');
                 return;
             }
 
             const formData = new FormData(form);
+            const btnPay = document.getElementById('btn-pay');
+            
+            btnPay.disabled = true;
+            btnPay.innerHTML = `
+                <svg class="animate-spin h-4.5 w-4.5 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                Menghubungkan Midtrans Snap...
+            `;
 
             try {
                 const response = await fetch(form.action, {
@@ -272,11 +364,21 @@
                         window.location.href = `{{ url('/track') }}/${data.order_id}`;
                     },
                     onError: () => {
-                        alert('Pembayaran gagal. Silakan coba lagi.');
+                        alert('Pembayaran dibatalkan atau terjadi kegagalan. Silakan coba kembali.');
+                        btnPay.disabled = false;
+                        btnPay.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                            Selesaikan & Bayar
+                        `;
                     },
                 });
             } catch (error) {
                 alert(error.message);
+                btnPay.disabled = false;
+                btnPay.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                    Selesaikan & Bayar
+                `;
             }
         });
     </script>

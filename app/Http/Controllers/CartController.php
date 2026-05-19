@@ -38,10 +38,6 @@ class CartController extends Controller
 
         $inventory = Inventory::findOrFail($request->inventory_id);
         
-        if ($inventory->stock_kg < $request->quantity_kg) {
-            return back()->with('error', 'Stok tidak mencukupi.');
-        }
-
         $sessionId = Session::getId();
         $userId = auth('buyer')->id();
 
@@ -51,7 +47,14 @@ class CartController extends Controller
             'session_id' => $userId ? null : $sessionId,
         ]);
 
-        $cart->quantity_kg += $request->quantity_kg;
+        $currentQty = $cart->quantity_kg ?? 0;
+        $newQty = $currentQty + $request->quantity_kg;
+
+        if ($inventory->stock_kg < $newQty) {
+            return back()->with('error', "Stok tidak mencukupi. Anda memiliki {$currentQty} Kg di keranjang, dan mencoba menambah {$request->quantity_kg} Kg lagi (Total: {$newQty} Kg, Tersedia: {$inventory->stock_kg} Kg).");
+        }
+
+        $cart->quantity_kg = $newQty;
         $cart->save();
 
         return redirect()->route('cart.index')->with('success', 'Produk ditambahkan ke keranjang.');

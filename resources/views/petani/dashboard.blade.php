@@ -1,21 +1,40 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8" x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">Dashboard Petani</h1>
-            <a href="{{ route('petani.products.create') }}" class="min-h-[44px] min-w-[44px] inline-flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                + Tambah Stok
-            </a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
+        
+        <!-- Premium Welcome Header -->
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-10 border-b border-gray-150 pb-6">
+            <div class="space-y-1">
+                <span class="text-[9px] font-extrabold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200/50 px-2.5 py-1 rounded-md">
+                    Portal Kemitraan Petani
+                </span>
+                <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-gray-800 mt-2">Dashboard Petani</h1>
+                <p class="text-xs text-gray-500">Kelola suplai komoditas buah segar dan petakan titik koordinat lahan Anda.</p>
+            </div>
+            
+            <div class="shrink-0 flex items-center">
+                <a href="{{ route('petani.products.create') }}" class="min-h-[46px] inline-flex items-center gap-1.5 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                    Tambah Estimasi Panen
+                </a>
+            </div>
         </div>
 
         @if(session('success'))
-            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 3000)" class="mb-4 bg-green-100 text-green-800 p-4 rounded-lg shadow-sm">
-                {{ session('success') }}
+            <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="mb-6 bg-brand-50 border-l-4 border-brand-500 text-brand-800 p-4 rounded-xl shadow-premium flex items-center justify-between gap-3 transition">
+                <div class="flex items-center gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <p class="text-sm font-semibold">{{ session('success') }}</p>
+                </div>
             </div>
         @endif
 
         @if($errors->any())
-            <div class="mb-4 bg-red-100 text-red-800 p-4 rounded-lg shadow-sm">
-                <ul class="list-disc list-inside text-sm">
+            <div class="mb-6 bg-rose-50 border-l-4 border-rose-500 text-rose-800 p-4 rounded-xl shadow-sm">
+                <div class="flex items-center gap-2 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <span class="font-bold text-sm">Gagal Menyimpan Data:</span>
+                </div>
+                <ul class="list-disc list-inside text-xs font-semibold pl-1 space-y-1">
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -23,109 +42,192 @@
             </div>
         @endif
 
-        <div class="mb-6 bg-amber-50 border border-amber-200 rounded-lg p-4 shadow-sm">
-            <div class="flex items-center justify-between gap-3 mb-3">
-                <div>
-                    <h2 class="text-lg font-bold text-amber-900">Notifikasi Panen</h2>
-                    <p class="text-sm text-amber-800">Pengingat untuk jadwal panen yang sudah dekat.</p>
+        <!-- Grid Layout: Left Column (Harvest & Maps), Right Column (Notif) -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-8">
+            
+            <!-- Map & Lahan GIS Panel (Take 2 Columns) -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                        <div>
+                            <h2 class="font-heading font-extrabold text-gray-800 text-base flex items-center gap-2">
+                                <span class="h-1.5 w-3 rounded bg-brand-500"></span>
+                                Pemetaan Spasial Lahan (GIS)
+                            </h2>
+                            <p class="text-xs text-gray-400 mt-0.5">Silakan klik pada peta di bawah untuk memplot koordinat lahan Anda secara presisi.</p>
+                        </div>
+                        
+                        <form action="{{ route('petani.location.update') }}" method="POST" class="flex items-center gap-2">
+                            @csrf
+                            <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.06831, 112.07810" class="min-h-[40px] w-full max-w-[200px] rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-xs font-bold text-center transition" required>
+                            
+                            <button type="submit" class="min-h-[40px] text-xs font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow shadow-indigo-600/10 active:scale-95 transition">
+                                Simpan
+                            </button>
+                            
+                            <button type="button" id="toggle-lock" class="min-h-[40px] text-xs font-extrabold bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl transition">
+                                Kunci Lokasi
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div id="petani-map" class="h-72 w-full rounded-2xl border border-gray-150 shadow-inner z-10"></div>
                 </div>
-                <span class="inline-flex items-center justify-center min-w-10 h-10 px-3 rounded-full bg-amber-200 text-amber-900 font-semibold">
-                    {{ $harvestNotifications->count() }}
-                </span>
             </div>
 
-            @if($harvestNotifications->isNotEmpty())
-                <ul class="space-y-3">
-                    @foreach($harvestNotifications as $notification)
-                        @php($data = $notification->data)
-                        <li class="bg-white rounded-lg border border-amber-100 p-3 text-sm text-gray-700">
-                            <div class="font-semibold text-gray-900">{{ $data['message'] ?? 'Jadwal panen telah diperbarui.' }}</div>
-                            <div class="mt-1 text-gray-600">
-                                {{ $data['fruit_type'] ?? '-' }} @if(!empty($data['grade'])) (Grade {{ $data['grade'] }}) @endif
-                                @if(!empty($data['harvest_date'])) · Tanggal panen: {{ \Illuminate\Support\Carbon::parse($data['harvest_date'])->translatedFormat('d M Y') }} @endif
+            <!-- Harvest Notifications Panel (Right Column) -->
+            <div class="bg-amber-50/50 border border-amber-200/60 rounded-3xl p-5 sm:p-6 space-y-5">
+                <div class="flex items-center justify-between border-b border-amber-200/40 pb-4">
+                    <div>
+                        <h2 class="font-heading font-extrabold text-amber-900 text-base">Notifikasi Jadwal Panen</h2>
+                        <p class="text-[10px] text-amber-800 mt-0.5">Sistem pengingat waktu panen komoditas</p>
+                    </div>
+                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-100 text-amber-800 font-extrabold text-sm shadow-sm border border-amber-200/50">
+                        {{ $harvestNotifications->count() }}
+                    </span>
+                </div>
+
+                @if($harvestNotifications->isNotEmpty())
+                    <ul class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                        @foreach($harvestNotifications as $notification)
+                            @php($data = $notification->data)
+                            <li class="bg-white rounded-2xl border border-amber-200/20 p-4 text-xs text-gray-700 shadow-sm space-y-1">
+                                <div class="font-extrabold text-gray-800 leading-tight">
+                                    {{ $data['message'] ?? 'Jadwal panen telah diperbarui.' }}
+                                </div>
+                                <div class="font-bold text-brand-600 flex items-center gap-1.5 pt-1">
+                                    <span>🥑 {{ $data['fruit_type'] ?? '-' }}</span>
+                                    @if(!empty($data['grade'])) 
+                                        <span class="px-1.5 py-0.5 rounded bg-gray-100 text-[9px] uppercase">Grade {{ $data['grade'] }}</span> 
+                                    @endif
+                                </div>
+                                @if(!empty($data['harvest_date']))
+                                    <div class="text-[10px] text-gray-400 font-medium mt-1">
+                                        Tanggal Panen: {{ \Illuminate\Support\Carbon::parse($data['harvest_date'])->translatedFormat('d M Y') }}
+                                    </div>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                @else
+                    <div class="bg-white rounded-2xl border border-amber-100 p-4 text-xs font-semibold text-gray-400 text-center leading-relaxed py-8">
+                        ☕ Belum ada notifikasi panen aktif.<br>Jadwal panen Anda aman!
+                    </div>
+                @endif
+            </div>
+
+        </div>
+
+        <!-- Harvest Records Panel -->
+        <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
+            <h2 class="font-heading font-extrabold text-gray-800 text-base mb-5 flex items-center gap-2">
+                <span class="h-1.5 w-3 rounded bg-brand-500"></span>
+                Daftar Estimasi Pasokan Panen
+            </h2>
+
+            <!-- Skeleton Loader (Desktop Table) -->
+            <div x-show="loading" class="hidden md:block animate-pulse bg-gray-50 rounded-2xl h-48 w-full border border-gray-100"></div>
+
+            <!-- Desktop Table -->
+            <div x-show="!loading" style="display: none;" class="hidden md:block border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <table class="min-w-full divide-y divide-gray-100 text-sm">
+                    <thead class="bg-gray-50/80 text-xs font-extrabold text-gray-400 uppercase tracking-widest">
+                        <tr>
+                            <th class="px-6 py-4 text-left">Komoditas & Kualitas</th>
+                            <th class="px-6 py-4 text-left">Estimasi Berat</th>
+                            <th class="px-6 py-4 text-left">Nilai Jual/Kg</th>
+                            <th class="px-6 py-4 text-left">Status Mutu (QC)</th>
+                            <th class="px-6 py-4 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 font-semibold text-gray-600">
+                        @foreach($products as $product)
+                        <tr class="hover:bg-gray-50/50 transition">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="text-base">🥑</span>
+                                    <div>
+                                        <span class="block text-gray-800 font-extrabold">{{ $product->fruit_type }}</span>
+                                        <span class="block text-[10px] text-gray-400 font-extrabold">Grade {{ $product->grade }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-700">
+                                {{ $product->estimated_weight_kg }} <span class="text-xs text-gray-400">Kilogram</span>
+                            </td>
+                            <td class="px-6 py-4 text-brand-700 font-bold">
+                                Rp {{ number_format($product->price_per_kg, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4">
+                                @if($product->status === 'pending')
+                                    <span class="px-2.5 py-1 inline-flex text-[10px] leading-none font-extrabold rounded-md uppercase bg-amber-100 text-amber-800 border border-amber-200/50">
+                                        Pending Review
+                                    </span>
+                                @elseif($product->status === 'accepted')
+                                    <span class="px-2.5 py-1 inline-flex text-[10px] leading-none font-extrabold rounded-md uppercase bg-emerald-100 text-emerald-800 border border-emerald-200/50">
+                                        Lolos Mutu
+                                    </span>
+                                @else
+                                    <span class="px-2.5 py-1 inline-flex text-[10px] leading-none font-extrabold rounded-md uppercase bg-rose-100 text-rose-800 border border-rose-200/50">
+                                        Ditolak QC
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="{{ route('petani.products.edit', $product) }}" class="min-h-[36px] inline-flex items-center justify-center px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile Card List -->
+            <div x-show="!loading" style="display: none;" class="md:hidden space-y-4">
+                @foreach($products as $product)
+                <div class="bg-gray-50 border border-gray-100 p-4 rounded-2xl flex flex-col space-y-3.5">
+                    <div class="flex justify-between items-start">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🥑</span>
+                            <div>
+                                <span class="block font-heading font-extrabold text-gray-800 text-sm leading-tight">{{ $product->fruit_type }}</span>
+                                <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Grade {{ $product->grade }}</span>
                             </div>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <div class="bg-white rounded-lg border border-amber-100 p-3 text-sm text-gray-700">
-                    Belum ada notifikasi panen. Notifikasi akan muncul saat tanggal panen sudah mendekat.
+                        </div>
+                        
+                        @if($product->status === 'pending')
+                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-amber-100 text-amber-800">Pending</span>
+                        @elseif($product->status === 'accepted')
+                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-emerald-100 text-emerald-800">Lolos</span>
+                        @else
+                            <span class="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase bg-rose-100 text-rose-800">Ditolak</span>
+                        @endif
+                    </div>
+                    
+                    <div class="text-xs text-gray-500 font-bold space-y-1">
+                        <p>Estimasi: <span class="text-gray-700">{{ $product->estimated_weight_kg }} Kg</span></p>
+                        <p>Harga Jual: <span class="text-brand-700">Rp {{ number_format($product->price_per_kg, 0, ',', '.') }} / Kg</span></p>
+                    </div>
+                    
+                    <div class="pt-3 border-t border-gray-200/50 flex justify-end">
+                        <a href="{{ route('petani.products.edit', $product) }}" class="min-h-[36px] inline-flex items-center justify-center px-4 bg-white border border-gray-200 text-gray-600 hover:text-gray-900 rounded-xl text-xs font-bold shadow-sm transition">
+                            Edit Data
+                        </a>
+                    </div>
                 </div>
-            @endif
-        </div>
-
-        <div class="bg-white rounded-lg shadow p-4 mb-6">
-            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                    <h2 class="text-lg font-bold text-gray-900">Koordinat Lahan</h2>
-                    <p class="text-sm text-gray-600">Klik peta untuk mengambil titik atau isi manual.</p>
-                </div>
-                <form action="{{ route('petani.location.update') }}" method="POST" class="flex flex-col sm:flex-row gap-3">
-                    @csrf
-                    <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.068314818782161, 112.07810113956172" class="w-full sm:w-80 rounded border-gray-300 min-h-[44px] px-3">
-                    <button type="submit" class="min-h-[44px] px-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Simpan</button>
-                    <button type="button" id="toggle-lock" class="min-h-[44px] px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition">Kunci Lokasi</button>
-                </form>
+                @endforeach
             </div>
-            <div id="petani-map" class="mt-4 h-64 w-full rounded-lg border border-gray-200"></div>
-        </div>
 
-        <!-- Skeleton Loader (Desktop Table) -->
-        <div x-show="loading" class="hidden md:block animate-pulse bg-white rounded-lg shadow h-64 w-full"></div>
-
-        <!-- Desktop Table -->
-        <div x-show="!loading" style="display: none;" class="hidden md:block bg-white shadow rounded-lg overflow-hidden">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Buah & Grade</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estimasi (Kg)</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Harga/Kg</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                        <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($products as $product)
-                    <tr>
-                        <td class="px-6 py-4">{{ $product->fruit_type }} ({{ $product->grade }})</td>
-                        <td class="px-6 py-4">{{ $product->estimated_weight_kg }}</td>
-                        <td class="px-6 py-4">Rp {{ number_format($product->price_per_kg, 0, ',', '.') }}</td>
-                        <td class="px-6 py-4">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-{{ $product->status == 'pending' ? 'yellow' : 'green' }}-100 text-{{ $product->status == 'pending' ? 'yellow' : 'green' }}-800">
-                                {{ ucfirst($product->status) }}
-                            </span>
-                        </td>
-                        <td class="px-6 py-4 text-right">
-                            <a href="{{ route('petani.products.edit', $product) }}" class="text-blue-600 hover:text-blue-900 min-h-[44px] min-w-[44px] inline-flex items-center justify-center">Edit</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <!-- Mobile Card List -->
-        <div x-show="!loading" style="display: none;" class="md:hidden space-y-4">
-            @foreach($products as $product)
-            <div class="bg-white p-4 rounded-lg shadow flex flex-col space-y-2">
-                <div class="flex justify-between items-center">
-                    <span class="font-bold text-gray-900">{{ $product->fruit_type }} ({{ $product->grade }})</span>
-                    <span class="text-sm bg-gray-100 px-2 py-1 rounded">{{ ucfirst($product->status) }}</span>
-                </div>
-                <div class="text-sm text-gray-600">Berat: {{ $product->estimated_weight_kg }} Kg | Rp {{ number_format($product->price_per_kg, 0, ',', '.') }}/kg</div>
-                <div class="pt-2 border-t flex justify-end">
-                    <a href="{{ route('petani.products.edit', $product) }}" class="min-h-[44px] px-4 bg-gray-100 text-gray-800 rounded-lg inline-flex items-center justify-center font-medium">Edit</a>
-                </div>
+            <div class="mt-6">
+                {{ $products->links() }}
             </div>
-            @endforeach
         </div>
 
-        <div class="mt-4">
-            {{ $products->links() }}
-        </div>
     </div>
 
+    <!-- Leaflet Mapping Library CDN Link -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>
@@ -155,10 +257,8 @@
                 lockButton.textContent = state ? 'Buka Kunci' : 'Kunci Lokasi';
                 lockButton.classList.toggle('bg-gray-100', !state);
                 lockButton.classList.toggle('text-gray-700', !state);
-                lockButton.classList.toggle('hover:bg-gray-200', !state);
                 lockButton.classList.toggle('bg-yellow-100', state);
-                lockButton.classList.toggle('text-yellow-800', state);
-                lockButton.classList.toggle('hover:bg-yellow-200', state);
+                lockButton.classList.toggle('text-yellow-850', state);
             }
 
             lockButton.addEventListener('click', function () {
