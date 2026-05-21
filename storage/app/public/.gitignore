@@ -1,2 +1,4 @@
 *
 !.gitignore
+!petani_products/
+!petani_products/**
