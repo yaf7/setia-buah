@@ -94,47 +94,12 @@
                                 <h2 class="font-heading font-extrabold text-gray-800 text-base">Pilihan Jasa Ekspedisi (Kurir)</h2>
                             </div>
                             
-                            <p class="text-xs text-gray-400 font-medium">Aktifkan kurir-kurir yang ingin Anda bandingkan ongkos kirimnya:</p>
-                            
-                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="jne" checked>
-                                    <span class="text-xs font-bold text-gray-700">JNE</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="jnt" checked>
-                                    <span class="text-xs font-bold text-gray-700">J&T</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="sicepat" checked>
-                                    <span class="text-xs font-bold text-gray-700">SiCepat</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="anteraja" checked>
-                                    <span class="text-xs font-bold text-gray-700">Anteraja</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="ninja" checked>
-                                    <span class="text-xs font-bold text-gray-700">Ninja</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="tiki" checked>
-                                    <span class="text-xs font-bold text-gray-700">TIKI</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="pos" checked>
-                                    <span class="text-xs font-bold text-gray-700">POS</span>
-                                </label>
-                                <label class="flex items-center gap-2.5 min-h-[44px] rounded-xl border border-gray-200 hover:border-brand-500 hover:bg-brand-50/20 px-3 cursor-pointer select-none transition">
-                                    <input type="checkbox" class="courier-option rounded text-brand-600 focus:ring-brand-500 h-4.5 w-4.5" value="lion" checked>
-                                    <span class="text-xs font-bold text-gray-700">Lion Parcel</span>
-                                </label>
-                            </div>
-                            
-                            <div class="pt-2">
+                            <div class="pt-1">
                                 <button type="button" id="btn-check-rates" class="min-h-[44px] inline-flex items-center justify-center px-6 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow shadow-brand-500/10 active:scale-98 transition flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
                                     Cek Tarif Ongkir
                                 </button>
+                                <p class="text-[10px] text-gray-400 font-medium mt-2">Pastikan kode pos sudah diisi, lalu klik tombol di atas untuk melihat semua tarif kurir.</p>
                             </div>
 
                             <!-- Dynamic rates loaded here -->
@@ -285,10 +250,7 @@
                 return;
             }
 
-            const courierOptions = Array.from(document.querySelectorAll('.courier-option:checked'))
-                .map((input) => input.value);
-            const couriers = courierOptions.length ? courierOptions.join(',') : 'jne,jnt,sicepat,anteraja,ninja,tiki,pos,lion';
-            document.getElementById('couriers').value = couriers;
+            const couriers = document.getElementById('couriers').value;
 
             btnCheckRates.disabled = true;
             btnCheckRates.innerHTML = `

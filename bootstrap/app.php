@@ -15,6 +15,17 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'redirect.admin.petani' => \App\Http\Middleware\RedirectIfAdminOrPetani::class,
         ]);
+
+        $middleware->redirectGuestsTo(function ($request) {
+            // Route yang memerlukan login buyer (cart, checkout, track)
+            $buyerPaths = ['cart', 'checkout', 'track'];
+            $currentPath = $request->segment(1);
+            
+            if (in_array($currentPath, $buyerPaths)) {
+                return route('buyer.login');
+            }
+            return route('login');
+        });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

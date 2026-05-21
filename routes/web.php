@@ -19,11 +19,14 @@ Route::get('/buyer/register', [\App\Http\Controllers\Auth\BuyerAuthController::c
 Route::post('/buyer/register', [\App\Http\Controllers\Auth\BuyerAuthController::class, 'register'])->name('buyer.register.post');
 Route::post('/buyer/logout', [\App\Http\Controllers\Auth\BuyerAuthController::class, 'logout'])->name('buyer.logout');
 
-// ROUTE SHOP ECOMMERCE PEMBELI (Tanpa Login / Buyer)
+// ROUTE SHOP ECOMMERCE PEMBELI (Browsing Tanpa Login)
 Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'redirect.admin.petani']], function () {
     Route::get('/shop', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
     Route::get('/shop/{product}', [\App\Http\Controllers\ShopController::class, 'show'])->name('shop.show');
-    
+});
+
+// ROUTE KERANJANG, CHECKOUT & ORDER (Wajib Login Pembeli)
+Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'redirect.admin.petani', 'auth:buyer']], function () {
     Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{cart}', [\App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
@@ -33,7 +36,6 @@ Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::clas
     Route::post('/checkout/shipping-rates', [\App\Http\Controllers\CheckoutController::class, 'shippingRates'])->name('checkout.shipping-rates');
     
     Route::get('/track/{order}', [\App\Http\Controllers\BuyerOrderController::class, 'track'])->name('orders.track');
-    
 });
 
 Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransCallbackController::class, 'handle'])

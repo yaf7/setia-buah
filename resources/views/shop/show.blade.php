@@ -124,6 +124,7 @@
 
                     <!-- Cart Purchase Interaction Form -->
                     <div class="mt-8 pt-6 border-t border-gray-100">
+                        @if(auth('buyer')->check())
                         <form action="{{ route('cart.store') }}" method="POST" class="space-y-4">
                             @csrf
                             <input type="hidden" name="inventory_id" value="{{ $product->id }}">
@@ -142,6 +143,23 @@
                                 </button>
                             </div>
                         </form>
+                        @else
+                        <div class="bg-amber-50 border border-amber-200/50 rounded-2xl p-5 text-center space-y-3">
+                            <div class="flex items-center justify-center gap-2 text-amber-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                <p class="text-sm font-bold">Silakan login terlebih dahulu untuk memesan</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                                <a href="{{ route('buyer.login') }}" class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-extrabold text-sm shadow-md transition-all duration-200">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
+                                    Login Pelanggan
+                                </a>
+                                <a href="{{ route('buyer.register') }}" class="min-h-[46px] inline-flex items-center justify-center px-6 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold text-sm transition">
+                                    Belum punya akun? Daftar
+                                </a>
+                            </div>
+                        </div>
+                        @endif
                     </div>
 
                 </div>
