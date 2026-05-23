@@ -12,8 +12,8 @@
             </div>
             
             <div class="shrink-0 flex items-center">
-                <button onclick="document.getElementById('addPetaniModal').classList.remove('hidden')" class="min-h-[46px] inline-flex items-center gap-1.5 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" viewBox="0 0 20 20" fill="currentColor">
+                <button onclick="document.getElementById('addPetaniModal').classList.remove('hidden')" class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition duration-150 whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
                     </svg>
                     Registrasi Akun Petani
@@ -132,7 +132,7 @@
                                                 {{ $order->created_at->format('d M, H:i') }} WIB
                                             </td>
                                             <td class="px-6 py-4 text-center">
-                                                <a href="{{ route('admin.orders.show', $order) }}" class="min-h-[32px] inline-flex items-center justify-center px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition">
+                                                <a href="{{ route('admin.orders.show', $order) }}" class="py-1 inline-flex items-center justify-center px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition">
                                                     Proses Paket
                                                 </a>
                                             </td>
@@ -191,13 +191,13 @@
                             </div>
                             
                             <div class="flex items-center gap-1.5 shrink-0">
-                                <a href="{{ route('admin.petani.edit', $petani) }}" class="min-h-[32px] inline-flex items-center justify-center px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl font-bold transition">
+                                <a href="{{ route('admin.petani.edit', $petani) }}" class="py-1 inline-flex items-center justify-center px-3 bg-gray-100 hover:bg-gray-200 text-gray-600 rounded-xl font-bold transition">
                                     Edit
                                 </a>
                                 <form action="{{ route('admin.petani.destroy', $petani) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus akun petani ini?')">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="min-h-[32px] inline-flex items-center justify-center px-3 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl font-bold transition">
+                                    <button type="submit" class="py-1 inline-flex items-center justify-center px-3 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl font-bold transition">
                                         Hapus
                                     </button>
                                 </form>
@@ -276,15 +276,15 @@
                                 <div class="mt-6 space-y-4 pt-2">
                                     <div class="space-y-1">
                                         <label for="name" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Nama Lengkap Petani</label>
-                                        <input type="text" name="name" id="name" placeholder="Contoh: Pak Tani Mulyo" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition">
+                                        <input type="text" name="name" id="name" placeholder="Contoh: Pak Tani Mulyo" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition">
                                     </div>
                                     <div class="space-y-1">
                                         <label for="email" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alamat Email Mitra</label>
-                                        <input type="email" name="email" id="email" placeholder="Contoh: tanimulyo@gmail.com" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition">
+                                        <input type="email" name="email" id="email" placeholder="Contoh: tanimulyo@gmail.com" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition">
                                     </div>
                                     <div class="space-y-1">
                                         <label for="password" class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Kata Sandi Akses</label>
-                                        <input type="password" name="password" id="password" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 min-h-[44px] px-3.5 text-sm transition font-mono" minlength="8">
+                                        <input type="password" name="password" id="password" required class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition font-mono" minlength="8">
                                         <p class="text-[10px] text-gray-400 mt-1 font-medium">Panjang sandi minimal 8 karakter demi keamanan kredensial.</p>
                                     </div>
                                 </div>

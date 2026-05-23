@@ -197,7 +197,7 @@
         
         <!-- Back Navigation Button bottom -->
         <div class="text-center mt-10">
-            <a href="{{ route('shop.index') }}" class="min-h-[44px] inline-flex items-center gap-1.5 px-6 py-2 border border-gray-200 hover:border-brand-200 rounded-xl bg-white hover:bg-brand-50/20 text-xs sm:text-sm font-extrabold text-gray-500 hover:text-brand-600 transition shadow-sm">
+            <a href="{{ route('shop.index') }}" class="py-2.5 inline-flex items-center gap-1.5 px-6 py-2 border border-gray-200 hover:border-brand-200 rounded-xl bg-white hover:bg-brand-50/20 text-xs sm:text-sm font-extrabold text-gray-500 hover:text-brand-600 transition shadow-sm">
                 ← Kembali Belanja Buah Segar
             </a>
         </div>

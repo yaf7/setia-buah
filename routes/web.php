@@ -20,13 +20,13 @@ Route::post('/buyer/register', [\App\Http\Controllers\Auth\BuyerAuthController::
 Route::post('/buyer/logout', [\App\Http\Controllers\Auth\BuyerAuthController::class, 'logout'])->name('buyer.logout');
 
 // ROUTE SHOP ECOMMERCE PEMBELI (Browsing Tanpa Login)
-Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'redirect.admin.petani']], function () {
+Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web']], function () {
     Route::get('/shop', [\App\Http\Controllers\ShopController::class, 'index'])->name('shop.index');
     Route::get('/shop/{product}', [\App\Http\Controllers\ShopController::class, 'show'])->name('shop.show');
 });
 
 // ROUTE KERANJANG, CHECKOUT & ORDER (Wajib Login Pembeli)
-Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'redirect.admin.petani', 'auth:buyer']], function () {
+Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'auth:buyer']], function () {
     Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
     Route::delete('/cart/{cart}', [\App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
@@ -47,7 +47,7 @@ Route::middleware(['auth:buyer'])->prefix('buyer')->name('buyer.')->group(functi
     Route::get('/dashboard', [\App\Http\Controllers\BuyerOrderController::class, 'dashboard'])->name('dashboard');
 });
 
-Route::middleware(['auth', 'role:petani'])->prefix('petani')->name('petani.')->group(function () {
+Route::middleware(['auth:petani', 'role:petani'])->prefix('petani')->name('petani.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\PetaniController::class, 'dashboard'])->name('dashboard');
     Route::post('/location', [\App\Http\Controllers\PetaniController::class, 'updateLocation'])->name('location.update');
     Route::resource('products', \App\Http\Controllers\PetaniController::class)->except(['index', 'show']);

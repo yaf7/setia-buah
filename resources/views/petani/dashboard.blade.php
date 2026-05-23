@@ -12,8 +12,8 @@
             </div>
             
             <div class="shrink-0 flex items-center">
-                <a href="{{ route('petani.products.create') }}" class="min-h-[46px] inline-flex items-center gap-1.5 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition duration-150">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                <a href="{{ route('petani.products.create') }}" class="inline-flex items-center gap-1.5 px-5 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition duration-150 whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                     Tambah Estimasi Panen
                 </a>
             </div>
@@ -59,13 +59,13 @@
                         
                         <form action="{{ route('petani.location.update') }}" method="POST" class="flex items-center gap-2">
                             @csrf
-                            <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.06831, 112.07810" class="min-h-[40px] w-full max-w-[200px] rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-xs font-bold text-center transition" required>
+                            <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.06831, 112.07810" class="py-2 w-full max-w-[200px] rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-xs font-bold text-center transition" required>
                             
-                            <button type="submit" class="min-h-[40px] text-xs font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow shadow-indigo-600/10 active:scale-95 transition">
+                            <button type="submit" class="py-2 text-xs font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow shadow-indigo-600/10 active:scale-95 transition">
                                 Simpan
                             </button>
                             
-                            <button type="button" id="toggle-lock" class="min-h-[40px] text-xs font-extrabold bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl transition">
+                            <button type="button" id="toggle-lock" class="py-2 text-xs font-extrabold bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl transition">
                                 Kunci Lokasi
                             </button>
                         </form>
@@ -174,7 +174,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('petani.products.edit', $product) }}" class="min-h-[36px] inline-flex items-center justify-center px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition">
+                                <a href="{{ route('petani.products.edit', $product) }}" class="py-1.5 inline-flex items-center justify-center px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-bold transition">
                                     Edit
                                 </a>
                             </td>
@@ -212,7 +212,7 @@
                     </div>
                     
                     <div class="pt-3 border-t border-gray-200/50 flex justify-end">
-                        <a href="{{ route('petani.products.edit', $product) }}" class="min-h-[36px] inline-flex items-center justify-center px-4 bg-white border border-gray-200 text-gray-600 hover:text-gray-900 rounded-xl text-xs font-bold shadow-sm transition">
+                        <a href="{{ route('petani.products.edit', $product) }}" class="py-1.5 inline-flex items-center justify-center px-4 bg-white border border-gray-200 text-gray-600 hover:text-gray-900 rounded-xl text-xs font-bold shadow-sm transition">
                             Edit Data
                         </a>
                     </div>

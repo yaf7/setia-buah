@@ -28,8 +28,13 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2 2v4.5m15 0a2 2 0 01-2 2H6a2 2 0 01-2-2"></path>
                     </svg>
                 </div>
-                <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Baru</h3>
-                <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang sudah dibayar dan memerlukan tindakan proses Anda.</p>
+                @if(request('status') === 'shipped')
+                    <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Dalam Pengiriman</h3>
+                    <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang sedang dalam proses pengiriman oleh kurir.</p>
+                @else
+                    <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Baru (Proses Kemas)</h3>
+                    <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang sudah dibayar dan memerlukan tindakan pengemasan dari Anda.</p>
+                @endif
             </div>
         @else
             <!-- Responsive Premium Card-based Table list -->
@@ -109,7 +114,7 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <a href="{{ route('admin.orders.show', $order) }}" class="inline-flex items-center gap-1 px-3.5 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 hover:text-brand-900 border border-brand-200 rounded-lg text-xs font-bold transition-all duration-300">
-                                            Kelola
+                                            Proses
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                             </svg>

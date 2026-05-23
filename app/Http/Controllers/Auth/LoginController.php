@@ -20,19 +20,20 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials)) {
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+        if ($user && \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
             $request->session()->regenerate();
-            $role = Auth::user()->role;
+            $role = $user->role;
 
             if ($role === 'admin') {
+                Auth::guard('web')->login($user);
                 return redirect()->route('admin.dashboard');
             } elseif ($role === 'petani') {
+                Auth::guard('petani')->login($user);
                 return redirect()->route('petani.dashboard');
             }
 
-            Auth::logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
             return back()->withErrors([
                 'email' => 'Login ini khusus Admin/Petani. Silakan gunakan login pembeli.',
             ])->onlyInput('email');
@@ -45,8 +46,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
+        Auth::guard('web')->logout();
+        Auth::guard('petani')->logout();
         $request->session()->regenerateToken();
         
         return redirect()->route('login');

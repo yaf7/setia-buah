@@ -39,7 +39,7 @@
                 <p class="text-sm text-gray-500 mt-2 mb-8 leading-relaxed">
                     Anda belum memasukkan buah segar pilihan ke keranjang. Mari mulai berbelanja komoditas unggulan langsung dari para petani tepercaya kami!
                 </p>
-                <a href="{{ route('shop.index') }}" class="min-h-[48px] inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-95 transition duration-150">
+                <a href="{{ route('shop.index') }}" class="py-3 inline-flex items-center justify-center px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-95 transition duration-150">
                     Mulai Belanja Sekarang
                 </a>
             </div>
@@ -107,8 +107,8 @@
                                         <form action="{{ route('cart.destroy', $item) }}" method="POST" class="shrink-0">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="min-h-[40px] min-w-[40px] flex items-center justify-center rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 hover:scale-105 active:scale-95 transition-all duration-150" title="Hapus Item">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            <button type="submit" class="py-2 min-w-[40px] flex items-center justify-center rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100 hover:scale-105 active:scale-95 transition-all duration-150" title="Hapus Item">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                                             </button>
                                         </form>
                                     </div>
@@ -145,9 +145,9 @@
                         </div>
 
                         <!-- Proceed To Checkout Button -->
-                        <a href="{{ route('checkout.index') }}" class="min-h-[48px] w-full bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition flex items-center justify-center gap-2">
+                        <a href="{{ route('checkout.index') }}" class="py-3 w-full bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition flex items-center justify-center gap-2">
                             <span>Lanjut ke Pengiriman</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
                         </a>
                     </div>
                 </aside>

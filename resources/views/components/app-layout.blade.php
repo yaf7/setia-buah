@@ -90,54 +90,63 @@
 
                     <!-- Right Navigation Actions -->
                     <div class="flex items-center gap-3.5 ml-auto">
-                        @if(auth()->check())
-                            <!-- Admin/Petani Logged In Context -->
+                        @if(request()->is('admin*') && auth('web')->check())
+                            <!-- Admin Context -->
                             <div class="hidden sm:flex flex-col text-right">
                                 <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Pegawai</span>
-                                <span class="text-xs font-semibold text-gray-600 mt-1 capitalize">{{ auth()->user()->role }}</span>
+                                <span class="text-xs font-semibold text-gray-600 mt-1 capitalize">Admin</span>
                             </div>
                             <div class="h-6 w-px bg-gray-200 hidden sm:block"></div>
-                            
-                            @if(auth()->user()->role === 'admin')
-                                <a href="{{ route('admin.dashboard') }}" class="text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-gray-200/50">
-                                    Admin Panel
-                                </a>
-                                <a href="{{ route('admin.qc.queue') }}" class="text-xs sm:text-sm font-bold bg-brand-50 hover:bg-brand-100 text-brand-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-brand-200/40">
-                                    <span class="h-1.5 w-1.5 rounded-full bg-brand-500 animate-ping"></span>
-                                    QC Queue
-                                </a>
-                            @else
-                                <a href="{{ route('petani.dashboard') }}" class="text-xs sm:text-sm font-bold bg-brand-50 hover:bg-brand-100 text-brand-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-brand-200/40">
-                                    Dashboard Petani
-                                </a>
-                            @endif
-                            
+                            <a href="{{ route('admin.dashboard') }}" class="text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-gray-200/50">
+                                Admin Panel
+                            </a>
+                            <a href="{{ route('admin.qc.queue') }}" class="text-xs sm:text-sm font-bold bg-brand-50 hover:bg-brand-100 text-brand-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-brand-200/40">
+                                <span class="h-1.5 w-1.5 rounded-full bg-brand-500 animate-ping"></span>
+                                QC Queue
+                            </a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf
                                 <button type="submit" class="text-xs sm:text-sm text-red-500 hover:text-red-700 font-bold px-3 py-2 transition">Logout</button>
                             </form>
-                        @elseif(auth('buyer')->check())
-                            <!-- Buyer Logged In Context -->
-                            <div class="flex items-center gap-3">
-                                <a href="{{ route('buyer.dashboard') }}" class="text-xs sm:text-sm font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-2 rounded-xl transition border border-emerald-100/50 flex items-center gap-1.5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-                                    Pesanan Saya
-                                </a>
-                                <div class="hidden md:flex flex-col text-right">
-                                    <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">Pembeli</span>
-                                    <span class="text-xs font-semibold text-gray-700 mt-1 truncate max-w-[120px]">{{ auth('buyer')->user()->name }}</span>
-                                </div>
-                                <div class="h-6 w-px bg-gray-200 hidden md:block"></div>
-                                <form method="POST" action="{{ route('buyer.logout') }}" class="inline">
-                                    @csrf
-                                    <button type="submit" class="text-xs sm:text-sm text-red-500 hover:text-red-700 font-bold px-3 py-2 transition">Logout</button>
-                                </form>
+
+                        @elseif(request()->is('petani*') && auth('petani')->check())
+                            <!-- Petani Context -->
+                            <div class="hidden sm:flex flex-col text-right">
+                                <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">Mitra</span>
+                                <span class="text-xs font-semibold text-gray-600 mt-1 capitalize">Petani</span>
                             </div>
-                        @else
-                            <!-- Unauthenticated Visitor -->
-                            <a href="{{ route('buyer.login') }}" class="min-h-[40px] text-xs sm:text-sm font-extrabold bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl px-5 py-2 flex items-center gap-1.5 shadow-md shadow-brand-600/10 hover:shadow-brand-600/20 hover:scale-[1.02] active:scale-95 transition-all duration-200">
-                                Login / Daftar Pembeli
+                            <div class="h-6 w-px bg-gray-200 hidden sm:block"></div>
+                            <a href="{{ route('petani.dashboard') }}" class="text-xs sm:text-sm font-bold bg-brand-50 hover:bg-brand-100 text-brand-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-brand-200/40">
+                                Dashboard Petani
                             </a>
+                            <form method="POST" action="{{ route('logout') }}" class="inline">
+                                @csrf
+                                <button type="submit" class="text-xs sm:text-sm text-red-500 hover:text-red-700 font-bold px-3 py-2 transition">Logout</button>
+                            </form>
+
+                        @else
+                            <!-- Buyer / Shop Context -->
+                            @if(auth('buyer')->check())
+                                <div class="flex items-center gap-3">
+                                    <a href="{{ route('buyer.dashboard') }}" class="text-xs sm:text-sm font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-2 rounded-xl transition border border-emerald-100/50 flex items-center gap-1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                                        Pesanan Saya
+                                    </a>
+                                    <div class="hidden md:flex flex-col text-right">
+                                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">Pembeli</span>
+                                        <span class="text-xs font-semibold text-gray-700 mt-1 truncate max-w-[120px]">{{ auth('buyer')->user()->name }}</span>
+                                    </div>
+                                    <div class="h-6 w-px bg-gray-200 hidden md:block"></div>
+                                    <form method="POST" action="{{ route('buyer.logout') }}" class="inline">
+                                        @csrf
+                                        <button type="submit" class="text-xs sm:text-sm text-red-500 hover:text-red-700 font-bold px-3 py-2 transition">Logout</button>
+                                    </form>
+                                </div>
+                            @else
+                                <a href="{{ route('buyer.login') }}" class="py-2 text-xs sm:text-sm font-extrabold bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl px-5 py-2 flex items-center gap-1.5 shadow-md shadow-brand-600/10 hover:shadow-brand-600/20 hover:scale-[1.02] active:scale-95 transition-all duration-200">
+                                    Login / Daftar Pembeli
+                                </a>
+                            @endif
                         @endif
                     </div>
                 </div>

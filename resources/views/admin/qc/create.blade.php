@@ -17,12 +17,12 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Berat Aktual Timbangan (Kg)</label>
-                <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" name="actual_weight_kg" value="{{ old('actual_weight_kg', $product->estimated_weight_kg) }}" class="mt-1 block w-full rounded-md border-gray-300 min-h-[44px] px-3" required>
+                <input type="text" inputmode="decimal" pattern="[0-9]*\.?[0-9]*" name="actual_weight_kg" value="{{ old('actual_weight_kg', $product->estimated_weight_kg) }}" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3" required>
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Grade Final (Hasil QC)</label>
-                <select name="final_grade" class="mt-1 block w-full rounded-md border-gray-300 min-h-[44px] px-3" required>
+                <select name="final_grade" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3" required>
                     <option value="A" {{ old('final_grade', $product->grade) == 'A' ? 'selected' : '' }}>A</option>
                     <option value="B" {{ old('final_grade', $product->grade) == 'B' ? 'selected' : '' }}>B</option>
                     <option value="C" {{ old('final_grade', $product->grade) == 'C' ? 'selected' : '' }}>C</option>
@@ -31,7 +31,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Keputusan</label>
-                <select name="status" class="mt-1 block w-full rounded-md border-gray-300 min-h-[44px] px-3" required>
+                <select name="status" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3" required>
                     <option value="accepted">Terima & Masukkan Gudang</option>
                     <option value="rejected">Tolak (Cacad/Rusak)</option>
                 </select>
@@ -43,8 +43,8 @@
             </div>
 
             <div class="flex justify-end pt-4 gap-2">
-                <a href="{{ route('admin.dashboard') }}" class="min-h-[44px] inline-flex items-center px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
-                <button type="submit" class="min-h-[44px] min-w-[44px] px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-medium">Simpan Hasil QC</button>
+                <a href="{{ route('admin.dashboard') }}" class="py-2.5 inline-flex items-center px-4 py-2 border rounded-md text-gray-700 hover:bg-gray-50">Batal</a>
+                <button type="submit" class="py-2.5 min-w-[44px] px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 font-medium">Simpan Hasil QC</button>
             </div>
         </form>
     </div>

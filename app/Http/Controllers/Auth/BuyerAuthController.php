@@ -71,7 +71,6 @@ class BuyerAuthController extends Controller
     public function logout(Request $request)
     {
         Auth::guard('buyer')->logout();
-        $request->session()->invalidate();
         $request->session()->regenerateToken();
         
         return redirect()->route('shop.index');

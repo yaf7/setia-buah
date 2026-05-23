@@ -42,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'petani' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
         'buyer' => [
             'driver' => 'session',
             'provider' => 'users',

@@ -26,7 +26,7 @@
         <!-- Back Navigation Button -->
         <div class="mb-8">
             <a href="{{ route('shop.index') }}" class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-gray-500 hover:text-brand-600 transition group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 Kembali ke Katalog
             </a>
         </div>
@@ -133,12 +133,12 @@
                                 <div class="space-y-1.5 shrink-0">
                                     <label for="quantity" class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest">Kuantitas Beli (Kg)</label>
                                     <div class="flex items-center">
-                                        <input type="number" id="quantity" name="quantity_kg" min="0.5" step="0.5" max="{{ $product->stock_kg }}" x-model="qty" class="min-h-[46px] block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
+                                        <input type="number" id="quantity" name="quantity_kg" min="0.5" step="0.5" max="{{ $product->stock_kg }}" x-model="qty" class="py-2.5 block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
                                     </div>
                                 </div>
                                 
-                                <button type="submit" class="min-h-[46px] flex-grow text-sm font-extrabold text-white rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 {{ $product->stock_kg > 0 ? 'bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 hover:shadow-brand-500/20 active:scale-98' : 'bg-gray-300 cursor-not-allowed shadow-none' }}" {{ $product->stock_kg <= 0 ? 'disabled' : '' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                                <button type="submit" class="py-2.5 flex-grow text-sm font-extrabold text-white rounded-xl shadow-md transition-all duration-200 flex items-center justify-center gap-2 {{ $product->stock_kg > 0 ? 'bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 hover:shadow-brand-500/20 active:scale-98' : 'bg-gray-300 cursor-not-allowed shadow-none' }}" {{ $product->stock_kg <= 0 ? 'disabled' : '' }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                                     {{ $product->stock_kg > 0 ? 'Masukkan ke Keranjang' : 'Maaf, Stok Buah Habis' }}
                                 </button>
                             </div>
@@ -150,11 +150,11 @@
                                 <p class="text-sm font-bold">Silakan login terlebih dahulu untuk memesan</p>
                             </div>
                             <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                                <a href="{{ route('buyer.login') }}" class="min-h-[46px] inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-extrabold text-sm shadow-md transition-all duration-200">
+                                <a href="{{ route('buyer.login') }}" class="py-2.5 inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-extrabold text-sm shadow-md transition-all duration-200">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" /></svg>
                                     Login Pelanggan
                                 </a>
-                                <a href="{{ route('buyer.register') }}" class="min-h-[46px] inline-flex items-center justify-center px-6 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold text-sm transition">
+                                <a href="{{ route('buyer.register') }}" class="py-2.5 inline-flex items-center justify-center px-6 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-xl font-bold text-sm transition">
                                     Belum punya akun? Daftar
                                 </a>
                             </div>

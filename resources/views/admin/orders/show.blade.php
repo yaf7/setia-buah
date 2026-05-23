@@ -84,13 +84,13 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                                 <form action="{{ route('admin.orders.check-payment-status', $order) }}" method="POST" class="w-full">
                                     @csrf
-                                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs transition-colors shadow-sm">
+                                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-xs transition-colors shadow-sm">
                                         🔍 Cek Status Midtrans
                                     </button>
                                 </form>
                                 <form action="{{ route('admin.orders.payment-success', $order) }}" method="POST" class="w-full">
                                     @csrf
-                                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs transition-colors shadow-sm">
+                                    <button type="submit" class="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs transition-colors shadow-sm">
                                         ✓ Konfirmasi Manual
                                     </button>
                                 </form>
@@ -106,13 +106,13 @@
                             <div class="flex flex-col sm:flex-row gap-3">
                                 <form action="{{ route('admin.orders.approve', $order) }}" method="POST" class="flex-1">
                                     @csrf
-                                    <button type="submit" class="w-full min-h-[44px] px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
+                                    <button type="submit" class="w-full py-2.5 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
                                         ✓ Setujui & Siapkan Pengiriman
                                     </button>
                                 </form>
                                 <form action="{{ route('admin.orders.reject', $order) }}" method="POST" class="flex-1">
                                     @csrf
-                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')" class="w-full min-h-[44px] px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl font-bold text-sm transition-colors border border-rose-200">
+                                    <button type="submit" onclick="return confirm('Apakah Anda yakin ingin membatalkan pesanan ini?')" class="w-full py-2.5 px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl font-bold text-sm transition-colors border border-rose-200">
                                         ✗ Tolak & Batalkan
                                     </button>
                                 </form>
@@ -130,7 +130,7 @@
                                     <input type="text" name="tracking_number" placeholder="Contoh: SI123456789AWB" 
                                         class="w-full px-3.5 py-2.5 bg-white border border-gray-200 hover:border-gray-300 focus:border-brand-500 focus:ring-2 focus:ring-brand-200 rounded-xl text-sm font-medium transition-all outline-none" required>
                                 </div>
-                                <button type="submit" class="w-full min-h-[44px] px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
+                                <button type="submit" class="w-full py-2.5 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
                                     🚀 Kirim & Beritahu Pembeli
                                 </button>
                             </form>
@@ -146,7 +146,7 @@
                                 @csrf
                                 @method('PUT')
                                 <input type="hidden" name="status" value="delivered">
-                                <button type="submit" class="w-full min-h-[44px] px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
+                                <button type="submit" class="w-full py-2.5 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
                                     ✓ Konfirmasi Pesanan Diterima
                                 </button>
                             </form>
