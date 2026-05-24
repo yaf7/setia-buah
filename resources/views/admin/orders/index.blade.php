@@ -3,7 +3,7 @@
         @if(request('status') === 'shipped')
             <x-seo-meta title="Pesanan Dalam Pengiriman - Admin Dashboard" />
         @else
-            <x-seo-meta title="Pesanan Pembeli - Admin Dashboard" />
+            <x-seo-meta title="Proses Kemas - Admin Dashboard" />
         @endif
     </x-slot>
 
@@ -15,7 +15,7 @@
                     @if(request('status') === 'shipped')
                         Pesanan Dalam Pengiriman
                     @else
-                        Pesanan Pembeli
+                        Proses Kemas
                     @endif
                 </h1>
                 <p class="text-sm text-gray-500 mt-1 font-medium">Kelola seluruh transaksi masuk dan proses logistik</p>
