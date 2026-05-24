@@ -1,6 +1,10 @@
 <x-app-layout>
     <x-slot name="meta">
-        <x-seo-meta title="Pesanan Pembeli - Admin Dashboard" />
+        @if(request('status') === 'shipped')
+            <x-seo-meta title="Pesanan Dalam Pengiriman - Admin Dashboard" />
+        @else
+            <x-seo-meta title="Pesanan Pembeli - Admin Dashboard" />
+        @endif
     </x-slot>
 
     <div class="max-w-6xl mx-auto px-4 py-8">
@@ -8,7 +12,11 @@
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 bg-white/70 backdrop-blur-md p-6 rounded-2xl border border-white/60 shadow-premium">
             <div>
                 <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-brand-900 to-brand-700 bg-clip-text text-transparent">
-                    Pesanan Pembeli
+                    @if(request('status') === 'shipped')
+                        Pesanan Dalam Pengiriman
+                    @else
+                        Pesanan Pembeli
+                    @endif
                 </h1>
                 <p class="text-sm text-gray-500 mt-1 font-medium">Kelola seluruh transaksi masuk dan proses logistik</p>
             </div>
