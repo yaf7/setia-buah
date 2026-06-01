@@ -145,10 +145,21 @@
                         </div>
 
                         <!-- Proceed To Checkout Button -->
-                        <a href="{{ route('checkout.index') }}" class="py-3 w-full bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition flex items-center justify-center gap-2">
-                            <span>Lanjut ke Pengiriman</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-                        </a>
+                        @if($cartItems->sum('quantity_kg') < 5)
+                            <div class="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-xl flex items-start gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                <span>Minimal total pemesanan adalah 5 Kg. Silakan tambah produk lagi.</span>
+                            </div>
+                            <button type="button" disabled class="py-3 w-full bg-gray-100 text-gray-400 border border-gray-200 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-not-allowed">
+                                <span>Lanjut ke Pengiriman</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </button>
+                        @else
+                            <a href="{{ route('checkout.index') }}" class="py-3 w-full bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition flex items-center justify-center gap-2">
+                                <span>Lanjut ke Pengiriman</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </a>
+                        @endif
                     </div>
                 </aside>
 

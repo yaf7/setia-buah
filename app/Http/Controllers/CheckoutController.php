@@ -33,6 +33,11 @@ class CheckoutController extends Controller
             return redirect()->route('shop.index')->with('error', 'Keranjang Anda kosong.');
         }
 
+        $totalKg = $cartItems->sum('quantity_kg');
+        if ($totalKg < 5) {
+            return redirect()->route('cart.index')->with('error', 'Minimal total pemesanan adalah 5 kg.');
+        }
+
         $total = $cartItems->sum(function ($item) {
             return $item->quantity_kg * optional($item->inventory)->price_per_kg;
         });
@@ -205,6 +210,11 @@ class CheckoutController extends Controller
 
         if ($cartItems->isEmpty()) {
             return response()->json(['message' => 'Keranjang belanja Anda kosong.'], 422);
+        }
+
+        $totalKg = $cartItems->sum('quantity_kg');
+        if ($totalKg < 5) {
+            return response()->json(['message' => 'Minimal total pemesanan adalah 5 kg.'], 422);
         }
 
         // Validasi kecukupan stok sebelum memesan
