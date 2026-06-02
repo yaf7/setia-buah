@@ -63,6 +63,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     
     // Orders Management Routes
     Route::get('/orders', [\App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/history', [\App\Http\Controllers\AdminOrderController::class, 'history'])->name('orders.history');
     Route::get('/orders/{order}', [\App\Http\Controllers\AdminOrderController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/approve', [\App\Http\Controllers\AdminOrderController::class, 'approve'])->name('orders.approve');
     Route::post('/orders/{order}/reject', [\App\Http\Controllers\AdminOrderController::class, 'reject'])->name('orders.reject');

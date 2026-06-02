@@ -41,6 +41,25 @@ class AdminOrderController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
+    public function history(Request $request)
+    {
+        $query = Order::query()->where('payment_status', 'paid');
+
+        if ($request->filled('month')) {
+            $query->whereMonth('created_at', $request->month);
+            // Anda bisa menambahkan filter tahun jika diperlukan
+            if ($request->filled('year')) {
+                $query->whereYear('created_at', $request->year);
+            } else {
+                $query->whereYear('created_at', now()->year);
+            }
+        }
+
+        $orders = $query->orderByDesc('created_at')->paginate(10)->withQueryString();
+
+        return view('admin.orders.history', compact('orders'));
+    }
+
     public function show(Order $order)
     {
         $items = $order->orderItems()->with('inventory')->get();

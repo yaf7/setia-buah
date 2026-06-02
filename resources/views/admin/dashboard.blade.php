@@ -90,6 +90,9 @@
                             <span class="bg-brand-50 border border-brand-200/50 text-brand-700 text-xs font-extrabold px-3 py-1.5 rounded-xl">
                                 {{ $totalPaidOrders }} Pesanan Lunas
                             </span>
+                            <a href="{{ route('admin.orders.history') }}" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition border border-indigo-200/50">
+                                Riwayat Pembelian
+                            </a>
                             <a href="{{ route('admin.orders.index') }}" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition">
                                 Lihat Semua
                             </a>

@@ -11,15 +11,6 @@
                 <input type="text" name="fruit_type" value="{{ old('fruit_type', $product->fruit_type) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 py-2.5 px-3" required>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Grade</label>
-                <select name="grade" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3" required>
-                    <option value="A" {{ old('grade', $product->grade) == 'A' ? 'selected' : '' }}>A (Kualitas Ekspor/Premium)</option>
-                    <option value="B" {{ old('grade', $product->grade) == 'B' ? 'selected' : '' }}>B (Standar Supermarket)</option>
-                    <option value="C" {{ old('grade', $product->grade) == 'C' ? 'selected' : '' }}>C (Olahan/Pasar Tradisional)</option>
-                </select>
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Estimasi Berat (Kg)</label>

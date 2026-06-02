@@ -97,7 +97,7 @@
                                 </div>
                                 <div class="font-bold text-brand-600 flex items-center gap-1.5 pt-1">
                                     <span>🥑 {{ $data['fruit_type'] ?? '-' }}</span>
-                                    @if(!empty($data['grade'])) 
+                                    @if($data['status'] === 'accepted') 
                                         <span class="px-1.5 py-0.5 rounded bg-gray-100 text-[9px] uppercase">Grade {{ $data['grade'] }}</span> 
                                     @endif
                                 </div>
@@ -148,8 +148,11 @@
                                     <span class="text-base">🥑</span>
                                     <div>
                                         <span class="block text-gray-800 font-extrabold">{{ $product->fruit_type }}</span>
-                                        <span class="block text-[10px] text-gray-400 font-extrabold">Grade {{ $product->grade }}</span>
-                                    </div>
+                                        @if($product->status === 'accepted')
+                                            <span class="block text-[10px] text-gray-400 font-extrabold">Grade {{ $product->grade }}</span>
+                                        @else
+                                            <span class="block text-[10px] text-gray-400 font-extrabold">Belum di-QC</span>
+                                        @endif                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 text-gray-700">
@@ -193,8 +196,11 @@
                             <span class="text-base">🥑</span>
                             <div>
                                 <span class="block font-heading font-extrabold text-gray-800 text-sm leading-tight">{{ $product->fruit_type }}</span>
-                                <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Grade {{ $product->grade }}</span>
-                            </div>
+                                @if($product->status === 'accepted')
+                                    <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Grade {{ $product->grade }}</span>
+                                @else
+                                    <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Menunggu QC</span>
+                                @endif                            </div>
                         </div>
                         
                         @if($product->status === 'pending')

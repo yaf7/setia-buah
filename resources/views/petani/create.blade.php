@@ -25,16 +25,6 @@
                 @error('fruit_type') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Grade</label>
-                <select name="grade" x-model="draft.grade" @change="saveDraft" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3 @error('grade') border-rose-500 @enderror" required>
-                    <option value="A" {{ old('grade') == 'A' ? 'selected' : '' }}>A (Kualitas Ekspor/Premium)</option>
-                    <option value="B" {{ old('grade') == 'B' ? 'selected' : '' }}>B (Standar Supermarket)</option>
-                    <option value="C" {{ old('grade') == 'C' ? 'selected' : '' }}>C (Olahan/Pasar Tradisional)</option>
-                </select>
-                @error('grade') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
-            </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Estimasi Berat (Kg)</label>
@@ -70,7 +60,7 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('formDraft', () => ({
-                draft: { fruit_type: '', grade: 'A', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' },
+                draft: { fruit_type: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' },
                 loadDraft() {
                     const saved = localStorage.getItem('petani_form_draft');
                     if (saved) this.draft = JSON.parse(saved);
@@ -79,7 +69,7 @@
                     localStorage.setItem('petani_form_draft', JSON.stringify(this.draft));
                 },
                 clearDraft() {
-                    this.draft = { fruit_type: '', grade: 'A', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' };
+                    this.draft = { fruit_type: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' };
                     localStorage.removeItem('petani_form_draft');
                 }
             }))

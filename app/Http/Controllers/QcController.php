@@ -32,7 +32,8 @@ class QcController extends Controller
 
         // Update product status
         $product->update([
-            'status' => $data['status']
+            'status' => $data['status'],
+            'grade' => $data['final_grade'] ?? null
         ]);
 
         // Jika diterima, masukkan ke Inventory Stok Gudang

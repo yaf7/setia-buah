@@ -124,6 +124,11 @@
                                 <button type="submit" class="text-xs sm:text-sm text-red-500 hover:text-red-700 font-bold px-3 py-2 transition">Logout</button>
                             </form>
 
+                        @elseif(request()->is('login'))
+                            <a href="{{ route('shop.index') }}" class="text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-gray-200/50">
+                                Kembali ke Toko
+                            </a>
+
                         @else
                             <!-- Buyer / Shop Context -->
                             @if(auth('buyer')->check())
