@@ -7,7 +7,6 @@ use App\Http\Requests\StorePetaniProductRequest;
 use App\Http\Requests\UpdatePetaniProductRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Schema;
 
 class PetaniController extends Controller
 {
@@ -16,17 +15,8 @@ class PetaniController extends Controller
         $products = PetaniProduct::where('user_id', $request->user()->id)
             ->latest()
             ->paginate(10);
-        $harvestNotifications = collect();
-
-        if (Schema::hasTable('notifications')) {
-            $harvestNotifications = $request->user()
-                ->unreadNotifications()
-                ->latest()
-                ->take(5)
-                ->get();
-        }
             
-        return view('petani.dashboard', compact('products', 'harvestNotifications'));
+        return view('petani.dashboard', compact('products'));
     }
 
     public function create()

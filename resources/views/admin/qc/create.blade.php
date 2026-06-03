@@ -29,13 +29,7 @@
                 </select>
             </div>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">Keputusan</label>
-                <select name="status" class="mt-1 block w-full rounded-md border-gray-300 py-2.5 px-3" required>
-                    <option value="accepted">Terima & Masukkan Gudang</option>
-                    <option value="rejected">Tolak (Cacad/Rusak)</option>
-                </select>
-            </div>
+            <input type="hidden" name="status" value="accepted">
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Catatan QC (Opsional)</label>

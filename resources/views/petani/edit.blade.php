@@ -42,11 +42,6 @@
                 <button type="submit" class="py-2.5 min-w-[44px] px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 font-medium w-full sm:w-auto">Simpan Perubahan</button>
             </div>
         </form>
-
-        <form action="{{ route('petani.products.destroy', $product) }}" method="POST" class="mt-4 text-right" onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini?');">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="text-sm text-red-600 hover:text-red-900 border border-red-600 p-2 rounded-lg">Hapus Stok</button>
-        </form>
     </div>
 </x-app-layout>
+

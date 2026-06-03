@@ -54,11 +54,13 @@
             </a>
             
             <!-- Metric 2: Warehouse Stock -->
-            <div class="bg-gradient-to-tr from-brand-600 to-emerald-500 text-white p-6 rounded-2xl shadow-md relative overflow-hidden h-full">
-                <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
-                <p class="text-[9px] font-extrabold uppercase tracking-widest text-brand-100">Total Stok Buah di Gudang</p>
-                <p class="text-4xl font-heading font-black mt-3 leading-none">{{ number_format($totalStock, 1, ',', '.') }} <span class="text-xs font-extrabold text-brand-100">Kg</span></p>
-            </div>
+            <a href="{{ route('admin.inventory.index') }}" class="block group">
+                <div class="bg-gradient-to-tr from-brand-600 to-emerald-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
+                    <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
+                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-brand-100">Total Stok Buah di Gudang</p>
+                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ number_format($totalStock, 1, ',', '.') }} <span class="text-xs font-extrabold text-brand-100">Kg</span></p>
+                </div>
+            </a>
             
             <!-- Metric 3: Pending QC -->
             <a href="{{ route('admin.qc.queue') }}" class="block group">

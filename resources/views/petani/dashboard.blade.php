@@ -42,80 +42,34 @@
             </div>
         @endif
 
-        <!-- Grid Layout: Left Column (Harvest & Maps), Right Column (Notif) -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start mb-8">
-            
-            <!-- Map & Lahan GIS Panel (Take 2 Columns) -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
-                        <div>
-                            <h2 class="font-heading font-extrabold text-gray-800 text-base flex items-center gap-2">
-                                <span class="h-1.5 w-3 rounded bg-brand-500"></span>
-                                Pemetaan Spasial Lahan (GIS)
-                            </h2>
-                            <p class="text-xs text-gray-400 mt-0.5">Silakan klik pada peta di bawah untuk memplot koordinat lahan Anda secara presisi.</p>
-                        </div>
-                        
-                        <form action="{{ route('petani.location.update') }}" method="POST" class="flex items-center gap-2">
-                            @csrf
-                            <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.06831, 112.07810" class="py-2 w-full max-w-[200px] rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-xs font-bold text-center transition" required>
-                            
-                            <button type="submit" class="py-2 text-xs font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow shadow-indigo-600/10 active:scale-95 transition">
-                                Simpan
-                            </button>
-                            
-                            <button type="button" id="toggle-lock" class="py-2 text-xs font-extrabold bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl transition">
-                                Kunci Lokasi
-                            </button>
-                        </form>
+        <!-- Map & Lahan GIS Panel -->
+        <div class="space-y-6 mb-8">
+            <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
+                    <div>
+                        <h2 class="font-heading font-extrabold text-gray-800 text-base flex items-center gap-2">
+                            <span class="h-1.5 w-3 rounded bg-brand-500"></span>
+                            Pemetaan Spasial Lahan (GIS)
+                        </h2>
+                        <p class="text-xs text-gray-400 mt-0.5">Silakan klik pada peta di bawah untuk memplot koordinat lahan Anda secara presisi.</p>
                     </div>
                     
-                    <div id="petani-map" class="h-72 w-full rounded-2xl border border-gray-150 shadow-inner z-10"></div>
+                    <form action="{{ route('petani.location.update') }}" method="POST" class="flex items-center gap-2">
+                        @csrf
+                        <input type="text" name="coordinates" id="coordinates" value="{{ old('coordinates', auth()->user()->latitude && auth()->user()->longitude ? auth()->user()->latitude . ', ' . auth()->user()->longitude : '') }}" placeholder="-8.06831, 112.07810" class="py-2 w-full max-w-[200px] rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-xs font-bold text-center transition" required>
+                        
+                        <button type="submit" class="py-2 text-xs font-extrabold bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl shadow shadow-indigo-600/10 active:scale-95 transition">
+                            Simpan
+                        </button>
+                        
+                        <button type="button" id="toggle-lock" class="py-2 text-xs font-extrabold bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-xl transition">
+                            Kunci Lokasi
+                        </button>
+                    </form>
                 </div>
+                
+                <div id="petani-map" class="h-72 w-full rounded-2xl border border-gray-150 shadow-inner z-10"></div>
             </div>
-
-            <!-- Harvest Notifications Panel (Right Column) -->
-            <div class="bg-amber-50/50 border border-amber-200/60 rounded-3xl p-5 sm:p-6 space-y-5">
-                <div class="flex items-center justify-between border-b border-amber-200/40 pb-4">
-                    <div>
-                        <h2 class="font-heading font-extrabold text-amber-900 text-base">Notifikasi Jadwal Panen</h2>
-                        <p class="text-[10px] text-amber-800 mt-0.5">Sistem pengingat waktu panen komoditas</p>
-                    </div>
-                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-xl bg-amber-100 text-amber-800 font-extrabold text-sm shadow-sm border border-amber-200/50">
-                        {{ $harvestNotifications->count() }}
-                    </span>
-                </div>
-
-                @if($harvestNotifications->isNotEmpty())
-                    <ul class="space-y-3 max-h-72 overflow-y-auto pr-1">
-                        @foreach($harvestNotifications as $notification)
-                            @php($data = $notification->data)
-                            <li class="bg-white rounded-2xl border border-amber-200/20 p-4 text-xs text-gray-700 shadow-sm space-y-1">
-                                <div class="font-extrabold text-gray-800 leading-tight">
-                                    {{ $data['message'] ?? 'Jadwal panen telah diperbarui.' }}
-                                </div>
-                                <div class="font-bold text-brand-600 flex items-center gap-1.5 pt-1">
-                                    <span>🥑 {{ $data['fruit_type'] ?? '-' }}</span>
-                                    @if($data['status'] === 'accepted') 
-                                        <span class="px-1.5 py-0.5 rounded bg-gray-100 text-[9px] uppercase">Grade {{ $data['grade'] }}</span> 
-                                    @endif
-                                </div>
-                                @if(!empty($data['harvest_date']))
-                                    <div class="text-[10px] text-gray-400 font-medium mt-1">
-                                        Tanggal Panen: {{ \Illuminate\Support\Carbon::parse($data['harvest_date'])->translatedFormat('d M Y') }}
-                                    </div>
-                                @endif
-                            </li>
-                        @endforeach
-                    </ul>
-                @else
-                    <div class="bg-white rounded-2xl border border-amber-100 p-4 text-xs font-semibold text-gray-400 text-center leading-relaxed py-8">
-                        ☕ Belum ada notifikasi panen aktif.<br>Jadwal panen Anda aman!
-                    </div>
-                @endif
-            </div>
-
         </div>
 
         <!-- Harvest Records Panel -->

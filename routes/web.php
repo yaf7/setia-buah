@@ -72,6 +72,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/orders/{order}/check-payment-status', [\App\Http\Controllers\AdminOrderController::class, 'checkPaymentStatus'])->name('orders.check-payment-status');
     Route::put('/orders/{order}/status', [\App\Http\Controllers\AdminOrderController::class, 'updateStatus'])->name('orders.status');
     
+    // Inventory Stock Management Routes
+    Route::get('/inventory', [\App\Http\Controllers\AdminInventoryController::class, 'index'])->name('inventory.index');
+    Route::delete('/inventory/{inventory}', [\App\Http\Controllers\AdminInventoryController::class, 'destroy'])->name('inventory.destroy');
+
     // QC Reports Routes
     Route::get('/qc/{product}/create', [\App\Http\Controllers\QcController::class, 'create'])->name('qc.create');
     Route::post('/qc/{product}/store', [\App\Http\Controllers\QcController::class, 'store'])->name('qc.store');
