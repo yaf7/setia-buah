@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
 use App\Services\HarvestReminderService;
 use App\Models\Order;
+use App\Models\Inventory;
 use App\Services\MidtransService;
 use App\Services\OrderStockService;
+use Carbon\Carbon;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
@@ -84,6 +86,13 @@ Artisan::command('payment:check-unpaid', function (MidtransService $midtrans, Or
     $this->info("Pembaruan status pembayaran selesai: {$updated} order diperbarui.");
 })->purpose('Check and sync payment status from Midtrans for unpaid orders.');
 
+Artisan::command('inventory:purge-expired', function () {
+    $deleted = Inventory::where('expiry_date', '<', Carbon::today())->delete();
+
+    $this->info("Stok kadaluarsa dihapus: {$deleted}");
+})->purpose('Delete expired inventory items.');
+
 Schedule::command('harvest:remind')->dailyAt('08:00');
 Schedule::command('payment:check-unpaid')->everyMinute();
+Schedule::command('inventory:purge-expired')->dailyAt('00:10');
 
