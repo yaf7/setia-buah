@@ -43,7 +43,7 @@ class QcController extends Controller
                 'grade' => $data['final_grade'],
                 'stock_kg' => $data['actual_weight_kg'],
                 'expiry_date' => Carbon::parse($product->harvest_date)->addDays(14), // Asumsi 14 hari
-                'price_per_kg' => $product->price_per_kg,
+                'price_per_kg' => $data['final_price_per_kg'],
                 'image' => $product->image,
             ]);
         }

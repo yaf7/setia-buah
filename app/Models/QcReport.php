@@ -9,13 +9,14 @@ class QcReport extends Model
 {
     protected $fillable = [
         'petani_product_id', 'admin_id', 'actual_weight_kg', 
-        'final_grade', 'status', 'notes'
+        'final_grade', 'final_price_per_kg', 'status', 'notes'
     ];
 
     protected function casts(): array
     {
         return [
             'actual_weight_kg' => 'decimal:2',
+            'final_price_per_kg' => 'decimal:2',
         ];
     }
 
