@@ -16,7 +16,17 @@ class PetaniController extends Controller
             ->latest()
             ->paginate(10);
             
-        return view('petani.dashboard', compact('products'));
+        // Count stats for dashboard
+        $stats = [
+            'total' => PetaniProduct::where('user_id', $request->user()->id)->count(),
+            'pending' => PetaniProduct::where('user_id', $request->user()->id)->where('status', 'pending')->count(),
+            'approved' => PetaniProduct::where('user_id', $request->user()->id)->where('status', 'approved')->count(),
+            'in_progress' => PetaniProduct::where('user_id', $request->user()->id)->whereIn('status', ['procurement', 'shipping', 'received'])->count(),
+            'completed' => PetaniProduct::where('user_id', $request->user()->id)->whereIn('status', ['qc_passed', 'cataloged'])->count(),
+            'rejected' => PetaniProduct::where('user_id', $request->user()->id)->where('status', 'rejected')->count(),
+        ];
+
+        return view('petani.dashboard', compact('products', 'stats'));
     }
 
     public function create()
@@ -35,7 +45,7 @@ class PetaniController extends Controller
 
         PetaniProduct::create($data);
 
-        return redirect()->route('petani.dashboard')->with('success', 'Produk berhasil ditambahkan.');
+        return redirect()->route('petani.dashboard')->with('success', 'Estimasi panen berhasil dikirim untuk persetujuan admin.');
     }
 
     public function edit(PetaniProduct $product)
@@ -47,6 +57,13 @@ class PetaniController extends Controller
     public function update(UpdatePetaniProductRequest $request, PetaniProduct $product)
     {
         $this->authorizeProduct($product);
+        
+        // Only allow editing if status is still pending
+        if ($product->status !== 'pending') {
+            return redirect()->route('petani.dashboard')
+                ->with('error', 'Estimasi panen yang sudah diproses tidak dapat diedit.');
+        }
+
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -58,19 +75,17 @@ class PetaniController extends Controller
 
         $product->update($data);
 
-        return redirect()->route('petani.dashboard')->with('success', 'Produk berhasil diperbarui.');
+        return redirect()->route('petani.dashboard')->with('success', 'Estimasi panen berhasil diperbarui.');
     }
 
     public function destroy(PetaniProduct $product)
     {
         $this->authorizeProduct($product);
         
-        // Hapus juga data tersebut di Katalog Toko (Inventory Gudang) jika sebelumnya sudah diterima (accepted)
-        if ($product->status === 'accepted') {
-            \App\Models\Inventory::where('fruit_type', $product->fruit_type)
-                ->where('grade', $product->grade)
-                ->where('price_per_kg', $product->price_per_kg)
-                ->delete();
+        // Only allow deletion if status is pending or rejected
+        if (!in_array($product->status, ['pending', 'rejected'])) {
+            return redirect()->route('petani.dashboard')
+                ->with('error', 'Estimasi panen yang sudah diproses tidak dapat dihapus.');
         }
         
         if ($product->image) {
@@ -78,7 +93,7 @@ class PetaniController extends Controller
         }
         $product->delete();
 
-        return redirect()->route('petani.dashboard')->with('success', 'Produk berhasil dihapus dari sistem Petani maupun Toko.');
+        return redirect()->route('petani.dashboard')->with('success', 'Estimasi panen berhasil dihapus.');
     }
 
     public function updateLocation(Request $request)
