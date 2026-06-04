@@ -52,8 +52,6 @@
                         ['label' => 'Disetujui', 'count' => $approvedEstimates, 'color' => 'blue', 'icon' => '✅', 'route' => route('admin.procurement.pending')],
                         ['label' => 'Pengadaan', 'count' => $activeProcurements, 'color' => 'indigo', 'icon' => '📋', 'route' => route('admin.procurement.index')],
                         ['label' => 'Gudang & QC', 'count' => $receivedAtWarehouse, 'color' => 'purple', 'icon' => '🏭', 'route' => route('admin.qc.queue')],
-                        ['label' => 'Stok Katalog', 'count' => number_format($totalStock, 0) . ' Kg', 'color' => 'emerald', 'icon' => '📦', 'route' => route('admin.inventory.index')],
-                        ['label' => 'Penjualan', 'count' => $ordersShipped, 'color' => 'green', 'icon' => '🛒', 'route' => route('admin.orders.index')],
                     ];
                     @endphp
                     @foreach($steps as $i => $step)
