@@ -9,12 +9,13 @@ class AdminQcQueueController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $pendingItems = PetaniProduct::with('user')
-            ->where('status', 'pending')
+        // QC queue now shows items that are received at warehouse
+        $pendingItems = PetaniProduct::with(['user', 'procurement'])
+            ->where('status', 'received')
             ->latest()
             ->paginate(10);
 
-        $pendingQC = PetaniProduct::where('status', 'pending')->count();
+        $pendingQC = PetaniProduct::where('status', 'received')->count();
 
         return view('admin.qc.index', compact('pendingItems', 'pendingQC'));
     }

@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Inventory extends Model
 {
-    protected $fillable = ['fruit_type', 'grade', 'stock_kg', 'expiry_date', 'price_per_kg', 'image', 'description'];
+    protected $fillable = [
+        'qc_report_id', 'procurement_id', 'batch_number',
+        'fruit_type', 'grade', 'stock_kg', 'expiry_date', 
+        'price_per_kg', 'image', 'description'
+    ];
 
     protected function casts(): array
     {
@@ -15,5 +20,15 @@ class Inventory extends Model
             'price_per_kg' => 'decimal:2',
             'expiry_date' => 'date',
         ];
+    }
+
+    public function qcReport(): BelongsTo
+    {
+        return $this->belongsTo(QcReport::class, 'qc_report_id');
+    }
+
+    public function procurement(): BelongsTo
+    {
+        return $this->belongsTo(ProcurementTransaction::class, 'procurement_id');
     }
 }

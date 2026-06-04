@@ -55,13 +55,42 @@ Route::middleware(['auth:petani', 'role:petani'])->prefix('petani')->name('petan
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', \App\Http\Controllers\AdminDashboardController::class)->name('dashboard');
+    
+    // === SUPPLY CHAIN FLOW ROUTES ===
+    
+    // 1. Estimasi Panen → Persetujuan Admin
+    Route::get('/procurement/pending', [\App\Http\Controllers\AdminProcurementController::class, 'pendingApproval'])->name('procurement.pending');
+    Route::post('/procurement/{estimate}/approve', [\App\Http\Controllers\AdminProcurementController::class, 'approve'])->name('procurement.approve');
+    Route::post('/procurement/{estimate}/reject', [\App\Http\Controllers\AdminProcurementController::class, 'reject'])->name('procurement.reject');
+    
+    // 2. Transaksi Pengadaan
+    Route::get('/procurement', [\App\Http\Controllers\AdminProcurementController::class, 'index'])->name('procurement.index');
+    Route::get('/procurement/{estimate}/create', [\App\Http\Controllers\AdminProcurementController::class, 'create'])->name('procurement.create');
+    Route::post('/procurement/{estimate}/store', [\App\Http\Controllers\AdminProcurementController::class, 'store'])->name('procurement.store');
+    Route::get('/procurement/{procurement}/show', [\App\Http\Controllers\AdminProcurementController::class, 'show'])->name('procurement.show');
+    
+    // 3. Pengiriman / Penjemputan
+    Route::post('/procurement/{procurement}/ship', [\App\Http\Controllers\AdminProcurementController::class, 'markShipping'])->name('procurement.ship');
+    
+    // 4. Penerimaan Gudang
+    Route::post('/procurement/{procurement}/receive', [\App\Http\Controllers\AdminProcurementController::class, 'markReceived'])->name('procurement.receive');
+    
+    // 5. QC (Quality Control)
     Route::get('/qc-queue', \App\Http\Controllers\AdminQcQueueController::class)->name('qc.queue');
+    Route::get('/qc/{product}/create', [\App\Http\Controllers\QcController::class, 'create'])->name('qc.create');
+    Route::post('/qc/{product}/store', [\App\Http\Controllers\QcController::class, 'store'])->name('qc.store');
+    
+    // 6. Inventory & Katalog
+    Route::get('/inventory', [\App\Http\Controllers\AdminInventoryController::class, 'index'])->name('inventory.index');
+    Route::delete('/inventory/{inventory}', [\App\Http\Controllers\AdminInventoryController::class, 'destroy'])->name('inventory.destroy');
+    
+    // === PETANI MANAGEMENT ===
     Route::post('/tambah-petani', [\App\Http\Controllers\AdminPetaniController::class, 'store'])->name('petani.store');
     Route::get('/petani/{user}/edit', [\App\Http\Controllers\AdminPetaniController::class, 'edit'])->name('petani.edit');
     Route::put('/petani/{user}', [\App\Http\Controllers\AdminPetaniController::class, 'update'])->name('petani.update');
     Route::delete('/petani/{user}', [\App\Http\Controllers\AdminPetaniController::class, 'destroy'])->name('petani.destroy');
     
-    // Orders Management Routes
+    // === ORDERS (PENJUALAN) ===
     Route::get('/orders', [\App\Http\Controllers\AdminOrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/history', [\App\Http\Controllers\AdminOrderController::class, 'history'])->name('orders.history');
     Route::get('/orders/{order}', [\App\Http\Controllers\AdminOrderController::class, 'show'])->name('orders.show');
@@ -71,14 +100,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::post('/orders/{order}/payment-success', [\App\Http\Controllers\AdminOrderController::class, 'markPaymentSuccess'])->name('orders.payment-success');
     Route::post('/orders/{order}/check-payment-status', [\App\Http\Controllers\AdminOrderController::class, 'checkPaymentStatus'])->name('orders.check-payment-status');
     Route::put('/orders/{order}/status', [\App\Http\Controllers\AdminOrderController::class, 'updateStatus'])->name('orders.status');
-    
-    // Inventory Stock Management Routes
-    Route::get('/inventory', [\App\Http\Controllers\AdminInventoryController::class, 'index'])->name('inventory.index');
-    Route::delete('/inventory/{inventory}', [\App\Http\Controllers\AdminInventoryController::class, 'destroy'])->name('inventory.destroy');
-
-    // QC Reports Routes
-    Route::get('/qc/{product}/create', [\App\Http\Controllers\QcController::class, 'create'])->name('qc.create');
-    Route::post('/qc/{product}/store', [\App\Http\Controllers\QcController::class, 'store'])->name('qc.store');
 
     // Orders Mock Route for visually demonstrating Receipt
     Route::get('/orders/{order}/receipt', function (\App\Models\Order $order) {

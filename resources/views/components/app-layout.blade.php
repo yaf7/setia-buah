@@ -98,11 +98,14 @@
                             </div>
                             <div class="h-6 w-px bg-gray-200 hidden sm:block"></div>
                             <a href="{{ route('admin.dashboard') }}" class="text-xs sm:text-sm font-bold bg-gray-100 hover:bg-gray-200 text-gray-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-gray-200/50">
-                                Admin Panel
+                                Dashboard
+                            </a>
+                            <a href="{{ route('admin.procurement.pending') }}" class="text-xs sm:text-sm font-bold bg-amber-50 hover:bg-amber-100 text-amber-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-amber-200/40">
+                                Pengadaan
                             </a>
                             <a href="{{ route('admin.qc.queue') }}" class="text-xs sm:text-sm font-bold bg-brand-50 hover:bg-brand-100 text-brand-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-brand-200/40">
                                 <span class="h-1.5 w-1.5 rounded-full bg-brand-500 animate-ping"></span>
-                                QC Queue
+                                QC
                             </a>
                             <form method="POST" action="{{ route('logout') }}" class="inline">
                                 @csrf

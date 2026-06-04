@@ -16,6 +16,7 @@ class UpdatePetaniProductRequest extends FormRequest
             'estimated_weight_kg' => ['required', 'numeric', 'min:0.1'],
             'price_per_kg' => ['required', 'numeric', 'min:100'],
             'harvest_date' => ['required', 'date'],
+            'description' => ['nullable', 'string', 'max:1000'],
             'image' => ['nullable', 'image', 'max:2048'],
         ];
     }

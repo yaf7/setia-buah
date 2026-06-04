@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class QcReport extends Model
 {
     protected $fillable = [
-        'petani_product_id', 'admin_id', 'actual_weight_kg', 
+        'petani_product_id', 'procurement_id', 'admin_id', 'actual_weight_kg', 
         'final_grade', 'final_price_per_kg', 'status', 'notes'
     ];
 
@@ -23,6 +23,11 @@ class QcReport extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(PetaniProduct::class, 'petani_product_id');
+    }
+
+    public function procurement(): BelongsTo
+    {
+        return $this->belongsTo(ProcurementTransaction::class, 'procurement_id');
     }
 
     public function admin(): BelongsTo
