@@ -29,6 +29,7 @@ Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::clas
 Route::group(['middleware' => [\Illuminate\Session\Middleware\StartSession::class ?? 'web', 'auth:buyer']], function () {
     Route::get('/cart', [\App\Http\Controllers\CartController::class, 'index'])->name('cart.index');
     Route::post('/cart', [\App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
+    Route::put('/cart/{cart}', [\App\Http\Controllers\CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cart}', [\App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
     
     Route::get('/checkout', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('checkout.index');

@@ -60,6 +60,23 @@ class CartController extends Controller
         return redirect()->route('cart.index')->with('success', 'Produk ditambahkan ke keranjang.');
     }
 
+    public function update(Request $request, Cart $cart)
+    {
+        $request->validate([
+            'quantity_kg' => 'required|numeric|min:0.5',
+        ]);
+
+        $inventory = $cart->inventory;
+        if ($inventory->stock_kg < $request->quantity_kg) {
+            return back()->with('error', "Stok tidak mencukupi (Tersedia: {$inventory->stock_kg} Kg).");
+        }
+
+        $cart->quantity_kg = $request->quantity_kg;
+        $cart->save();
+
+        return back()->with('success', 'Jumlah produk berhasil diperbarui.');
+    }
+
     public function destroy(Cart $cart)
     {
         $cart->delete();

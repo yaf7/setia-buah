@@ -33,9 +33,12 @@ class CheckoutController extends Controller
             return redirect()->route('shop.index')->with('error', 'Keranjang Anda kosong.');
         }
 
-        $totalKg = $cartItems->sum('quantity_kg');
-        if ($totalKg < 5) {
-            return redirect()->route('cart.index')->with('error', 'Minimal total pemesanan adalah 5 kg.');
+        $hasInvalidItem = $cartItems->contains(function ($item) {
+            return $item->quantity_kg < 5;
+        });
+        
+        if ($hasInvalidItem) {
+            return redirect()->route('cart.index')->with('error', 'Minimal pemesanan adalah 5 Kg untuk setiap jenis buah.');
         }
 
         $total = $cartItems->sum(function ($item) {
@@ -212,9 +215,12 @@ class CheckoutController extends Controller
             return response()->json(['message' => 'Keranjang belanja Anda kosong.'], 422);
         }
 
-        $totalKg = $cartItems->sum('quantity_kg');
-        if ($totalKg < 5) {
-            return response()->json(['message' => 'Minimal total pemesanan adalah 5 kg.'], 422);
+        $hasInvalidItem = $cartItems->contains(function ($item) {
+            return $item->quantity_kg < 5;
+        });
+
+        if ($hasInvalidItem) {
+            return response()->json(['message' => 'Minimal pemesanan adalah 5 Kg untuk setiap jenis buah.'], 422);
         }
 
         // Validasi kecukupan stok sebelum memesan

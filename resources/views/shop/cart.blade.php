@@ -93,14 +93,25 @@
                                     
                                     <!-- Price / Action Buttons -->
                                     <div class="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-5 border-t sm:border-t-0 pt-4 sm:pt-0 border-gray-100">
-                                        <div class="text-right">
-                                            <span class="block text-xs font-bold text-gray-400 uppercase tracking-wider leading-none">Subtotal</span>
-                                            <span class="block font-heading font-black text-brand-700 text-base sm:text-lg mt-1">
-                                                Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->price_per_kg ?? 0)), 0, ',', '.') }}
-                                            </span>
-                                            <span class="block text-[10px] font-extrabold text-gray-400 mt-0.5">
-                                                ({{ $item->quantity_kg }} Kilogram / Kg)
-                                            </span>
+                                        <div class="flex items-center gap-4">
+                                            <!-- Update Qty Form -->
+                                            <form action="{{ route('cart.update', $item) }}" method="POST" class="flex flex-col items-center gap-1">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
+                                                    <input type="number" name="quantity_kg" value="{{ $item->quantity_kg }}" min="0.5" step="0.5" class="w-16 py-1.5 px-2 text-center text-sm font-bold text-gray-700 border-none focus:ring-0">
+                                                    <span class="text-[10px] text-gray-500 font-extrabold pr-2 uppercase">Kg</span>
+                                                </div>
+                                                <button type="submit" class="text-[10px] font-extrabold text-brand-600 hover:text-brand-700 underline tracking-wide">Ubah Jumlah</button>
+                                            </form>
+
+                                            <!-- Subtotal -->
+                                            <div class="text-right w-24">
+                                                <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">Subtotal</span>
+                                                <span class="block font-heading font-black text-brand-700 text-sm sm:text-base mt-1">
+                                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->price_per_kg ?? 0)), 0, ',', '.') }}
+                                                </span>
+                                            </div>
                                         </div>
 
                                         <!-- Trash Action icon button -->
@@ -145,10 +156,15 @@
                         </div>
 
                         <!-- Proceed To Checkout Button -->
-                        @if($cartItems->sum('quantity_kg') < 5)
+                        @php
+                            $hasInvalidItem = $cartItems->contains(function ($item) {
+                                return $item->quantity_kg < 5;
+                            });
+                        @endphp
+                        @if($hasInvalidItem)
                             <div class="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-xl flex items-start gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                <span>Minimal total pemesanan adalah 5 Kg. Silakan tambah produk lagi.</span>
+                                <span>Minimal pemesanan adalah 5 Kg untuk setiap jenis buah. Silakan ubah jumlah produk di atas.</span>
                             </div>
                             <button type="button" disabled class="py-3 w-full bg-gray-100 text-gray-400 border border-gray-200 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-not-allowed">
                                 <span>Lanjut ke Pengiriman</span>
