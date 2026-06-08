@@ -33,7 +33,16 @@ class CartController extends Controller
     {
         $request->validate([
             'inventory_id' => 'required|exists:inventories,id',
-            'quantity_kg' => 'required|numeric|min:0.5',
+            'quantity_kg' => [
+                'required',
+                'numeric',
+                'min:100',
+                function ($attribute, $value, $fail) {
+                    if ($value % 50 !== 0) {
+                        $fail('Kuantitas harus kelipatan 50 Kg (contoh: 100, 150, 200, dst).');
+                    }
+                },
+            ],
         ]);
 
         $inventory = Inventory::findOrFail($request->inventory_id);
@@ -63,7 +72,16 @@ class CartController extends Controller
     public function update(Request $request, Cart $cart)
     {
         $request->validate([
-            'quantity_kg' => 'required|numeric|min:0.5',
+            'quantity_kg' => [
+                'required',
+                'numeric',
+                'min:100',
+                function ($attribute, $value, $fail) {
+                    if ($value % 50 !== 0) {
+                        $fail('Kuantitas harus kelipatan 50 Kg (contoh: 100, 150, 200, dst).');
+                    }
+                },
+            ],
         ]);
 
         $inventory = $cart->inventory;

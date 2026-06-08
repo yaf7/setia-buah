@@ -18,6 +18,9 @@
                 <a href="{{ route('cart.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium">
                     🛒 Keranjang
                 </a>
+                <a href="{{ route('buyer.profile.edit') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
+                    👤 Profil
+                </a>
             </div>
         </div>
 
@@ -141,6 +144,14 @@
                                     <a href="{{ route('orders.track', $order) }}" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium">
                                         Lacak Paket
                                     </a>
+                                    @if($order->status === 'shipped')
+                                        <form action="{{ route('buyer.orders.receive', $order) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin telah menerima pesanan ini dengan baik?');">
+                                            @csrf
+                                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium shadow-md">
+                                                ✅ Pesanan Diterima
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>

@@ -31,15 +31,23 @@
             @csrf
             <input type="hidden" name="petani_product_id" value="{{ $product->id }}">
 
-            <div>
-                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Aktual Timbangan (Kg)</label>
-                <input type="number" step="0.01" min="0" name="actual_weight_kg" value="{{ old('actual_weight_kg', $product->estimated_weight_kg) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
-                @error('actual_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Aktual Timbangan (Kg)</label>
+                    <input type="number" step="0.01" min="0" name="actual_weight_kg" value="{{ old('actual_weight_kg', $product->estimated_weight_kg) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
+                    @error('actual_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Barang Rusak / Diretur (Kg)</label>
+                    <input type="number" step="0.01" min="0" name="rejected_weight_kg" value="{{ old('rejected_weight_kg', 0) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
+                    <p class="text-xs text-gray-500 mt-1">Berat ini akan memotong total stok gudang.</p>
+                    @error('rejected_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <div>
                 <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Grade Final (Hasil QC)</label>
-                <select name="final_grade" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
+                <select name="final_grade" id="final_grade" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
                     <option value="A" {{ old('final_grade') == 'A' ? 'selected' : '' }}>Grade A — Premium</option>
                     <option value="B" {{ old('final_grade') == 'B' ? 'selected' : '' }}>Grade B — Standar</option>
                     <option value="C" {{ old('final_grade') == 'C' ? 'selected' : '' }}>Grade C — Ekonomis</option>
@@ -56,10 +64,19 @@
                 @endif
                 <div>
                     <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Final (Rp/Kg)</label>
-                    <input type="number" name="final_price_per_kg" min="0" step="100" value="{{ old('final_price_per_kg') }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" placeholder="Contoh: 35000" required>
+                    <input type="number" name="final_price_per_kg" id="final_price_per_kg" min="0" step="100" value="{{ old('final_price_per_kg') }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" placeholder="Contoh: 35000" required>
                     <p class="mt-1 text-xs text-gray-500">Harga yang akan tampil di katalog toko.</p>
                     @error('final_price_per_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Tujuan Barang Setelah QC</label>
+                <select name="inventory_status" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
+                    <option value="catalog" {{ old('inventory_status') == 'catalog' ? 'selected' : '' }}>Langsung Masuk Katalog (Tampil di Toko)</option>
+                    <option value="warehouse" {{ old('inventory_status') == 'warehouse' ? 'selected' : '' }}>Simpan di Stok Gudang (Belum Tampil di Toko)</option>
+                </select>
+                @error('inventory_status') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
@@ -82,4 +99,34 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gradeSelect = document.getElementById('final_grade');
+            const priceInput = document.getElementById('final_price_per_kg');
+            const hargaBeli = {{ $product->procurement ? (float) $product->procurement->agreed_price_per_kg : (float) $product->price_per_kg }};
+
+            function updatePrice() {
+                const grade = gradeSelect.value;
+                let price = 0;
+                if (grade === 'A') {
+                    price = hargaBeli * 2;
+                } else if (grade === 'B') {
+                    price = hargaBeli * 1.5;
+                } else if (grade === 'C') {
+                    price = hargaBeli * 1.2;
+                }
+                
+                // Set value if it's currently empty or user is just changing the grade
+                priceInput.value = price;
+            }
+
+            // Initialize on load if empty
+            if (!priceInput.value) {
+                updatePrice();
+            }
+
+            gradeSelect.addEventListener('change', updatePrice);
+        });
+    </script>
 </x-app-layout>

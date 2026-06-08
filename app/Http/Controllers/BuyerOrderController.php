@@ -66,4 +66,19 @@ class BuyerOrderController extends Controller
         
         return view('shop.track', compact('order'));
     }
+
+    public function markReceived(Order $order)
+    {
+        if ($order->user_id !== Auth::guard('buyer')->id()) {
+            abort(403);
+        }
+
+        if ($order->status !== 'shipped') {
+            return back()->with('error', 'Pesanan belum dikirim, tidak dapat dikonfirmasi.');
+        }
+
+        $order->update(['status' => 'delivered']);
+        
+        return back()->with('success', 'Terima kasih telah mengkonfirmasi penerimaan pesanan!');
+    }
 }

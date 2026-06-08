@@ -10,7 +10,7 @@ class Inventory extends Model
     protected $fillable = [
         'qc_report_id', 'procurement_id', 'batch_number',
         'fruit_type', 'grade', 'stock_kg', 'expiry_date', 
-        'price_per_kg', 'image', 'description'
+        'price_per_kg', 'image', 'description', 'is_active'
     ];
 
     protected function casts(): array
@@ -19,6 +19,7 @@ class Inventory extends Model
             'stock_kg' => 'decimal:2',
             'price_per_kg' => 'decimal:2',
             'expiry_date' => 'date',
+            'is_active' => 'boolean',
         ];
     }
 

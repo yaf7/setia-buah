@@ -46,6 +46,9 @@ Route::post('/midtrans/callback', [\App\Http\Controllers\MidtransCallbackControl
 // Buyer Dashboard Routes
 Route::middleware(['auth:buyer'])->prefix('buyer')->name('buyer.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\BuyerOrderController::class, 'dashboard'])->name('dashboard');
+    Route::get('/profile', [\App\Http\Controllers\BuyerProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\BuyerProfileController::class, 'update'])->name('profile.update');
+    Route::post('/orders/{order}/receive', [\App\Http\Controllers\BuyerOrderController::class, 'markReceived'])->name('orders.receive');
 });
 
 Route::middleware(['auth:petani', 'role:petani'])->prefix('petani')->name('petani.')->group(function () {

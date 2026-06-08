@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class QcReport extends Model
 {
     protected $fillable = [
-        'petani_product_id', 'procurement_id', 'admin_id', 'actual_weight_kg', 
+        'petani_product_id', 'procurement_id', 'admin_id', 'actual_weight_kg', 'rejected_weight_kg',
         'final_grade', 'final_price_per_kg', 'status', 'notes'
     ];
 

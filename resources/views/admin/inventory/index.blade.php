@@ -46,6 +46,7 @@
                                 <th class="px-6 py-4 text-left">Jenis Buah</th>
                                 <th class="px-6 py-4 text-left">Grade</th>
                                 <th class="px-6 py-4 text-left">Stok</th>
+                                <th class="px-6 py-4 text-left">Status</th>
                                 <th class="px-6 py-4 text-left">Harga/Kg</th>
                                 <th class="px-6 py-4 text-left">Kadaluarsa</th>
                                 <th class="px-6 py-4 text-center">Aksi</th>
@@ -72,6 +73,17 @@
                                 </td>
                                 <td class="px-6 py-4 text-brand-700 font-bold">
                                     {{ number_format($item->stock_kg, 1, ',', '.') }} <span class="text-xs text-gray-400">Kg</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($item->is_active)
+                                        <span class="px-2.5 py-1 inline-flex text-[10px] leading-none font-extrabold rounded-md uppercase bg-green-100 text-green-800 border border-green-200/50">
+                                            Katalog
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-1 inline-flex text-[10px] leading-none font-extrabold rounded-md uppercase bg-gray-100 text-gray-800 border border-gray-200/50">
+                                            Gudang
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-gray-700">
                                     Rp {{ number_format($item->price_per_kg, 0, ',', '.') }}
@@ -121,7 +133,7 @@
                                     @endif
                                     <div>
                                         <span class="block font-heading font-extrabold text-gray-800 text-sm">{{ $item->fruit_type }}</span>
-                                        <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Grade {{ $item->grade }}</span>
+                                        <span class="block text-[9px] text-gray-400 font-extrabold uppercase mt-0.5">Grade {{ $item->grade }} • {{ $item->is_active ? 'Katalog' : 'Gudang' }}</span>
                                     </div>
                                 </div>
                                 <span class="text-brand-700 font-extrabold text-sm">{{ number_format($item->stock_kg, 1, ',', '.') }} Kg</span>

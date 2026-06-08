@@ -9,7 +9,7 @@ class ShopController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Inventory::where('stock_kg', '>', 0);
+        $query = Inventory::where('stock_kg', '>', 0)->where('is_active', true);
 
         if ($request->filled('search')) {
             $query->where('fruit_type', 'like', '%' . $request->search . '%');

@@ -68,7 +68,7 @@
 
                             <div class="space-y-1">
                                 <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alamat Pengiriman Lengkap</label>
-                                <textarea name="shipping_address" rows="3" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kelurahan, dan kecamatan..." class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 p-3.5 text-sm transition" required></textarea>
+                                <textarea name="shipping_address" rows="3" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kelurahan, dan kecamatan..." class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 p-3.5 text-sm transition" required>{{ auth('buyer')->user()->address ?? '' }}</textarea>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">

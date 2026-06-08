@@ -45,6 +45,8 @@ class QcController extends Controller
                 'grade' => $data['final_grade'] ?? null
             ]);
 
+            $stock_kg = max(0, $data['actual_weight_kg'] - ($data['rejected_weight_kg'] ?? 0));
+
             // Automatically create inventory (Katalog + Inventory)
             $batchNumber = 'BTH-' . now()->format('Ymd') . '-' . str_pad($qcReport->id, 4, '0', STR_PAD_LEFT);
             
@@ -54,14 +56,15 @@ class QcController extends Controller
                 'batch_number' => $batchNumber,
                 'fruit_type' => $product->fruit_type,
                 'grade' => $data['final_grade'],
-                'stock_kg' => $data['actual_weight_kg'],
+                'stock_kg' => $stock_kg,
                 'expiry_date' => Carbon::parse($product->harvest_date)->addDays(14),
                 'price_per_kg' => $data['final_price_per_kg'],
                 'image' => $product->image,
+                'is_active' => $data['inventory_status'] === 'catalog',
             ]);
 
-            // Update status to cataloged (ready for sale)
-            $product->update(['status' => 'cataloged']);
+            // Update status based on choice
+            $product->update(['status' => $data['inventory_status'] === 'catalog' ? 'cataloged' : 'warehoused']);
         } else {
             $product->update(['status' => 'rejected']);
         }

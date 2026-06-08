@@ -34,11 +34,11 @@ class CheckoutController extends Controller
         }
 
         $hasInvalidItem = $cartItems->contains(function ($item) {
-            return $item->quantity_kg < 5;
+            return $item->quantity_kg < 100 || $item->quantity_kg % 50 !== 0;
         });
         
         if ($hasInvalidItem) {
-            return redirect()->route('cart.index')->with('error', 'Minimal pemesanan adalah 5 Kg untuk setiap jenis buah.');
+            return redirect()->route('cart.index')->with('error', 'Minimal pemesanan adalah 100 Kg dan kelipatan 50 Kg untuk setiap jenis buah.');
         }
 
         $total = $cartItems->sum(function ($item) {
@@ -216,11 +216,11 @@ class CheckoutController extends Controller
         }
 
         $hasInvalidItem = $cartItems->contains(function ($item) {
-            return $item->quantity_kg < 5;
+            return $item->quantity_kg < 100 || $item->quantity_kg % 50 !== 0;
         });
 
         if ($hasInvalidItem) {
-            return response()->json(['message' => 'Minimal pemesanan adalah 5 Kg untuk setiap jenis buah.'], 422);
+            return response()->json(['message' => 'Minimal pemesanan adalah 100 Kg dan kelipatan 50 Kg untuk setiap jenis buah.'], 422);
         }
 
         // Validasi kecukupan stok sebelum memesan
