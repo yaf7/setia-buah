@@ -53,6 +53,20 @@
             </div>
         @endif
 
+        @if($errors->any())
+            <div class="mb-8 bg-rose-50 border-l-4 border-rose-500 text-rose-800 p-4 rounded-xl shadow-sm flex flex-col gap-1">
+                <div class="flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-rose-500 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    <p class="text-sm font-bold">Terjadi Kesalahan</p>
+                </div>
+                <ul class="list-disc list-inside text-sm ml-8 font-medium">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Main Product Card Panel split-grid -->
         <div class="bg-white border border-gray-150 rounded-3xl shadow-premium overflow-hidden mb-10">
             <div class="flex flex-col lg:flex-row items-stretch">
@@ -129,11 +143,11 @@
                             @csrf
                             <input type="hidden" name="inventory_id" value="{{ $product->id }}">
                             
-                            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4" x-data="{ qty: 1 }">
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4" x-data="{ qty: 100 }">
                                 <div class="space-y-1.5 shrink-0">
                                     <label for="quantity" class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest">Kuantitas Beli (Kg)</label>
                                     <div class="flex items-center">
-                                        <input type="number" id="quantity" name="quantity_kg" min="0.5" step="0.5" max="{{ $product->stock_kg }}" x-model="qty" class="py-2.5 block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
+                                        <input type="number" id="quantity" name="quantity_kg" min="100" step="50" max="{{ $product->stock_kg }}" x-model="qty" class="py-2.5 block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
                                     </div>
                                 </div>
                                 
