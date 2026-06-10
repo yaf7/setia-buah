@@ -64,6 +64,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     
     // 1. Estimasi Panen → Persetujuan Admin
     Route::get('/procurement/pending', [\App\Http\Controllers\AdminProcurementController::class, 'pendingApproval'])->name('procurement.pending');
+    Route::get('/procurement/approved', [\App\Http\Controllers\AdminProcurementController::class, 'approvedEstimates'])->name('procurement.approved');
     Route::post('/procurement/{estimate}/approve', [\App\Http\Controllers\AdminProcurementController::class, 'approve'])->name('procurement.approve');
     Route::post('/procurement/{estimate}/reject', [\App\Http\Controllers\AdminProcurementController::class, 'reject'])->name('procurement.reject');
     

@@ -49,7 +49,7 @@
                     @php
                     $steps = [
                         ['label' => 'Estimasi Panen', 'count' => $pendingEstimates, 'color' => 'amber', 'icon' => '🌾', 'route' => route('admin.procurement.pending')],
-                        ['label' => 'Disetujui', 'count' => $approvedEstimates, 'color' => 'blue', 'icon' => '✅', 'route' => route('admin.procurement.pending')],
+                        ['label' => 'Disetujui', 'count' => $approvedEstimates, 'color' => 'blue', 'icon' => '✅', 'route' => route('admin.procurement.approved')],
                         ['label' => 'Pengadaan', 'count' => $activeProcurements, 'color' => 'indigo', 'icon' => '📋', 'route' => route('admin.procurement.index')],
                         ['label' => 'Gudang & QC', 'count' => $receivedAtWarehouse, 'color' => 'purple', 'icon' => '🏭', 'route' => route('admin.qc.queue')],
                     ];

@@ -22,6 +22,19 @@ class AdminProcurementController extends Controller
     }
 
     /**
+     * Show all harvest estimates that are approved but not yet procured.
+     */
+    public function approvedEstimates()
+    {
+        $approvedEstimates = PetaniProduct::with('user')
+            ->where('status', 'approved')
+            ->latest()
+            ->paginate(10);
+
+        return view('admin.procurement.approved', compact('approvedEstimates'));
+    }
+
+    /**
      * Approve a harvest estimate and show procurement form.
      */
     public function approve(PetaniProduct $estimate)
