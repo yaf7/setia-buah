@@ -103,9 +103,6 @@
                             <a href="{{ route('admin.petani.index') }}" class="text-xs sm:text-sm font-bold bg-emerald-50 hover:bg-emerald-100 text-emerald-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-emerald-200/40">
                                 Mitra Petani
                             </a>
-                            <a href="{{ route('admin.procurement.activities') }}" class="text-xs sm:text-sm font-bold bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-indigo-200/40">
-                                Aktivitas
-                            </a>
                             <a href="{{ route('admin.procurement.pending') }}" class="text-xs sm:text-sm font-bold bg-amber-50 hover:bg-amber-100 text-amber-700 px-3.5 py-2 rounded-xl transition duration-150 flex items-center gap-1.5 border border-amber-200/40">
                                 Pengadaan
                             </a>

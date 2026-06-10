@@ -9,18 +9,6 @@ use Illuminate\Http\Request;
 class AdminProcurementController extends Controller
 {
     /**
-     * Show all recent harvest estimates activities.
-     */
-    public function activities()
-    {
-        $activities = PetaniProduct::with('user')
-            ->latest()
-            ->paginate(15);
-
-        return view('admin.procurement.activities', compact('activities'));
-    }
-
-    /**
      * Show all harvest estimates pending approval.
      */
     public function pendingApproval()

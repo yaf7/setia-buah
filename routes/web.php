@@ -63,7 +63,6 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // === SUPPLY CHAIN FLOW ROUTES ===
     
     // 1. Estimasi Panen → Persetujuan Admin
-    Route::get('/procurement/activities', [\App\Http\Controllers\AdminProcurementController::class, 'activities'])->name('procurement.activities');
     Route::get('/procurement/pending', [\App\Http\Controllers\AdminProcurementController::class, 'pendingApproval'])->name('procurement.pending');
     Route::post('/procurement/{estimate}/approve', [\App\Http\Controllers\AdminProcurementController::class, 'approve'])->name('procurement.approve');
     Route::post('/procurement/{estimate}/reject', [\App\Http\Controllers\AdminProcurementController::class, 'reject'])->name('procurement.reject');
