@@ -143,11 +143,16 @@
                             @csrf
                             <input type="hidden" name="inventory_id" value="{{ $product->id }}">
                             
-                            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4" x-data="{ qty: 100 }">
+                            @php
+                                $minQty = 10;
+                                if ($product->grade === 'A') $minQty = 50;
+                                elseif ($product->grade === 'B') $minQty = 20;
+                            @endphp
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4" x-data="{ qty: {{ $minQty }} }">
                                 <div class="space-y-1.5 shrink-0">
                                     <label for="quantity" class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest">Kuantitas Beli (Kg)</label>
                                     <div class="flex items-center">
-                                        <input type="number" id="quantity" name="quantity_kg" min="100" step="50" max="{{ $product->stock_kg }}" x-model="qty" class="py-2.5 block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
+                                        <input type="number" id="quantity" name="quantity_kg" min="{{ $minQty }}" step="1" max="{{ $product->stock_kg }}" x-model="qty" class="py-2.5 block max-w-[120px] w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 px-3 text-sm font-bold text-center transition bg-white" required>
                                     </div>
                                 </div>
                                 

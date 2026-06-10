@@ -98,8 +98,13 @@
                                             <form action="{{ route('cart.update', $item) }}" method="POST" class="flex flex-col items-center gap-1">
                                                 @csrf
                                                 @method('PUT')
+                                                @php
+                                                    $minQty = 10;
+                                                    if (optional($item->inventory)->grade === 'A') $minQty = 50;
+                                                    elseif (optional($item->inventory)->grade === 'B') $minQty = 20;
+                                                @endphp
                                                 <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-                                                    <input type="number" name="quantity_kg" value="{{ $item->quantity_kg }}" min="100" step="50" class="w-16 py-1.5 px-2 text-center text-sm font-bold text-gray-700 border-none focus:ring-0">
+                                                    <input type="number" name="quantity_kg" value="{{ $item->quantity_kg }}" min="{{ $minQty }}" step="1" class="w-16 py-1.5 px-2 text-center text-sm font-bold text-gray-700 border-none focus:ring-0">
                                                     <span class="text-[10px] text-gray-500 font-extrabold pr-2 uppercase">Kg</span>
                                                 </div>
                                                 <button type="submit" class="text-[10px] font-extrabold text-brand-600 hover:text-brand-700 underline tracking-wide">Ubah Jumlah</button>
@@ -158,13 +163,17 @@
                         <!-- Proceed To Checkout Button -->
                         @php
                             $hasInvalidItem = $cartItems->contains(function ($item) {
-                                return $item->quantity_kg < 100 || $item->quantity_kg % 50 !== 0;
+                                $minQty = 10;
+                                if ($item->inventory && $item->inventory->grade === 'A') $minQty = 50;
+                                elseif ($item->inventory && $item->inventory->grade === 'B') $minQty = 20;
+                                
+                                return $item->quantity_kg < $minQty;
                             });
                         @endphp
                         @if($hasInvalidItem)
                             <div class="p-3 bg-amber-50 border border-amber-200 text-amber-800 text-xs rounded-xl flex items-start gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0 text-amber-500 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                <span>Minimal pemesanan adalah 100 Kg dan kelipatan 50 Kg. Silakan ubah jumlah produk di atas.</span>
+                                <span>Terdapat item yang belum memenuhi syarat minimal pembelian per grade. Silakan ubah jumlah produk di atas.</span>
                             </div>
                             <button type="button" disabled class="py-3 w-full bg-gray-100 text-gray-400 border border-gray-200 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-not-allowed">
                                 <span>Lanjut ke Pengiriman</span>

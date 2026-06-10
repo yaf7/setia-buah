@@ -31,21 +31,20 @@ class CartController extends Controller
 
     public function store(Request $request)
     {
+        $inventory = Inventory::findOrFail($request->inventory_id);
+        
+        $minQty = 10;
+        if ($inventory->grade === 'A') $minQty = 50;
+        elseif ($inventory->grade === 'B') $minQty = 20;
+
         $request->validate([
             'inventory_id' => 'required|exists:inventories,id',
             'quantity_kg' => [
                 'required',
                 'numeric',
-                'min:100',
-                function ($attribute, $value, $fail) {
-                    if ($value % 50 !== 0) {
-                        $fail('Kuantitas harus kelipatan 50 Kg (contoh: 100, 150, 200, dst).');
-                    }
-                },
+                'min:' . $minQty,
             ],
         ]);
-
-        $inventory = Inventory::findOrFail($request->inventory_id);
         
         $sessionId = Session::getId();
         $userId = auth('buyer')->id();
@@ -71,16 +70,17 @@ class CartController extends Controller
 
     public function update(Request $request, Cart $cart)
     {
+        $inventory = $cart->inventory;
+        
+        $minQty = 10;
+        if ($inventory->grade === 'A') $minQty = 50;
+        elseif ($inventory->grade === 'B') $minQty = 20;
+
         $request->validate([
             'quantity_kg' => [
                 'required',
                 'numeric',
-                'min:100',
-                function ($attribute, $value, $fail) {
-                    if ($value % 50 !== 0) {
-                        $fail('Kuantitas harus kelipatan 50 Kg (contoh: 100, 150, 200, dst).');
-                    }
-                },
+                'min:' . $minQty,
             ],
         ]);
 

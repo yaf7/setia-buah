@@ -66,9 +66,16 @@
                                 </div>
                             </div>
 
-                            <div class="space-y-1">
-                                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alamat Pengiriman Lengkap</label>
-                                <textarea name="shipping_address" rows="3" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kelurahan, dan kecamatan..." class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 p-3.5 text-sm transition" required>{{ auth('buyer')->user()->address ?? '' }}</textarea>
+                            <div class="space-y-1" x-data="{ isReadonly: {{ (auth('buyer')->check() && auth('buyer')->user()->address) ? 'true' : 'false' }} }">
+                                <div class="flex justify-between items-center">
+                                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Alamat Pengiriman Lengkap</label>
+                                    @if(auth('buyer')->check() && auth('buyer')->user()->address)
+                                        <button type="button" @click="isReadonly = false; $refs.addressInput.focus(); $refs.addressInput.select()" x-show="isReadonly" class="text-[10px] text-brand-600 hover:text-brand-800 font-bold underline cursor-pointer">
+                                            + Tambah Alamat Lain
+                                        </button>
+                                    @endif
+                                </div>
+                                <textarea x-ref="addressInput" name="shipping_address" rows="3" :readonly="isReadonly" :class="isReadonly ? 'bg-gray-100 cursor-not-allowed text-gray-600' : 'bg-white focus:border-brand-500 focus:ring-1 focus:ring-brand-500'" placeholder="Tuliskan nama jalan, nomor rumah, RT/RW, kelurahan, dan kecamatan..." class="mt-1 block w-full rounded-xl border border-gray-200 p-3.5 text-sm transition" required>{{ auth('buyer')->user()->address ?? '' }}</textarea>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">

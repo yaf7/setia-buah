@@ -140,16 +140,10 @@
                             <h4 class="text-sm font-bold text-emerald-900 flex items-center gap-2">
                                 🚚 Pesanan Sedang Dikirim
                             </h4>
-                            <p class="text-xs text-emerald-700/80 font-medium">Buah sedang dalam perjalanan dengan nomor resi <strong class="font-mono text-emerald-800">{{ $order->tracking_number }}</strong>. Tekan tombol di bawah untuk mengonfirmasi bahwa paket telah sampai di tangan pembeli.</p>
-                            
-                            <form action="{{ route('admin.orders.status', $order) }}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="hidden" name="status" value="delivered">
-                                <button type="submit" class="w-full py-2.5 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm transition-colors shadow-sm">
-                                    ✓ Konfirmasi Pesanan Diterima
-                                </button>
-                            </form>
+                            <p class="text-xs text-emerald-700/80 font-medium">Buah sedang dalam perjalanan dengan nomor resi <strong class="font-mono text-emerald-800">{{ $order->tracking_number }}</strong>.</p>
+                            <div class="w-full py-2.5 px-5 py-2.5 bg-gray-200 text-gray-700 rounded-xl font-bold text-sm shadow-sm text-center">
+                                ⏳ Menunggu Konfirmasi Penerimaan dari Pembeli
+                            </div>
                         </div>
                     @endif
                 </div>

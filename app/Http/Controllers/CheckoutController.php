@@ -34,11 +34,15 @@ class CheckoutController extends Controller
         }
 
         $hasInvalidItem = $cartItems->contains(function ($item) {
-            return $item->quantity_kg < 100 || $item->quantity_kg % 50 !== 0;
+            $minQty = 10;
+            if ($item->inventory && $item->inventory->grade === 'A') $minQty = 50;
+            elseif ($item->inventory && $item->inventory->grade === 'B') $minQty = 20;
+            
+            return $item->quantity_kg < $minQty;
         });
         
         if ($hasInvalidItem) {
-            return redirect()->route('cart.index')->with('error', 'Minimal pemesanan adalah 100 Kg dan kelipatan 50 Kg untuk setiap jenis buah.');
+            return redirect()->route('cart.index')->with('error', 'Terdapat item di keranjang yang belum memenuhi syarat minimal pembelian per grade (Grade A: 50kg, Grade B: 20kg, Grade C: 10kg).');
         }
 
         $total = $cartItems->sum(function ($item) {
@@ -216,11 +220,15 @@ class CheckoutController extends Controller
         }
 
         $hasInvalidItem = $cartItems->contains(function ($item) {
-            return $item->quantity_kg < 100 || $item->quantity_kg % 50 !== 0;
+            $minQty = 10;
+            if ($item->inventory && $item->inventory->grade === 'A') $minQty = 50;
+            elseif ($item->inventory && $item->inventory->grade === 'B') $minQty = 20;
+            
+            return $item->quantity_kg < $minQty;
         });
 
         if ($hasInvalidItem) {
-            return response()->json(['message' => 'Minimal pemesanan adalah 100 Kg dan kelipatan 50 Kg untuk setiap jenis buah.'], 422);
+            return response()->json(['message' => 'Terdapat item di keranjang yang belum memenuhi syarat minimal pembelian per grade (Grade A: 50kg, Grade B: 20kg, Grade C: 10kg).'], 422);
         }
 
         // Validasi kecukupan stok sebelum memesan
