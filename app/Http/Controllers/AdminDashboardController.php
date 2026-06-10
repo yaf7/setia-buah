@@ -19,7 +19,8 @@ class AdminDashboardController extends Controller
         $approvedEstimates = PetaniProduct::where('status', 'approved')->count();
         $activeProcurements = ProcurementTransaction::whereIn('status', ['pending_pickup', 'in_transit'])->count();
         $receivedAtWarehouse = PetaniProduct::where('status', 'received')->count();
-        $totalStock = Inventory::sum('stock_kg');
+        $warehouseStock = Inventory::where('is_active', false)->sum('stock_kg');
+        $catalogStock = Inventory::where('is_active', true)->sum('stock_kg');
         
         // Pesanan yang sedang dalam pengiriman
         $ordersShipped = Order::where('status', 'shipped')->count();
@@ -48,7 +49,7 @@ class AdminDashboardController extends Controller
 
         return view('admin.dashboard', compact(
             'pendingEstimates', 'approvedEstimates', 'activeProcurements',
-            'receivedAtWarehouse', 'totalStock', 'ordersShipped', 'expiringStock',
+            'receivedAtWarehouse', 'warehouseStock', 'catalogStock', 'ordersShipped', 'expiringStock',
             'paidOrders', 'totalPaidOrders',
             'recentEstimates'
         ));

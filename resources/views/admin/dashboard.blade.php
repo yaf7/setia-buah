@@ -67,27 +67,27 @@
 
         <!-- Metric Cards Row -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10">
-            <a href="{{ route('admin.procurement.pending') }}" class="block group">
+            <a href="{{ route('admin.orders.index') }}" class="block group">
                 <div class="bg-gradient-to-tr from-amber-600 to-orange-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
                     <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
-                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-amber-100">Estimasi Panen Masuk</p>
-                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ $pendingEstimates }} <span class="text-xs font-extrabold text-amber-200">Penawaran</span></p>
+                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-amber-100">Pesanan Dalam Pengiriman</p>
+                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ $ordersShipped }} <span class="text-xs font-extrabold text-amber-200">Pesanan</span></p>
                 </div>
             </a>
             
-            <a href="{{ route('admin.procurement.index') }}" class="block group">
+            <a href="{{ route('admin.inventory.index') }}" class="block group">
                 <div class="bg-gradient-to-tr from-indigo-700 via-indigo-600 to-indigo-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
                     <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
-                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-indigo-200">Transaksi Pengadaan Aktif</p>
-                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ $activeProcurements }} <span class="text-xs font-extrabold text-indigo-200">Proses</span></p>
+                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-indigo-200">Total Stok Gudang</p>
+                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ number_format($warehouseStock, 1, ',', '.') }} <span class="text-xs font-extrabold text-indigo-200">Kg</span></p>
                 </div>
             </a>
             
             <a href="{{ route('admin.inventory.index') }}" class="block group">
                 <div class="bg-gradient-to-tr from-brand-600 to-emerald-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
                     <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
-                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-brand-100">Total Stok Gudang</p>
-                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ number_format($totalStock, 1, ',', '.') }} <span class="text-xs font-extrabold text-brand-100">Kg</span></p>
+                    <p class="text-[9px] font-extrabold uppercase tracking-widest text-brand-100">Stok Katalog</p>
+                    <p class="text-4xl font-heading font-black mt-3 leading-none">{{ number_format($catalogStock, 1, ',', '.') }} <span class="text-xs font-extrabold text-brand-100">Kg</span></p>
                 </div>
             </a>
         </div>
