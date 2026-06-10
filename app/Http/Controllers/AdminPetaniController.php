@@ -8,6 +8,17 @@ use Illuminate\Support\Facades\Hash;
 
 class AdminPetaniController extends Controller
 {
+    public function index()
+    {
+        $petanis = User::where('role', 'petani')->latest()->get();
+        $petaniLocations = User::where('role', 'petani')
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get(['id', 'name', 'latitude', 'longitude']);
+
+        return view('admin.petani.index', compact('petanis', 'petaniLocations'));
+    }
+
     public function edit(User $user)
     {
         $this->ensurePetani($user);
@@ -36,7 +47,7 @@ class AdminPetaniController extends Controller
 
         $user->update($payload);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Akun Petani berhasil diperbarui.');
+        return redirect()->route('admin.petani.index')->with('success', 'Akun Petani berhasil diperbarui.');
     }
 
     public function destroy(User $user)
@@ -45,7 +56,7 @@ class AdminPetaniController extends Controller
 
         $user->delete();
 
-        return redirect()->route('admin.dashboard')->with('success', 'Akun Petani berhasil dihapus.');
+        return redirect()->route('admin.petani.index')->with('success', 'Akun Petani berhasil dihapus.');
     }
 
     public function store(Request $request)
@@ -63,7 +74,7 @@ class AdminPetaniController extends Controller
             'role' => 'petani',
         ]);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Akun Petani berhasil ditambahkan.');
+        return redirect()->route('admin.petani.index')->with('success', 'Akun Petani berhasil ditambahkan.');
     }
 
     private function ensurePetani(User $user): void

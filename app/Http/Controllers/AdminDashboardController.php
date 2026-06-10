@@ -29,15 +29,6 @@ class AdminDashboardController extends Controller
                                   ->where('expiry_date', '>=', Carbon::today())
                                   ->count();
 
-        // Daftar Petani
-        $petanis = \App\Models\User::where('role', 'petani')->latest()->get();
-
-        // Titik koordinat petani
-        $petaniLocations = \App\Models\User::where('role', 'petani')
-            ->whereNotNull('latitude')
-            ->whereNotNull('longitude')
-            ->get(['id', 'name', 'latitude', 'longitude']);
-
         // Pesanan yang sudah dibayar dan masih perlu diproses/dikirim
         $paidOrders = Order::where('payment_status', 'paid')
             ->whereIn('status', ['pending', 'processing'])
@@ -58,7 +49,7 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard', compact(
             'pendingEstimates', 'approvedEstimates', 'activeProcurements',
             'receivedAtWarehouse', 'totalStock', 'ordersShipped', 'expiringStock',
-            'petanis', 'petaniLocations', 'paidOrders', 'totalPaidOrders',
+            'paidOrders', 'totalPaidOrders',
             'recentEstimates'
         ));
     }
