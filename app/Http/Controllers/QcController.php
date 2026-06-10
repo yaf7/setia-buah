@@ -64,7 +64,7 @@ class QcController extends Controller
             ]);
 
             // Update status based on choice
-            $product->update(['status' => $data['inventory_status'] === 'catalog' ? 'cataloged' : 'warehoused']);
+            $product->update(['status' => $data['inventory_status'] === 'catalog' ? 'cataloged' : 'qc_passed']);
         } else {
             $product->update(['status' => 'rejected']);
         }
