@@ -8,7 +8,6 @@
                     Konsol Administrasi & Rantai Pasok
                 </span>
                 <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-gray-800 mt-2">Admin Dashboard</h1>
-                <p class="text-xs text-gray-500">Kelola alur rantai pasok buah: Estimasi Panen → Pengadaan → Gudang → QC → Katalog → Penjualan.</p>
             </div>
             
             <div class="shrink-0 flex items-center gap-2">
