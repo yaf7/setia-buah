@@ -18,7 +18,13 @@
                         Proses Kemas
                     @endif
                 </h1>
-                <p class="text-sm text-gray-500 mt-1 font-medium">Kelola seluruh transaksi masuk dan proses logistik</p>
+                <p class="text-sm text-gray-500 mt-1 font-medium">
+                    @if(request('status') === 'shipped')
+                        Pantau pesanan yang sedang dalam perjalanan ke pembeli
+                    @else
+                        Kelola seluruh transaksi masuk dan proses logistik
+                    @endif
+                </p>
             </div>
             <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-xl font-semibold text-sm transition-all duration-300 shadow-sm border border-gray-200/80">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +142,11 @@
                                     </td>
                                     <td class="px-6 py-4 text-center">
                                         <a href="{{ route('admin.orders.show', $order) }}" class="inline-flex items-center gap-1 px-3.5 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 hover:text-brand-900 border border-brand-200 rounded-lg text-xs font-bold transition-all duration-300">
-                                            Proses
+                                            @if(request('status') === 'shipped')
+                                                Detail
+                                            @else
+                                                Proses
+                                            @endif
                                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
                                             </svg>
