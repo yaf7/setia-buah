@@ -40,8 +40,8 @@
                     <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Dalam Pengiriman</h3>
                     <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang sedang dalam proses pengiriman oleh kurir.</p>
                 @else
-                    <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Baru (Proses Kemas)</h3>
-                    <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang sudah dibayar dan memerlukan tindakan pengemasan dari Anda.</p>
+                    <h3 class="text-lg font-bold text-gray-900">Belum Ada Pesanan Baru</h3>
+                    <p class="text-sm text-gray-500 max-w-sm mx-auto mt-1">Saat ini tidak ada pesanan yang masuk dan memerlukan tindakan dari Anda.</p>
                 @endif
             </div>
         @else
@@ -86,36 +86,50 @@
                                         Rp {{ number_format($order->total_amount, 0, ',', '.') }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border transition-all duration-300
-                                            @if($order->status === 'pending')
-                                                bg-amber-50 text-amber-700 border-amber-200
-                                            @elseif($order->status === 'processing')
-                                                bg-emerald-50 text-emerald-700 border-emerald-200
-                                            @elseif($order->status === 'shipped')
-                                                bg-indigo-50 text-indigo-700 border-indigo-200
-                                            @elseif($order->status === 'delivered')
-                                                bg-teal-50 text-teal-700 border-teal-200
+                                        <div class="flex flex-col gap-1.5 items-start">
+                                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border transition-all duration-300
+                                                @if($order->status === 'pending')
+                                                    bg-amber-50 text-amber-700 border-amber-200
+                                                @elseif($order->status === 'processing')
+                                                    bg-emerald-50 text-emerald-700 border-emerald-200
+                                                @elseif($order->status === 'shipped')
+                                                    bg-indigo-50 text-indigo-700 border-indigo-200
+                                                @elseif($order->status === 'delivered')
+                                                    bg-teal-50 text-teal-700 border-teal-200
+                                                @else
+                                                    bg-rose-50 text-rose-700 border-rose-200
+                                                @endif
+                                            ">
+                                                @if($order->status === 'processing')
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+                                                    Diproses
+                                                @elseif($order->status === 'pending')
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>
+                                                    Pending
+                                                @elseif($order->status === 'shipped')
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>
+                                                    Dikirim
+                                                @elseif($order->status === 'delivered')
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-teal-500 mr-1.5"></span>
+                                                    Diterima
+                                                @else
+                                                    <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>
+                                                    {{ ucfirst($order->status) }}
+                                                @endif
+                                            </span>
+                                            
+                                            @if($order->payment_status === 'paid')
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wider">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                                    Lunas
+                                                </span>
                                             @else
-                                                bg-rose-50 text-rose-700 border-rose-200
+                                                <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-rose-100 text-rose-700 uppercase tracking-wider">
+                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                    Belum Lunas
+                                                </span>
                                             @endif
-                                        ">
-                                            @if($order->status === 'processing')
-                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
-                                                Dibayar
-                                            @elseif($order->status === 'pending')
-                                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5"></span>
-                                                Pending
-                                            @elseif($order->status === 'shipped')
-                                                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mr-1.5"></span>
-                                                Dikirim
-                                            @elseif($order->status === 'delivered')
-                                                <span class="w-1.5 h-1.5 rounded-full bg-teal-500 mr-1.5"></span>
-                                                Diterima
-                                            @else
-                                                <span class="w-1.5 h-1.5 rounded-full bg-rose-500 mr-1.5"></span>
-                                                {{ ucfirst($order->status) }}
-                                            @endif
-                                        </span>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 text-xs font-medium text-gray-500">
                                         {{ $order->created_at->format('d M Y H:i') }}

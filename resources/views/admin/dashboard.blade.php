@@ -103,21 +103,21 @@
                         <div>
                             <h2 class="font-heading font-extrabold text-gray-800 text-base flex items-center gap-2">
                                 <span class="h-1.5 w-3 rounded bg-brand-500"></span>
-                                Pesanan Pembeli (Akan Dikemas)
+                                Pesanan Pembeli (Baru & Diproses)
                             </h2>
-                            <p class="text-xs text-gray-400 mt-0.5">Transaksi lunas dari konsumen yang siap dikemas dan dikirim.</p>
+                            <p class="text-xs text-gray-400 mt-0.5">Transaksi dari konsumen yang siap diverifikasi, dikemas, dan dikirim.</p>
                         </div>
                         <div class="shrink-0 flex items-center gap-3">
-                            <span class="bg-brand-50 border border-brand-200/50 text-brand-700 text-xs font-extrabold px-3 py-1.5 rounded-xl">{{ $totalPaidOrders }} Pesanan Lunas</span>
+                            <span class="bg-brand-50 border border-brand-200/50 text-brand-700 text-xs font-extrabold px-3 py-1.5 rounded-xl">{{ $totalRecentOrders }} Pesanan Aktif</span>
                             <a href="{{ route('admin.orders.history') }}" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 transition border border-indigo-200/50">Riwayat</a>
                             <a href="{{ route('admin.orders.index') }}" class="text-xs font-extrabold px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-600 transition">Semua</a>
                         </div>
                     </div>
                     <div class="p-0 overflow-x-auto">
-                        @if($paidOrders->isEmpty())
+                        @if($recentOrders->isEmpty())
                             <div class="px-6 py-12 text-center text-gray-400">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 mx-auto text-gray-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <p class="text-xs font-bold">Semua pesanan lunas sudah terkirim!</p>
+                                <p class="text-xs font-bold">Belum ada pesanan masuk saat ini.</p>
                             </div>
                         @else
                             <table class="w-full text-sm divide-y divide-gray-100">
@@ -131,11 +131,20 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-100 font-semibold text-gray-600">
-                                    @foreach($paidOrders as $order)
+                                    @foreach($recentOrders as $order)
                                         <tr class="hover:bg-gray-50/50 transition">
                                             <td class="px-6 py-4 font-heading font-extrabold text-indigo-600">#ORD-{{ str_pad($order->id, 4, '0', STR_PAD_LEFT) }}</td>
                                             <td class="px-6 py-4"><p class="text-gray-800 font-extrabold">{{ $order->customer_name }}</p></td>
-                                            <td class="px-6 py-4 text-brand-700 font-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                                            <td class="px-6 py-4">
+                                                <div class="flex flex-col gap-1">
+                                                    <span class="text-brand-700 font-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</span>
+                                                    @if($order->payment_status === 'paid')
+                                                        <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wider w-max">Lunas</span>
+                                                    @else
+                                                        <span class="inline-block px-2 py-0.5 rounded text-[9px] font-bold bg-rose-100 text-rose-700 uppercase tracking-wider w-max">Belum Lunas</span>
+                                                    @endif
+                                                </div>
+                                            </td>
                                             <td class="px-6 py-4 text-xs text-gray-400">{{ $order->created_at->format('d M, H:i') }}</td>
                                             <td class="px-6 py-4 text-center">
                                                 <a href="{{ route('admin.orders.show', $order) }}" class="py-1 inline-flex items-center px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 rounded-xl text-xs font-bold transition">Proses</a>

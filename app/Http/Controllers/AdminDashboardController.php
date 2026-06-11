@@ -30,15 +30,13 @@ class AdminDashboardController extends Controller
                                   ->where('expiry_date', '>=', Carbon::today())
                                   ->count();
 
-        // Pesanan yang sudah dibayar dan masih perlu diproses/dikirim
-        $paidOrders = Order::where('payment_status', 'paid')
-            ->whereIn('status', ['pending', 'processing'])
+        // Pesanan yang masih perlu diproses/dikirim
+        $recentOrders = Order::whereIn('status', ['pending', 'processing'])
             ->orderByDesc('created_at')
             ->limit(5)
             ->get();
 
-        $totalPaidOrders = Order::where('payment_status', 'paid')
-            ->whereIn('status', ['pending', 'processing'])
+        $totalRecentOrders = Order::whereIn('status', ['pending', 'processing'])
             ->count();
 
         // Recent supply chain activity for timeline
@@ -50,7 +48,7 @@ class AdminDashboardController extends Controller
         return view('admin.dashboard', compact(
             'pendingEstimates', 'approvedEstimates', 'activeProcurements',
             'receivedAtWarehouse', 'warehouseStock', 'catalogStock', 'ordersShipped', 'expiringStock',
-            'paidOrders', 'totalPaidOrders',
+            'recentOrders', 'totalRecentOrders',
             'recentEstimates'
         ));
     }

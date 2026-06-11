@@ -24,8 +24,8 @@ class AdminOrderController extends Controller
     {
         $query = Order::query();
 
-        // always show paid orders
-        $query->where('payment_status', 'paid');
+        // Remove payment_status filter so admin can see unpaid orders to verify them manually
+        // $query->where('payment_status', 'paid');
 
         // if a specific status is requested, apply it (e.g., ?status=shipped)
         if ($request->filled('status')) {
@@ -43,7 +43,7 @@ class AdminOrderController extends Controller
 
     public function history(Request $request)
     {
-        $query = Order::query()->where('payment_status', 'paid');
+        $query = Order::query();
 
         if ($request->filled('month')) {
             $query->whereMonth('created_at', $request->month);
