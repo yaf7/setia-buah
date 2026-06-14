@@ -99,7 +99,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 @php
-                                                    $minQty = 10;
+                                                    $minQty = 1;
                                                     if (optional($item->inventory)->grade === 'A') $minQty = 50;
                                                     elseif (optional($item->inventory)->grade === 'B') $minQty = 20;
                                                 @endphp
@@ -163,7 +163,7 @@
                         <!-- Proceed To Checkout Button -->
                         @php
                             $hasInvalidItem = $cartItems->contains(function ($item) {
-                                $minQty = 10;
+                                $minQty = 1;
                                 if ($item->inventory && $item->inventory->grade === 'A') $minQty = 50;
                                 elseif ($item->inventory && $item->inventory->grade === 'B') $minQty = 20;
                                 

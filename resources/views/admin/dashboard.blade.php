@@ -73,7 +73,7 @@
                 </div>
             </a>
             
-            <a href="{{ route('admin.inventory.index') }}" class="block group">
+            <a href="{{ route('admin.inventory.index', ['status' => 'gudang']) }}" class="block group">
                 <div class="bg-gradient-to-tr from-indigo-700 via-indigo-600 to-indigo-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
                     <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
                     <p class="text-[9px] font-extrabold uppercase tracking-widest text-indigo-200">Total Stok Gudang</p>
@@ -81,7 +81,7 @@
                 </div>
             </a>
             
-            <a href="{{ route('admin.inventory.index') }}" class="block group">
+            <a href="{{ route('admin.inventory.index', ['status' => 'katalog']) }}" class="block group">
                 <div class="bg-gradient-to-tr from-brand-600 to-emerald-500 text-white p-6 rounded-2xl shadow-md group-hover:shadow-lg hover:scale-[1.02] transition-all duration-200 relative overflow-hidden h-full">
                     <div class="absolute -right-5 -bottom-5 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
                     <p class="text-[9px] font-extrabold uppercase tracking-widest text-brand-100">Stok Katalog</p>

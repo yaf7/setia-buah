@@ -87,6 +87,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     
     // 6. Inventory & Katalog
     Route::get('/inventory', [\App\Http\Controllers\AdminInventoryController::class, 'index'])->name('inventory.index');
+    Route::post('/inventory/{inventory}/toggle', [\App\Http\Controllers\AdminInventoryController::class, 'toggleStatus'])->name('inventory.toggle-status');
     Route::delete('/inventory/{inventory}', [\App\Http\Controllers\AdminInventoryController::class, 'destroy'])->name('inventory.destroy');
     
     // === PETANI MANAGEMENT ===

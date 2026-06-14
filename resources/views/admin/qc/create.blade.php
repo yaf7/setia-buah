@@ -16,6 +16,7 @@
                 <div><span class="text-gray-500 text-xs font-bold">Petani:</span><p class="font-extrabold text-gray-800">{{ $product->user->name }}</p></div>
                 <div><span class="text-gray-500 text-xs font-bold">Komoditas:</span><p class="font-extrabold text-gray-800">{{ $product->fruit_type }}</p></div>
                 <div><span class="text-gray-500 text-xs font-bold">Estimasi Berat:</span><p class="font-extrabold text-gray-800">{{ number_format($product->estimated_weight_kg, 2) }} Kg</p></div>
+                <div><span class="text-gray-500 text-xs font-bold">Target Grade:</span><p class="font-extrabold text-brand-700">Grade {{ $product->grade }}</p></div>
                 @if($product->procurement)
                 <div><span class="text-gray-500 text-xs font-bold">No. Pengadaan:</span><p class="font-extrabold text-indigo-700">{{ $product->procurement->procurement_number }}</p></div>
                 <div><span class="text-gray-500 text-xs font-bold">Harga Beli:</span><p class="font-extrabold text-brand-700">Rp {{ number_format($product->procurement->agreed_price_per_kg, 0, ',', '.') }}/Kg</p></div>

@@ -17,10 +17,22 @@
         <form action="{{ route('petani.products.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded-2xl shadow-premium border border-gray-150 space-y-5">
             @csrf
             
-            <div>
-                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Jenis Buah</label>
-                <input type="text" name="fruit_type" value="{{ old('fruit_type') }}" x-model="draft.fruit_type" @input="saveDraft" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm @error('fruit_type') border-rose-500 @enderror" required placeholder="Contoh: Alpukat, Mangga, Jeruk">
-                @error('fruit_type') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Jenis Buah</label>
+                    <input type="text" name="fruit_type" value="{{ old('fruit_type') }}" x-model="draft.fruit_type" @input="saveDraft" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm @error('fruit_type') border-rose-500 @enderror" required placeholder="Contoh: Alpukat, Mangga, Jeruk">
+                    @error('fruit_type') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+                </div>
+                <div>
+                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Target Kualitas (Grade)</label>
+                    <select name="grade" x-model="draft.grade" @change="saveDraft" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm @error('grade') border-rose-500 @enderror" required>
+                        <option value="" disabled>Pilih Grade</option>
+                        <option value="A" {{ old('grade') == 'A' ? 'selected' : '' }}>Grade A (Premium)</option>
+                        <option value="B" {{ old('grade') == 'B' ? 'selected' : '' }}>Grade B (Standar)</option>
+                        <option value="C" {{ old('grade') == 'C' ? 'selected' : '' }}>Grade C (Olahan)</option>
+                    </select>
+                    @error('grade') <p class="mt-1 text-xs text-rose-600">{{ $message }}</p> @enderror
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -63,10 +75,10 @@
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('formDraft', () => ({
-                draft: { fruit_type: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' },
+                draft: { fruit_type: '', grade: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' },
                 loadDraft() { const s = localStorage.getItem('petani_form_draft'); if (s) this.draft = JSON.parse(s); },
                 saveDraft() { localStorage.setItem('petani_form_draft', JSON.stringify(this.draft)); },
-                clearDraft() { this.draft = { fruit_type: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' }; localStorage.removeItem('petani_form_draft'); }
+                clearDraft() { this.draft = { fruit_type: '', grade: '', estimated_weight_kg: '', price_per_kg: '', harvest_date: '' }; localStorage.removeItem('petani_form_draft'); }
             }))
         })
     </script>

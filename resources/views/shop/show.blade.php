@@ -91,21 +91,39 @@
                 <!-- Right-hand side Purchase Control -->
                 <div class="w-full lg:w-1/2 p-6 sm:p-10 flex flex-col justify-between border-t lg:border-t-0 lg:border-l border-gray-100">
                     <div>
-                        <!-- Elegant Grade Badging -->
+                        <!-- Elegant Grade Badging / Selection -->
                         <div class="mb-3">
-                            @if($product->grade === 'A')
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-amber-500 to-yellow-400 text-white shadow-md shadow-amber-500/10">
-                                    ⭐ Grade A (Premium)
-                                </span>
-                            @elseif($product->grade === 'B')
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-brand-600 to-brand-500 text-white shadow-md shadow-brand-500/10">
-                                    🌱 Grade B (Standar)
-                                </span>
-                            @else
-                                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-indigo-600 to-purple-500 text-white shadow-md shadow-indigo-500/10">
-                                    🏭 Grade C (Olahan)
-                                </span>
-                            @endif
+                            <p class="text-xs font-bold text-gray-500 mb-2">Pilihan Kualitas (Grade):</p>
+                            <div class="flex flex-wrap gap-2">
+                                @php
+                                    $standardGrades = ['A', 'B', 'C'];
+                                    $gradesMap = $availableGrades->keyBy('grade');
+                                @endphp
+                                @foreach($standardGrades as $gradeLetter)
+                                    @if($gradesMap->has($gradeLetter))
+                                        @php $gradeOption = $gradesMap->get($gradeLetter); @endphp
+                                        <a href="{{ route('shop.show', $gradeOption) }}" 
+                                           class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase transition-all duration-200 
+                                           {{ $product->id === $gradeOption->id 
+                                                ? ($gradeOption->grade === 'A' ? 'bg-gradient-to-tr from-amber-500 to-yellow-400 text-white shadow-md shadow-amber-500/20' 
+                                                  : ($gradeOption->grade === 'B' ? 'bg-gradient-to-tr from-brand-600 to-brand-500 text-white shadow-md shadow-brand-500/20' 
+                                                  : 'bg-gradient-to-tr from-indigo-600 to-purple-500 text-white shadow-md shadow-indigo-500/20'))
+                                                : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 shadow-sm' }}">
+                                            @if($gradeOption->grade === 'A') ⭐ Grade A (Premium)
+                                            @elseif($gradeOption->grade === 'B') 🌱 Grade B (Standar)
+                                            @else 🏭 Grade C (Olahan)
+                                            @endif
+                                        </a>
+                                    @else
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed opacity-70">
+                                            @if($gradeLetter === 'A') ⭐ Grade A (Kosong)
+                                            @elseif($gradeLetter === 'B') 🌱 Grade B (Kosong)
+                                            @else 🏭 Grade C (Kosong)
+                                            @endif
+                                        </span>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
 
                         <h1 class="text-2xl sm:text-3xl md:text-4xl font-heading font-extrabold text-gray-800 tracking-tight leading-tight">
@@ -144,7 +162,7 @@
                             <input type="hidden" name="inventory_id" value="{{ $product->id }}">
                             
                             @php
-                                $minQty = 10;
+                                $minQty = 1;
                                 if ($product->grade === 'A') $minQty = 50;
                                 elseif ($product->grade === 'B') $minQty = 20;
                             @endphp

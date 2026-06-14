@@ -26,6 +26,11 @@ class ShopController extends Controller
 
     public function show(Inventory $product)
     {
-        return view('shop.show', compact('product'));
+        $availableGrades = Inventory::where('fruit_type', $product->fruit_type)
+            ->where('is_active', true)
+            ->orderBy('grade', 'asc')
+            ->get();
+
+        return view('shop.show', compact('product', 'availableGrades'));
     }
 }

@@ -1,0 +1,1 @@
+[{"id":1,"fruit_type":"JERUK BALI","grade":"A","stock_kg":"1000.00","is_active":true}]

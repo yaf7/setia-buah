@@ -7,8 +7,12 @@
                 <span class="text-[9px] font-extrabold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200/50 px-2.5 py-1 rounded-md">
                     Manajemen Gudang
                 </span>
-                <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-gray-800 mt-2">Stok Barang Gudang</h1>
-                <p class="text-xs text-gray-500">Daftar seluruh inventaris stok buah segar yang tersedia di gudang.</p>
+                <h1 class="text-2xl sm:text-3xl font-heading font-extrabold text-gray-800 mt-2">
+                    {{ $status === 'katalog' ? 'Daftar Stok Katalog' : ($status === 'gudang' ? 'Stok Barang Gudang' : 'Keseluruhan Stok Barang') }}
+                </h1>
+                <p class="text-xs text-gray-500">
+                    {{ $status === 'katalog' ? 'Barang yang saat ini aktif dijual di toko (katalog).' : ($status === 'gudang' ? 'Barang yang tersimpan di gudang dan siap dipindahkan ke katalog.' : 'Daftar seluruh inventaris stok buah segar.') }}
+                </p>
             </div>
             
             <div class="shrink-0 flex items-center gap-3">
@@ -106,14 +110,24 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    <form action="{{ route('admin.inventory.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini dari gudang?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl text-xs font-bold transition">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                            Hapus
-                                        </button>
-                                    </form>
+                                    @if(!$item->is_active)
+                                        <form action="{{ route('admin.inventory.toggle-status', $item) }}" method="POST" onsubmit="return confirm('Pindahkan stok ini ke halaman Toko/Katalog?')">
+                                            @csrf
+                                            <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-100/50 rounded-xl text-xs font-bold transition">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                                Ke Stok Katalog
+                                            </button>
+                                        </form>
+                                    @else
+                                        <form action="{{ route('admin.inventory.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini dari katalog?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl text-xs font-bold transition">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
@@ -147,14 +161,24 @@
                             </div>
                             
                             <div class="pt-3 border-t border-gray-200/50 flex justify-end">
-                                <form action="{{ route('admin.inventory.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini dari gudang?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl text-xs font-bold transition">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                                        Hapus
-                                    </button>
-                                </form>
+                                @if(!$item->is_active)
+                                    <form action="{{ route('admin.inventory.toggle-status', $item) }}" method="POST" onsubmit="return confirm('Pindahkan stok ini ke halaman Toko/Katalog?')">
+                                        @csrf
+                                        <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-100/50 rounded-xl text-xs font-bold transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                                            Ke Stok Katalog
+                                        </button>
+                                    </form>
+                                @else
+                                    <form action="{{ route('admin.inventory.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus stok ini dari katalog?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="py-1.5 inline-flex items-center justify-center gap-1.5 px-4 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-100/50 rounded-xl text-xs font-bold transition">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                            Hapus
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                         @endforeach

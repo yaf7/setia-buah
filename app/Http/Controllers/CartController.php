@@ -33,7 +33,7 @@ class CartController extends Controller
     {
         $inventory = Inventory::findOrFail($request->inventory_id);
         
-        $minQty = 10;
+        $minQty = 1;
         if ($inventory->grade === 'A') $minQty = 50;
         elseif ($inventory->grade === 'B') $minQty = 20;
 
@@ -72,7 +72,7 @@ class CartController extends Controller
     {
         $inventory = $cart->inventory;
         
-        $minQty = 10;
+        $minQty = 1;
         if ($inventory->grade === 'A') $minQty = 50;
         elseif ($inventory->grade === 'B') $minQty = 20;
 
