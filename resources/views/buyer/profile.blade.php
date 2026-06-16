@@ -48,9 +48,29 @@
                         </div>
                     </div>
 
+                    <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">Provinsi</label>
+                            <input type="text" name="province" value="{{ old('province', $user->province ?? '') }}" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Contoh: Jawa Timur" required>
+                            @error('province') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">Kota / Kabupaten</label>
+                            <input type="text" name="city" value="{{ old('city', $user->city ?? '') }}" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Contoh: Kota Kediri" required>
+                            @error('city') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">Kode Pos</label>
+                            <input type="text" name="postal_code" value="{{ old('postal_code', $user->postal_code ?? '') }}" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Contoh: 64128" required>
+                            @error('postal_code') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
+
                     <div class="space-y-2">
-                        <label class="block text-sm font-semibold text-gray-700">Alamat Pengiriman Default</label>
-                        <textarea name="address" rows="3" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" required>{{ old('address', $user->address) }}</textarea>
+                        <label class="block text-sm font-semibold text-gray-700">Detail Alamat Lengkap (Jalan, RT/RW, Patokan)</label>
+                        <textarea name="address" rows="3" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Contoh: Jl. Sersan Suharmaji No. 133 RT3/RW2" required>{{ old('address', $user->address) }}</textarea>
                         @error('address') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
                     </div>
 
@@ -58,7 +78,7 @@
                         <label class="block text-sm font-semibold text-gray-700">Unggah Foto KTP</label>
                         @if($user->ktp_photo)
                             <div class="mb-3">
-                                <img src="{{ Storage::url($user->ktp_photo) }}" alt="KTP" class="h-32 object-contain rounded-lg border border-gray-200">
+                                <img src="{{ asset('storage/' . $user->ktp_photo) }}" alt="Foto KTP" class="h-40 object-contain rounded-lg border border-gray-200 bg-gray-50 p-1">
                             </div>
                         @endif
                         <input type="file" name="ktp_photo" accept="image/jpeg,image/png,image/jpg" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100">

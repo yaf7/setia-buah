@@ -3,9 +3,7 @@
         <x-seo-meta title="Katalog Buah Segar Pilihan - SetiaBuah" />
     </x-slot>
 
-    <!-- Premium Hero Mesh Header Banner -->
     <div class="relative overflow-hidden bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-700 text-white py-14 sm:py-20 mb-12 shadow-md">
-        <!-- Abstract Shapes Overlay -->
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.15),transparent_40%)]"></div>
         <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl"></div>
 
@@ -30,7 +28,7 @@
                             : \App\Models\Cart::where('session_id', \Illuminate\Support\Facades\Session::getId())->count();
                     @endphp
                     <div class="shrink-0">
-                        <a href="{{ route('cart.index') }}" class="relative py-3 inline-flex items-center gap-2.5 px-6 py-3 border border-white/30 rounded-2xl bg-white/10 hover:bg-white text-white hover:text-brand-800 backdrop-blur-sm hover:scale-105 active:scale-98 shadow-lg transition-all duration-200 font-bold text-sm">
+                        <a href="{{ route('cart.index') }}" class="relative py-3 inline-flex items-center gap-2.5 px-6 border border-white/30 rounded-2xl bg-white/10 hover:bg-white text-white hover:text-brand-800 backdrop-blur-sm hover:scale-105 active:scale-98 shadow-lg transition-all duration-200 font-bold text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
@@ -47,11 +45,9 @@
         </div>
     </div>
 
-    <!-- Main Catalog Directory Content -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             
-            <!-- Sticky Filter & Search Sidebar Panel -->
             <aside class="w-full lg:w-72 lg:sticky lg:top-28 z-20">
                 <div class="bg-white border border-gray-150 rounded-2xl shadow-premium p-6 space-y-6">
                     <div class="flex items-center justify-between pb-3 border-b border-gray-150">
@@ -60,7 +56,6 @@
                     </div>
 
                     <form action="{{ route('shop.index') }}" method="GET" class="space-y-5" x-data="{ busy: false }" @submit="busy = true">
-                        <!-- Search Box -->
                         <div class="space-y-1.5">
                             <label class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest">Cari Buah</label>
                             <div class="relative">
@@ -71,7 +66,6 @@
                             </div>
                         </div>
 
-                        <!-- Grade Dropdown -->
                         <div class="space-y-1.5">
                             <label class="block text-xs font-extrabold text-gray-400 uppercase tracking-widest">Grade Kualitas</label>
                             <select name="grade" class="mt-1 w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3 text-sm transition bg-white">
@@ -82,10 +76,9 @@
                             </select>
                         </div>
 
-                        <!-- Apply Button -->
                         <button type="submit" class="w-full py-2.5 bg-gradient-to-tr from-brand-600 to-brand-500 text-white rounded-xl hover:from-brand-700 hover:to-brand-600 font-bold text-sm shadow-md shadow-brand-500/10 hover:shadow-brand-500/20 active:scale-98 transition flex items-center justify-center gap-2">
                             <span x-show="!busy">Terapkan Filter</span>
-                            <span x-show="busy" class="flex items-center gap-1.5">
+                            <span x-show="busy" class="flex items-center gap-1.5" style="display: none;">
                                 <svg class="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                                 Menyaring...
                             </span>
@@ -100,7 +93,6 @@
                 </div>
             </aside>
 
-            <!-- Product Showcase Grid Area -->
             <div class="flex-grow w-full">
                 
                 @if(session('error'))
@@ -111,55 +103,72 @@
                 @endif
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
-                    @forelse($products as $product)
-                        <!-- Premium Interactive Fruit Card -->
+                    {{-- DI SINI LOGIKA GROUPING DITERAPKAN PADA BLADE --}}
+                    @forelse($products->groupBy('fruit_type') as $fruitType => $variants)
+                        @php
+                            // Ambil varian pertama untuk mewakili gambar dan ID produk
+                            $representativeProduct = $variants->first();
+                            
+                            // Cari harga termurah dari semua varian (grade) buah ini
+                            $minPrice = $variants->min('price_per_kg');
+                            
+                            // Hitung total keseluruhan stok dari semua varian
+                            $totalStock = $variants->sum('stock_kg');
+                            
+                            // Ambil tanggal kedaluwarsa terdekat (opsional)
+                            $earliestExpiry = $variants->whereNotNull('expiry_date')->min('expiry_date');
+                        @endphp
+
                         <div class="group bg-white rounded-2xl border border-gray-150 shadow-premium hover:shadow-premium-hover transform hover:-translate-y-1 duration-300 flex flex-col overflow-hidden relative">
                             
-                            <!-- Product Thumbnail Image Wrapper -->
                             <div class="relative overflow-hidden bg-gray-50 h-52 flex items-center justify-center p-4">
-                                @if($product->image)
-                                    <img src="{{ Storage::url($product->image) }}" alt="{{ $product->fruit_type }}" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                                @if($representativeProduct->image)
+                                    <img src="{{ Storage::url($representativeProduct->image) }}" alt="{{ $fruitType }}" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-300" loading="lazy">
                                 @else
                                     <div class="text-gray-400 flex flex-col items-center gap-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                                         <span class="text-xs font-bold">Tanpa Foto</span>
                                     </div>
                                 @endif
+                                
+                                @if($variants->count() > 1)
+                                    <div class="absolute top-3 left-3 bg-white/90 backdrop-blur text-brand-700 text-[10px] font-extrabold px-2 py-1 rounded shadow-sm border border-brand-100">
+                                        {{ $variants->count() }} Pilihan Grade
+                                    </div>
+                                @endif
                             </div>
 
-                            <!-- Product Content Details -->
                             <div class="p-5 flex flex-col flex-grow">
                                 <h3 class="text-lg sm:text-xl font-heading font-extrabold text-gray-800 line-clamp-1 group-hover:text-brand-600 transition-colors">
-                                    {{ $product->fruit_type }} - Grade {{ $product->grade }}
+                                    {{ $fruitType }}
                                 </h3>
                                 
-                                <div class="mt-2.5 flex items-center gap-4 text-xs font-bold text-gray-500">
+                                <div class="mt-2.5 flex flex-wrap items-center gap-2 text-xs font-bold text-gray-500">
                                     <span class="flex items-center gap-1 bg-gray-100 text-gray-600 px-2 py-1 rounded-lg">
-                                        📦 Stok: {{ $product->stock_kg }} Kg
+                                        📦 Stok: {{ $totalStock }} Kg
                                     </span>
-                                    @if($product->expiry_date)
+                                    @if($earliestExpiry)
                                         <span class="flex items-center gap-1 bg-rose-50 text-rose-700 px-2 py-1 rounded-lg">
-                                            ⏰ Exp: {{ \Carbon\Carbon::parse($product->expiry_date)->format('d M') }}
+                                            ⏰ Exp: {{ \Carbon\Carbon::parse($earliestExpiry)->format('d M') }}
                                         </span>
                                     @endif
                                 </div>
 
                                 <div class="mt-5 mb-5 flex items-baseline gap-1 text-brand-700">
+                                    <span class="text-xs font-bold text-gray-500 mr-1">Mulai</span>
                                     <span class="text-xs font-bold">Rp</span>
-                                    <span class="text-2xl font-black leading-none">{{ number_format($product->price_per_kg, 0, ',', '.') }}</span>
+                                    <span class="text-2xl font-black leading-none">{{ number_format($minPrice, 0, ',', '.') }}</span>
                                     <span class="text-xs font-bold text-gray-400">/ Kg</span>
                                 </div>
                                 
-                                <!-- Card Action Button -->
                                 <div class="mt-auto">
-                                    <a href="{{ route('shop.show', $product) }}" class="py-2.5 flex items-center justify-center w-full bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200/50 rounded-xl transition duration-150 font-bold text-xs sm:text-sm shadow-sm">
-                                        Lihat Detail Produk
+                                    <a href="{{ route('shop.show', $representativeProduct) }}" class="py-2.5 flex items-center justify-center w-full bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200/50 rounded-xl transition duration-150 font-bold text-xs sm:text-sm shadow-sm">
+                                        Pilih Grade & Beli
                                     </a>
                                 </div>
                             </div>
                         </div>
                     @empty
-                        <!-- Empty Catalog State Screen -->
                         <div class="col-span-full py-16 px-6 text-center bg-white border border-gray-150 rounded-2xl shadow-premium">
                             <div class="h-16 w-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -172,7 +181,6 @@
                     @endforelse
                 </div>
 
-                <!-- Custom Elegant Pagination Link Wrapper -->
                 <div class="mt-10">
                     {{ $products->links() }}
                 </div>

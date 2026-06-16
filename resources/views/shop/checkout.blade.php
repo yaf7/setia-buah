@@ -5,15 +5,11 @@
 
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         
-        <!-- Checkout Progress Stepper -->
         <div class="max-w-3xl mx-auto mb-12">
             <div class="flex items-center justify-between relative">
-                <!-- Line background -->
                 <div class="absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-gray-200 -z-10"></div>
-                <!-- Active Line -->
                 <div class="absolute left-0 right-1/2 top-1/2 -translate-y-1/2 h-0.5 bg-brand-500 -z-10 transition-all duration-300"></div>
 
-                <!-- Step 1 -->
                 <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
                     <div class="h-9 w-9 rounded-full bg-brand-600 border-4 border-brand-100 flex items-center justify-center text-white text-xs font-black shadow-md shadow-brand-500/10">
                         ✓
@@ -21,7 +17,6 @@
                     <span class="text-[10px] font-extrabold text-brand-600 uppercase tracking-wider">Keranjang</span>
                 </div>
 
-                <!-- Step 2 -->
                 <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
                     <div class="h-9 w-9 rounded-full bg-brand-500 border-4 border-brand-100 flex items-center justify-center text-white text-xs font-black shadow-md shadow-brand-500/20 animate-pulse">
                         2
@@ -29,7 +24,6 @@
                     <span class="text-[10px] font-extrabold text-brand-600 uppercase tracking-wider">Pengiriman</span>
                 </div>
 
-                <!-- Step 3 -->
                 <div class="flex flex-col items-center gap-1 bg-gradient-to-br from-green-50/40 via-white to-emerald-50/20 px-2">
                     <div class="h-9 w-9 rounded-full bg-gray-200 border-4 border-gray-100 flex items-center justify-center text-gray-500 text-xs font-black">
                         3
@@ -41,14 +35,12 @@
 
         <div class="flex flex-col-reverse lg:flex-row gap-8 items-start">
             
-            <!-- Left Side: Receiver Data & Shipping Selection Form -->
             <div class="flex-grow w-full lg:max-w-[620px] xl:max-w-none">
                 <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-6 sm:p-8">
                     
                     <form id="checkout-form" action="{{ route('checkout.store') }}" method="POST" class="space-y-8">
                         @csrf
 
-                        <!-- Section 1: Customer Data -->
                         <div class="space-y-5">
                             <div class="flex items-center gap-2.5 pb-2 border-b border-gray-100">
                                 <span class="h-6 w-6 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-black">1</span>
@@ -81,20 +73,19 @@
                             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                 <div class="space-y-1">
                                     <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Provinsi</label>
-                                    <input type="text" name="shipping_province" placeholder="Contoh: Jawa Barat" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
+                                    <input type="text" name="shipping_province" value="{{ old('shipping_province', auth('buyer')->user()?->province ?? '') }}" placeholder="Contoh: Jawa Barat" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
                                 </div>
                                 <div class="space-y-1">
                                     <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Kota / Kabupaten</label>
-                                    <input type="text" name="shipping_city" placeholder="Contoh: Bogor" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
+                                    <input type="text" name="shipping_city" value="{{ old('shipping_city', auth('buyer')->user()?->city ?? '') }}" placeholder="Contoh: Bogor" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
                                 </div>
                                 <div class="space-y-1">
                                     <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Kode Pos</label>
-                                    <input type="text" name="shipping_postal_code" id="shipping_postal_code" placeholder="Contoh: 16115" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition font-bold text-center" required>
+                                    <input type="text" name="shipping_postal_code" id="shipping_postal_code" value="{{ old('shipping_postal_code', auth('buyer')->user()?->postal_code ?? '') }}" placeholder="Contoh: 16115" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition font-bold text-center" required>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Section 2: Courier Selection -->
                         <div class="space-y-5">
                             <div class="flex items-center gap-2.5 pb-2 border-b border-gray-100">
                                 <span class="h-6 w-6 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center text-xs font-black">2</span>
@@ -109,18 +100,15 @@
                                 <p class="text-[10px] text-gray-400 font-medium mt-2">Pastikan kode pos sudah diisi, lalu klik tombol di atas untuk melihat semua tarif kurir.</p>
                             </div>
 
-                            <!-- Dynamic rates loaded here -->
                             <div id="courier-list" class="mt-4 space-y-3.5"></div>
                         </div>
 
-                        <!-- Hidden fields to hold API parameters -->
                         <input type="hidden" name="couriers" id="couriers" value="jne,jnt,sicepat,anteraja,ninja,tiki,pos,lion">
                         <input type="hidden" name="courier_name" id="courier_name">
                         <input type="hidden" name="courier_service" id="courier_service">
                         <input type="hidden" name="shipping_cost" id="shipping_cost" value="0">
                         <input type="hidden" name="payment_method" value="midtrans">
 
-                        <!-- Main Submit Pay Button -->
                         <div class="pt-4 border-t border-gray-100">
                             <button type="submit" id="btn-pay" class="w-full py-3 bg-gradient-to-tr from-brand-600 to-brand-500 hover:from-brand-700 hover:to-brand-600 text-white rounded-xl font-extrabold text-sm sm:text-base shadow-md shadow-brand-500/10 active:scale-98 transition flex items-center justify-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
@@ -134,7 +122,6 @@
                 </div>
             </div>
 
-            <!-- Right Side: Order Summary Panel Card -->
             <aside class="w-full lg:w-80 lg:sticky lg:top-28">
                 <div class="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-6">
                     <h3 class="font-heading font-extrabold text-gray-800 text-base pb-3 border-b border-gray-200/50">Tinjau Pesanan</h3>
@@ -171,7 +158,6 @@
                         </span>
                     </div>
 
-                    <!-- Trust Badge -->
                     <div class="h-px bg-gray-200 my-2"></div>
                     <div class="flex items-center gap-2.5 text-gray-400">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-brand-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
@@ -186,7 +172,6 @@
         </div>
     </div>
 
-    <!-- Midtrans Snap Client Scripts -->
     <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('services.midtrans.client_key') }}"></script>
     <script>
         const form = document.getElementById('checkout-form');
