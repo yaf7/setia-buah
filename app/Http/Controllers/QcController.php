@@ -33,39 +33,91 @@ class QcController extends Controller
         }
 
         $data = $request->validated();
-        $data['admin_id'] = $request->user()->id;
-        $data['procurement_id'] = $product->procurement?->id;
-
-        $qcReport = QcReport::create($data);
+        $admin_id = $request->user()->id;
+        $procurement_id = $product->procurement?->id;
 
         if ($data['status'] === 'accepted') {
-            // Update product status to QC passed
-            $product->update([
-                'status' => 'qc_passed',
-                'grade' => $data['final_grade'] ?? null
-            ]);
+            $grades = [
+                'A' => ['weight' => $data['weight_a'] ?? 0, 'price' => $data['price_a'] ?? 0],
+                'B' => ['weight' => $data['weight_b'] ?? 0, 'price' => $data['price_b'] ?? 0],
+                'C' => ['weight' => $data['weight_c'] ?? 0, 'price' => $data['price_c'] ?? 0],
+            ];
 
-            $stock_kg = max(0, $data['actual_weight_kg'] - ($data['rejected_weight_kg'] ?? 0));
-
-            // Automatically create inventory (Katalog + Inventory)
-            $batchNumber = 'BTH-' . now()->format('Ymd') . '-' . str_pad($qcReport->id, 4, '0', STR_PAD_LEFT);
+            $total_actual_weight = 0;
+            $reports_created = 0;
             
-            Inventory::create([
-                'qc_report_id' => $qcReport->id,
-                'procurement_id' => $product->procurement?->id,
-                'batch_number' => $batchNumber,
-                'fruit_type' => $product->fruit_type,
-                'grade' => $data['final_grade'],
-                'stock_kg' => $stock_kg,
-                'expiry_date' => Carbon::parse($product->harvest_date)->addDays(14),
-                'price_per_kg' => $data['final_price_per_kg'],
-                'image' => $product->image,
-                'is_active' => $data['inventory_status'] === 'catalog',
-            ]);
+            // Loop through each grade and create records if weight > 0
+            foreach ($grades as $grade => $info) {
+                if ($info['weight'] > 0) {
+                    $total_actual_weight += $info['weight'];
+                    
+                    // Put rejected weight only on the first report to avoid duplication
+                    $rejected_weight = ($reports_created === 0) ? ($data['rejected_weight_kg'] ?? 0) : 0;
+                    
+                    $qcReport = QcReport::create([
+                        'petani_product_id' => $product->id,
+                        'procurement_id' => $procurement_id,
+                        'admin_id' => $admin_id,
+                        'actual_weight_kg' => $info['weight'],
+                        'rejected_weight_kg' => $rejected_weight,
+                        'final_grade' => $grade,
+                        'final_price_per_kg' => $info['price'],
+                        'status' => 'accepted',
+                        'notes' => $data['notes'] ?? null,
+                    ]);
 
-            // Update status based on choice
-            $product->update(['status' => $data['inventory_status'] === 'catalog' ? 'cataloged' : 'qc_passed']);
+                    $batchNumber = 'BTH-' . now()->format('Ymd') . '-' . str_pad($qcReport->id, 4, '0', STR_PAD_LEFT);
+                    
+                    Inventory::create([
+                        'qc_report_id' => $qcReport->id,
+                        'procurement_id' => $procurement_id,
+                        'batch_number' => $batchNumber,
+                        'fruit_type' => $product->fruit_type,
+                        'grade' => $grade,
+                        'stock_kg' => $info['weight'],
+                        'expiry_date' => Carbon::parse($product->harvest_date)->addDays(14),
+                        'price_per_kg' => $info['price'],
+                        'image' => $product->image,
+                        'is_active' => $data['inventory_status'] === 'catalog',
+                    ]);
+                    
+                    $reports_created++;
+                }
+            }
+            
+            // If no weight was entered but it was accepted, we might just have rejected weight
+            if ($reports_created === 0 && ($data['rejected_weight_kg'] ?? 0) > 0) {
+                 QcReport::create([
+                        'petani_product_id' => $product->id,
+                        'procurement_id' => $procurement_id,
+                        'admin_id' => $admin_id,
+                        'actual_weight_kg' => 0,
+                        'rejected_weight_kg' => $data['rejected_weight_kg'],
+                        'final_grade' => null,
+                        'final_price_per_kg' => 0,
+                        'status' => 'accepted',
+                        'notes' => $data['notes'] ?? null,
+                ]);
+            }
+
+            // Update product status
+            $product->update([
+                'status' => $data['inventory_status'] === 'catalog' ? 'cataloged' : 'qc_passed',
+                'grade' => 'MIXED' // Since it can be split into multiple grades
+            ]);
         } else {
+            // Rejected
+            QcReport::create([
+                'petani_product_id' => $product->id,
+                'procurement_id' => $procurement_id,
+                'admin_id' => $admin_id,
+                'actual_weight_kg' => 0,
+                'rejected_weight_kg' => $data['rejected_weight_kg'] ?? 0,
+                'final_grade' => null,
+                'final_price_per_kg' => 0,
+                'status' => 'rejected',
+                'notes' => $data['notes'] ?? null,
+            ]);
             $product->update(['status' => 'rejected']);
         }
 

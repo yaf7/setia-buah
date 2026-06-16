@@ -11,8 +11,14 @@
                     <p class="text-gray-600 mt-2">Kelola informasi pribadi dan alamat pengiriman Anda.</p>
                 </div>
                 <div>
-                    <a href="{{ route('buyer.dashboard') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium">
-                        Kembali ke Dashboard
+                    @php
+                        $backUrl = url()->previous();
+                        if ($backUrl == url()->current()) {
+                            $backUrl = route('shop.index');
+                        }
+                    @endphp
+                    <a href="{{ $backUrl }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium transition">
+                        Kembali
                     </a>
                 </div>
             </div>

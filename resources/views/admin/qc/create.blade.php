@@ -32,43 +32,61 @@
             @csrf
             <input type="hidden" name="petani_product_id" value="{{ $product->id }}">
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Aktual Timbangan (Kg)</label>
-                    <input type="number" step="0.01" min="0" name="actual_weight_kg" value="{{ old('actual_weight_kg', $product->estimated_weight_kg) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
-                    @error('actual_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+            @if($product->procurement)
+            <div class="mb-4">
+                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Beli Petani (Rp/Kg)</label>
+                <input type="text" value="Rp {{ number_format($product->procurement->agreed_price_per_kg, 0, ',', '.') }}" class="w-full rounded-xl bg-gray-100 border-gray-200 py-2.5 px-3.5 text-sm max-w-sm" readonly>
+            </div>
+            @endif
+
+            <div class="space-y-4 border border-gray-200 rounded-2xl p-4 bg-gray-50">
+                <h4 class="font-heading font-extrabold text-gray-700 text-sm mb-2">Input Hasil Sortir Grade</h4>
+                
+                <!-- Grade A -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-amber-500 uppercase tracking-widest mb-1">⭐ Berat Grade A (Kg)</label>
+                        <input type="number" step="0.01" min="0" name="weight_a" value="{{ old('weight_a') }}" class="w-full rounded-xl border border-gray-200 focus:border-amber-500 focus:ring-1 focus:ring-amber-500 py-2.5 px-3.5 text-sm bg-white" placeholder="0.00">
+                        @error('weight_a') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Grade A (Rp/Kg)</label>
+                        <input type="number" name="price_a" id="price_a" min="0" step="100" value="{{ old('price_a') }}" class="w-full rounded-xl border border-gray-200 bg-gray-100 py-2.5 px-3.5 text-sm font-bold text-gray-600" readonly>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Barang Rusak / Diretur (Kg)</label>
-                    <input type="number" step="0.01" min="0" name="rejected_weight_kg" value="{{ old('rejected_weight_kg', 0) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
-                    <p class="text-xs text-gray-500 mt-1">Berat ini akan memotong total stok gudang.</p>
-                    @error('rejected_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+
+                <!-- Grade B -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-brand-600 uppercase tracking-widest mb-1">🌱 Berat Grade B (Kg)</label>
+                        <input type="number" step="0.01" min="0" name="weight_b" value="{{ old('weight_b') }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm bg-white" placeholder="0.00">
+                        @error('weight_b') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Grade B (Rp/Kg)</label>
+                        <input type="number" name="price_b" id="price_b" min="0" step="100" value="{{ old('price_b') }}" class="w-full rounded-xl border border-gray-200 bg-gray-100 py-2.5 px-3.5 text-sm font-bold text-gray-600" readonly>
+                    </div>
+                </div>
+
+                <!-- Grade C -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-indigo-500 uppercase tracking-widest mb-1">🏭 Berat Grade C (Kg)</label>
+                        <input type="number" step="0.01" min="0" name="weight_c" value="{{ old('weight_c') }}" class="w-full rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 py-2.5 px-3.5 text-sm bg-white" placeholder="0.00">
+                        @error('weight_c') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Grade C (Rp/Kg)</label>
+                        <input type="number" name="price_c" id="price_c" min="0" step="100" value="{{ old('price_c') }}" class="w-full rounded-xl border border-gray-200 bg-gray-100 py-2.5 px-3.5 text-sm font-bold text-gray-600" readonly>
+                    </div>
                 </div>
             </div>
 
             <div>
-                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Grade Final (Hasil QC)</label>
-                <select name="final_grade" id="final_grade" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" required>
-                    <option value="A" {{ old('final_grade') == 'A' ? 'selected' : '' }}>Grade A — Premium</option>
-                    <option value="B" {{ old('final_grade') == 'B' ? 'selected' : '' }}>Grade B — Standar</option>
-                    <option value="C" {{ old('final_grade') == 'C' ? 'selected' : '' }}>Grade C — Ekonomis</option>
-                </select>
-                @error('final_grade') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                @if($product->procurement)
-                <div>
-                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Beli Petani (Rp/Kg)</label>
-                    <input type="text" value="Rp {{ number_format($product->procurement->agreed_price_per_kg, 0, ',', '.') }}" class="w-full rounded-xl bg-gray-100 border-gray-200 py-2.5 px-3.5 text-sm" readonly>
-                </div>
-                @endif
-                <div>
-                    <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Final (Rp/Kg)</label>
-                    <input type="number" name="final_price_per_kg" id="final_price_per_kg" min="0" step="100" value="{{ old('final_price_per_kg') }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm" placeholder="Contoh: 35000" required>
-                    <p class="mt-1 text-xs text-gray-500">Harga yang akan tampil di katalog toko.</p>
-                    @error('final_price_per_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
-                </div>
+                <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Berat Barang Rusak / Diretur (Kg)</label>
+                <input type="number" step="0.01" min="0" name="rejected_weight_kg" value="{{ old('rejected_weight_kg', 0) }}" class="w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm max-w-sm" required>
+                <p class="text-xs text-gray-500 mt-1">Sisa barang yang tidak masuk ke grade manapun.</p>
+                @error('rejected_weight_kg') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
@@ -103,31 +121,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const gradeSelect = document.getElementById('final_grade');
-            const priceInput = document.getElementById('final_price_per_kg');
             const hargaBeli = {{ $product->procurement ? (float) $product->procurement->agreed_price_per_kg : (float) $product->price_per_kg }};
-
-            function updatePrice() {
-                const grade = gradeSelect.value;
-                let price = 0;
-                if (grade === 'A') {
-                    price = hargaBeli * 2;
-                } else if (grade === 'B') {
-                    price = hargaBeli * 1.5;
-                } else if (grade === 'C') {
-                    price = hargaBeli * 1.2;
-                }
-                
-                // Set value if it's currently empty or user is just changing the grade
-                priceInput.value = price;
-            }
-
-            // Initialize on load if empty
-            if (!priceInput.value) {
-                updatePrice();
-            }
-
-            gradeSelect.addEventListener('change', updatePrice);
+            
+            document.getElementById('price_a').value = hargaBeli * 2;
+            document.getElementById('price_b').value = hargaBeli * 1.5;
+            document.getElementById('price_c').value = hargaBeli * 1.2;
         });
     </script>
 </x-app-layout>

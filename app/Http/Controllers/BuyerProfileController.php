@@ -33,7 +33,7 @@ class BuyerProfileController extends Controller
             }
             $path = $request->file('ktp_photo')->store('public/ktp');
             $user->ktp_photo = $path;
-        }--
+        }
 
         $user->save();
 

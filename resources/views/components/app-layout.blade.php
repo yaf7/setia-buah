@@ -143,10 +143,12 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                                         Pesanan Saya
                                     </a>
-                                    <div class="hidden md:flex flex-col text-right">
-                                        <span class="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">Pembeli</span>
-                                        <span class="text-xs font-semibold text-gray-700 mt-1 truncate max-w-[120px]">{{ auth('buyer')->user()->name }}</span>
-                                    </div>
+                                    <a href="{{ route('buyer.profile.edit') }}" class="text-xs sm:text-sm font-bold bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-xl transition shadow-md flex items-center gap-1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-900" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+                                        </svg>
+                                        <span class="truncate max-w-[120px]">{{ auth('buyer')->user()->name }}</span>
+                                    </a>
                                     <div class="h-6 w-px bg-gray-200 hidden md:block"></div>
                                     <form method="POST" action="{{ route('buyer.logout') }}" class="inline">
                                         @csrf

@@ -18,9 +18,7 @@
                 <a href="{{ route('cart.index') }}" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-medium">
                     🛒 Keranjang
                 </a>
-                <a href="{{ route('buyer.profile.edit') }}" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium">
-                    👤 Profil
-                </a>
+
             </div>
         </div>
 

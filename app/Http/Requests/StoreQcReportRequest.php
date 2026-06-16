@@ -15,10 +15,13 @@ class StoreQcReportRequest extends FormRequest
     {
         return [
             'petani_product_id' => ['required', 'exists:petani_products,id'],
-            'actual_weight_kg' => ['required', 'numeric', 'min:0.1'],
+            'weight_a' => ['nullable', 'numeric', 'min:0'],
+            'price_a' => ['nullable', 'numeric', 'min:0'],
+            'weight_b' => ['nullable', 'numeric', 'min:0'],
+            'price_b' => ['nullable', 'numeric', 'min:0'],
+            'weight_c' => ['nullable', 'numeric', 'min:0'],
+            'price_c' => ['nullable', 'numeric', 'min:0'],
             'rejected_weight_kg' => ['nullable', 'numeric', 'min:0'],
-            'final_grade' => ['required', 'in:A,B,C'],
-            'final_price_per_kg' => ['required', 'numeric', 'min:100'],
             'status' => ['required', 'in:accepted,rejected'],
             'inventory_status' => ['required', 'in:catalog,warehouse'],
             'notes' => ['nullable', 'string'],

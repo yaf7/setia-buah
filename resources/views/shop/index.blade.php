@@ -115,23 +115,6 @@
                         <!-- Premium Interactive Fruit Card -->
                         <div class="group bg-white rounded-2xl border border-gray-150 shadow-premium hover:shadow-premium-hover transform hover:-translate-y-1 duration-300 flex flex-col overflow-hidden relative">
                             
-                            <!-- Premium Dynamic Grade Tag -->
-                            <div class="absolute top-3 left-3 z-10">
-                                @if($product->grade === 'A')
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-amber-500 to-yellow-400 text-white shadow-md shadow-amber-500/20">
-                                        ⭐ Grade {{ $product->grade }}
-                                    </span>
-                                @elseif($product->grade === 'B')
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-brand-600 to-brand-500 text-white shadow-md shadow-brand-500/20">
-                                        🌱 Grade {{ $product->grade }}
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center gap-1 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gradient-to-tr from-indigo-600 to-purple-500 text-white shadow-md shadow-indigo-500/20">
-                                        🏭 Grade {{ $product->grade }}
-                                    </span>
-                                @endif
-                            </div>
-
                             <!-- Product Thumbnail Image Wrapper -->
                             <div class="relative overflow-hidden bg-gray-50 h-52 flex items-center justify-center p-4">
                                 @if($product->image)
@@ -147,7 +130,7 @@
                             <!-- Product Content Details -->
                             <div class="p-5 flex flex-col flex-grow">
                                 <h3 class="text-lg sm:text-xl font-heading font-extrabold text-gray-800 line-clamp-1 group-hover:text-brand-600 transition-colors">
-                                    {{ $product->fruit_type }}
+                                    {{ $product->fruit_type }} - Grade {{ $product->grade }}
                                 </h3>
                                 
                                 <div class="mt-2.5 flex items-center gap-4 text-xs font-bold text-gray-500">
