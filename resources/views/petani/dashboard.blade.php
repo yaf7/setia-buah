@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10" x-data="{ loading: true }" x-init="setTimeout(() => loading = false, 500)">
         
-        <!-- Premium Welcome Header -->
         <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-5 mb-10 border-b border-gray-150 pb-6">
             <div class="space-y-1">
                 <span class="text-[9px] font-extrabold uppercase tracking-widest text-brand-600 bg-brand-50 border border-brand-200/50 px-2.5 py-1 rounded-md">
@@ -40,7 +39,6 @@
             </div>
         @endif
 
-        <!-- Stats Overview -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-8">
             @php
             $statItems = [
@@ -61,7 +59,6 @@
             @endforeach
         </div>
 
-        <!-- Map & Lahan GIS Panel -->
         <div class="space-y-6 mb-8">
             <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-4">
@@ -83,14 +80,12 @@
             </div>
         </div>
 
-        <!-- Harvest Estimates Panel -->
         <div class="bg-white border border-gray-150 rounded-3xl shadow-premium p-5 sm:p-6">
             <h2 class="font-heading font-extrabold text-gray-800 text-base mb-5 flex items-center gap-2">
                 <span class="h-1.5 w-3 rounded bg-brand-500"></span>
                 Daftar Estimasi Panen Anda
             </h2>
 
-            <!-- Desktop Table -->
             <div x-show="!loading" style="display: none;" class="hidden md:block border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
                 <table class="min-w-full divide-y divide-gray-100 text-sm">
                     <thead class="bg-gray-50/80 text-xs font-extrabold text-gray-400 uppercase tracking-widest">
@@ -142,7 +137,65 @@
                                         <button class="py-1.5 px-3 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl text-xs font-bold transition border border-rose-200/50">Hapus</button>
                                     </form>
                                 @else
-                                    <span class="text-[10px] text-gray-400 font-bold">Sedang Diproses</span>
+                                    <div x-data="{ openQcModal: false }" class="flex justify-end">
+                                        <button @click="openQcModal = true" type="button" class="py-1.5 px-4 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-xl text-xs font-bold transition border border-brand-200/50 flex items-center gap-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                            Detail QC
+                                        </button>
+
+                                        <div x-show="openQcModal" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+                                                <div x-show="openQcModal" x-transition.opacity class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" @click="openQcModal = false"></div>
+
+                                                <div x-show="openQcModal" x-transition.duration.300ms class="relative inline-block w-full max-w-md p-6 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
+                                                    
+                                                    <div class="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
+                                                        <div>
+                                                            <h3 class="text-lg font-extrabold text-gray-800" id="modal-title">Laporan Hasil QC</h3>
+                                                            <p class="text-xs text-gray-500">{{ $product->updated_at->format('d M Y') }}</p>
+                                                        </div>
+                                                        <button @click="openQcModal = false" class="text-gray-400 hover:text-gray-600 transition">
+                                                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                                        </button>
+                                                    </div>
+
+                                                    <div class="grid grid-cols-2 gap-4 mb-5">
+                                                        <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100">
+                                                            <p class="text-[10px] text-emerald-600 font-extrabold uppercase tracking-wider mb-1">Lolos Gudang</p>
+                                                            <p class="text-2xl font-black text-gray-800">
+                                                                {{ $product->qcReports->sum('actual_weight_kg') ?? 0 }} 
+                                                                <span class="text-sm font-semibold text-gray-500">KG</span>
+                                                            </p>
+                                                        </div>
+
+                                                        <div class="bg-rose-50 p-4 rounded-xl border border-rose-200">
+                                                            <div class="flex items-center gap-1 mb-1">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                                                <p class="text-[10px] text-rose-600 font-extrabold uppercase tracking-wider">Diretur</p>
+                                                            </div>
+                                                            <p class="text-2xl font-black text-rose-600">
+                                                                {{ $product->qcReports->sum('rejected_weight_kg') ?? 0 }} 
+                                                                <span class="text-sm font-semibold text-rose-500">KG</span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="bg-gray-50 p-3.5 rounded-xl text-sm border border-gray-200/60">
+                                                        <span class="font-bold text-gray-800 block mb-1 text-xs">Catatan Admin:</span>
+                                                        <p class="italic text-gray-600 text-xs leading-relaxed">
+                                                            "{{ optional($product->qcReports->first())->notes ?? 'Tidak ada catatan tambahan.' }}"
+                                                        </p>
+                                                    </div>
+
+                                                    <div class="mt-6">
+                                                        <button @click="openQcModal = false" type="button" class="w-full inline-flex justify-center rounded-xl border border-gray-300 shadow-sm px-4 py-2.5 bg-white text-sm font-bold text-gray-700 hover:bg-gray-50 focus:outline-none transition">
+                                                            Tutup Laporan
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 @endif
                             </td>
                         </tr>
@@ -151,7 +204,6 @@
                 </table>
             </div>
 
-            <!-- Mobile Cards -->
             <div x-show="!loading" style="display: none;" class="md:hidden space-y-4">
                 @foreach($products as $product)
                 <div class="bg-gray-50 border border-gray-100 p-4 rounded-2xl space-y-3">
@@ -172,17 +224,55 @@
                     <div class="text-xs text-gray-500 font-bold">
                         <p>Harga: <span class="text-brand-700">Rp {{ number_format($product->price_per_kg, 0, ',', '.') }} / Kg</span></p>
                     </div>
-                    @if(in_array($product->status, ['pending', 'rejected']))
+                    
                     <div class="pt-3 border-t border-gray-200/50 flex justify-end gap-2">
                         @if($product->status === 'pending')
                             <a href="{{ route('petani.products.edit', $product) }}" class="py-1.5 px-4 bg-white border border-gray-200 text-gray-600 rounded-xl text-xs font-bold transition">Edit</a>
+                            <form action="{{ route('petani.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus?')">
+                                @csrf @method('DELETE')
+                                <button class="py-1.5 px-3 bg-rose-50 text-rose-600 rounded-xl text-xs font-bold border border-rose-200/50">Hapus</button>
+                            </form>
+                        @elseif($product->status === 'rejected')
+                            <form action="{{ route('petani.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus?')">
+                                @csrf @method('DELETE')
+                                <button class="py-1.5 px-3 bg-rose-50 text-rose-600 rounded-xl text-xs font-bold border border-rose-200/50">Hapus</button>
+                            </form>
+                        @else
+                            <div x-data="{ openQcModalMobile: false }">
+                                <button @click="openQcModalMobile = true" type="button" class="py-1.5 px-4 bg-brand-50 text-brand-700 rounded-xl text-xs font-bold border border-brand-200/50 flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                    Detail QC
+                                </button>
+
+                                <div x-show="openQcModalMobile" style="display: none;" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                                    <div class="flex items-center justify-center min-h-screen px-4 text-center">
+                                        <div x-show="openQcModalMobile" class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm" @click="openQcModalMobile = false"></div>
+                                        <div x-show="openQcModalMobile" class="relative inline-block w-full max-w-sm p-5 text-left align-middle bg-white shadow-xl rounded-2xl z-10">
+                                            <h3 class="text-lg font-extrabold text-gray-800 mb-4 border-b pb-2">Laporan Hasil QC</h3>
+                                            
+                                            <div class="space-y-3 mb-4">
+                                                <div class="flex justify-between items-center bg-emerald-50 p-3 rounded-lg border border-emerald-100">
+                                                    <span class="text-xs text-emerald-600 font-bold uppercase">Lolos Gudang</span>
+                                                    <span class="font-black text-gray-800">{{ $product->qcReports->sum('actual_weight_kg') ?? 0 }} KG</span>
+                                                </div>
+                                                <div class="flex justify-between items-center bg-rose-50 p-3 rounded-lg border border-rose-100">
+                                                    <span class="text-xs text-rose-600 font-bold uppercase">Diretur</span>
+                                                    <span class="font-black text-rose-600">{{ $product->qcReports->sum('rejected_weight_kg') ?? 0 }} KG</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="bg-gray-50 p-3 rounded-lg text-xs mb-4">
+                                                <span class="font-bold text-gray-700 block mb-1">Catatan:</span>
+                                                <p class="text-gray-600 italic">"{{ optional($product->qcReports->first())->notes ?? 'Tidak ada catatan.' }}"</p>
+                                            </div>
+
+                                            <button @click="openQcModalMobile = false" type="button" class="w-full rounded-xl border border-gray-300 py-2 bg-white text-sm font-bold text-gray-700">Tutup</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endif
-                        <form action="{{ route('petani.products.destroy', $product) }}" method="POST" onsubmit="return confirm('Hapus?')">
-                            @csrf @method('DELETE')
-                            <button class="py-1.5 px-3 bg-rose-50 text-rose-600 rounded-xl text-xs font-bold border border-rose-200/50">Hapus</button>
-                        </form>
                     </div>
-                    @endif
                 </div>
                 @endforeach
             </div>
@@ -191,7 +281,6 @@
         </div>
     </div>
 
-    <!-- Leaflet Map -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script>

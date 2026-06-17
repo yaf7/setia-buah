@@ -21,6 +21,7 @@ class BuyerProfileController extends Controller
         // 1. Tambahkan validasi untuk input regional yang baru
         $request->validate([
             'name' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
             'address' => 'required|string',
             'province' => 'required|string|max:100',
             'city' => 'required|string|max:100',
@@ -30,6 +31,7 @@ class BuyerProfileController extends Controller
 
         // 2. Simpan data ke object user
         $user->name = $request->name;
+        $user->phone = $request->phone;
         $user->address = $request->address;
         $user->province = $request->province;
         $user->city = $request->city;

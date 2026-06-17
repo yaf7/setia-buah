@@ -139,7 +139,7 @@ class CheckoutController extends Controller
         }
 
         $items = $cartItems->map(function ($item) {
-            $weightGram = (int) round($item->quantity_kg * 1000);
+            $weightGram = (int) round($item->quantity_kg * 100);
 
             return [
                 'name' => $item->inventory->fruit_type ?? 'Produk',

@@ -46,6 +46,12 @@
                             <input type="email" value="{{ $user->email }}" class="w-full rounded-lg border-gray-300 bg-gray-100 cursor-not-allowed" disabled>
                             <p class="text-xs text-gray-500">Email tidak dapat diubah.</p>
                         </div>
+
+                        <div class="space-y-2">
+                            <label class="block text-sm font-semibold text-gray-700">Nomor Handphone (HP)</label>
+                            <input type="text" name="phone" value="{{ old('phone', $user->phone ?? '') }}" class="w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500" placeholder="Contoh: 08123456789" required>
+                            @error('phone') <span class="text-xs text-red-500">{{ $message }}</span> @enderror
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-3">

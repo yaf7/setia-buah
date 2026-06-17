@@ -68,18 +68,6 @@
                     </div>
                 </div>
 
-                <!-- Grade C -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-                    <div>
-                        <label class="block text-[10px] font-extrabold text-indigo-500 uppercase tracking-widest mb-1">🏭 Berat Grade C (Kg)</label>
-                        <input type="number" step="0.01" min="0" name="weight_c" value="{{ old('weight_c') }}" class="w-full rounded-xl border border-gray-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 py-2.5 px-3.5 text-sm bg-white" placeholder="0.00">
-                        @error('weight_c') <p class="text-rose-600 text-xs mt-1">{{ $message }}</p> @enderror
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest mb-1">Harga Jual Grade C (Rp/Kg)</label>
-                        <input type="number" name="price_c" id="price_c" min="0" step="100" value="{{ old('price_c') }}" class="w-full rounded-xl border border-gray-200 bg-gray-100 py-2.5 px-3.5 text-sm font-bold text-gray-600" readonly>
-                    </div>
-                </div>
             </div>
 
             <div>

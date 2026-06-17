@@ -42,6 +42,11 @@ class PetaniProduct extends Model
     {
         return $this->hasOne(QcReport::class, 'petani_product_id');
     }
+    
+    public function qcReports()
+    {
+        return $this->hasMany(QcReport::class, 'petani_product_id');
+    }
 
     /**
      * Get human-readable status label.

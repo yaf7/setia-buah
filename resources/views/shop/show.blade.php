@@ -111,14 +111,12 @@
                                                 : 'bg-white text-gray-500 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 shadow-sm' }}">
                                             @if($gradeOption->grade === 'A') ⭐ Grade A (Premium)
                                             @elseif($gradeOption->grade === 'B') 🌱 Grade B (Standar)
-                                            @else 🏭 Grade C (Olahan)
                                             @endif
                                         </a>
                                     @else
                                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-extrabold uppercase bg-gray-50 text-gray-400 border border-gray-100 cursor-not-allowed opacity-70">
                                             @if($gradeLetter === 'A') ⭐ Grade A (Kosong)
                                             @elseif($gradeLetter === 'B') 🌱 Grade B (Kosong)
-                                            @else 🏭 Grade C (Kosong)
                                             @endif
                                         </span>
                                     @endif
@@ -163,8 +161,8 @@
                             
                             @php
                                 $minQty = 1;
-                                if ($product->grade === 'A') $minQty = 50;
-                                elseif ($product->grade === 'B') $minQty = 20;
+                                if ($product->grade === 'A') $minQty = 100;
+                                elseif ($product->grade === 'B') $minQty = 50;
                             @endphp
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-4" x-data="{ qty: {{ $minQty }} }">
                                 <div class="space-y-1.5 shrink-0">

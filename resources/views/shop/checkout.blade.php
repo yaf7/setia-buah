@@ -54,7 +54,7 @@
                                 </div>
                                 <div class="space-y-1">
                                     <label class="block text-[10px] font-extrabold text-gray-400 uppercase tracking-widest">Nomor Handphone (HP)</label>
-                                    <input type="text" name="customer_phone" placeholder="Contoh: 08123456789" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
+                                    <input type="text" name="customer_phone" value="{{ old('customer_phone', auth('buyer')->user()->phone ?? '') }}" placeholder="Contoh: 08123456789" class="mt-1 block w-full rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 py-2.5 px-3.5 text-sm transition" required>
                                 </div>
                             </div>
 

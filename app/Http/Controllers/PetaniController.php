@@ -12,7 +12,9 @@ class PetaniController extends Controller
 {
     public function dashboard(Request $request)
     {
+        // KODE YANG DIUBAH: Menambahkan ->with('qcReports') agar data relasi ikut ditarik
         $products = PetaniProduct::where('user_id', $request->user()->id)
+            ->with('qcReports')
             ->latest()
             ->paginate(10);
             
