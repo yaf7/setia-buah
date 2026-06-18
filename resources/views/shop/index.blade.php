@@ -3,22 +3,64 @@
         <x-seo-meta title="Katalog Buah Segar Pilihan - SetiaBuah" />
     </x-slot>
 
-    <div class="relative overflow-hidden bg-gradient-to-r from-brand-700 via-brand-600 to-emerald-700 text-white py-14 sm:py-20 mb-12 shadow-md">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(16,185,129,0.15),transparent_40%)]"></div>
-        <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-emerald-500/10 blur-3xl"></div>
+    <div 
+        x-data="{
+            activeSlide: 0,
+            slides: [
+                '{{ asset('images/2.jpg') }}',
+                '{{ asset('images/3.jpg') }}',
+                '{{ asset('images/4.jpeg') }}'
+            ],
+            init() {
+                // Ganti gambar otomatis setiap 4 detik (4000 ms)
+                setInterval(() => {
+                    this.activeSlide = this.activeSlide === this.slides.length - 1 ? 0 : this.activeSlide + 1;
+                }, 4000);
+            }
+        }"
+        class="relative overflow-hidden py-14 sm:py-20 mb-12 shadow-md min-h-[350px] flex items-center bg-gray-900"
+    >
+        
+        <template x-for="(slide, index) in slides" :key="index">
+            <img 
+                x-show="activeSlide === index"
+                :src="slide"
+                alt="Slider Image"
+                class="absolute inset-0 w-full h-full object-cover z-0"
+                x-transition:enter="transition ease-in-out duration-1000"
+                x-transition:enter-start="opacity-0 scale-105"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="transition ease-in-out duration-1000 absolute"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-105"
+            >
+        </template>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
+        <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left w-full">
             <div class="flex flex-col sm:flex-row items-center justify-between gap-8">
                 <div class="space-y-4 max-w-2xl">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-brand-500/20 text-brand-200 border border-brand-500/30">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase bg-white/20 text-white border border-white/30 backdrop-blur-sm shadow-sm">
                         🌱 100% Direct From Farmers
                     </span>
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold tracking-tight leading-none">
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white tracking-tight leading-none drop-shadow-lg">
                         Katalog Buah Segar <br class="hidden sm:inline">Unggulan Nusantara
                     </h1>
-                    <p class="text-sm sm:text-base text-brand-100/90 font-medium leading-relaxed max-w-lg">
+                    <p class="text-sm sm:text-base text-gray-100 font-medium leading-relaxed max-w-lg drop-shadow">
                         Nikmati kelezatan buah segar pilihan yang lolos uji penjaminan mutu (Quality Control) ketat dan dikirim langsung dari lahan kelompok tani tepercaya.
                     </p>
+                    
+                    <div class="flex items-center justify-center sm:justify-start gap-2 pt-4">
+                        <template x-for="(slide, index) in slides" :key="index">
+                            <button 
+                                @click="activeSlide = index"
+                                :class="{'bg-brand-500 w-6': activeSlide === index, 'bg-white/50 hover:bg-white w-2': activeSlide !== index}"
+                                class="h-2 rounded-full transition-all duration-300 shadow-sm"
+                                aria-label="Ganti slide"
+                            ></button>
+                        </template>
+                    </div>
                 </div>
                 
                 @if(auth('buyer')->check() || !auth()->check())
@@ -27,8 +69,8 @@
                             ? \App\Models\Cart::where('user_id', auth('buyer')->id())->count() 
                             : \App\Models\Cart::where('session_id', \Illuminate\Support\Facades\Session::getId())->count();
                     @endphp
-                    <div class="shrink-0">
-                        <a href="{{ route('cart.index') }}" class="relative py-3 inline-flex items-center gap-2.5 px-6 border border-white/30 rounded-2xl bg-white/10 hover:bg-white text-white hover:text-brand-800 backdrop-blur-sm hover:scale-105 active:scale-98 shadow-lg transition-all duration-200 font-bold text-sm">
+                    <div class="shrink-0 mt-4 sm:mt-0">
+                        <a href="{{ route('cart.index') }}" class="relative py-3 inline-flex items-center gap-2.5 px-6 border border-white/40 rounded-2xl bg-brand-600/90 hover:bg-brand-500 text-white backdrop-blur-md hover:scale-105 active:scale-98 shadow-xl transition-all duration-200 font-bold text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                             </svg>
@@ -44,7 +86,6 @@
             </div>
         </div>
     </div>
-
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col lg:flex-row gap-8 items-start">
             
@@ -103,19 +144,11 @@
                 @endif
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
-                    {{-- DI SINI LOGIKA GROUPING DITERAPKAN PADA BLADE --}}
                     @forelse($products->groupBy('fruit_type') as $fruitType => $variants)
                         @php
-                            // Ambil varian pertama untuk mewakili gambar dan ID produk
                             $representativeProduct = $variants->first();
-                            
-                            // Cari harga termurah dari semua varian (grade) buah ini
                             $minPrice = $variants->min('price_per_kg');
-                            
-                            // Hitung total keseluruhan stok dari semua varian
                             $totalStock = $variants->sum('stock_kg');
-                            
-                            // Ambil tanggal kedaluwarsa terdekat (opsional)
                             $earliestExpiry = $variants->whereNotNull('expiry_date')->min('expiry_date');
                         @endphp
 
