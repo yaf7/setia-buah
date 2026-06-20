@@ -11,7 +11,11 @@ class AdminInventoryController extends Controller
     {
         $status = $request->query('status');
         
-        $query = Inventory::orderBy('fruit_type')->orderBy('grade');
+        $query = Inventory::with([
+            'qcReport.admin',
+            'qcReport.product.user',
+            'procurement.harvestEstimate.user'
+        ])->orderBy('fruit_type')->orderBy('grade');
         
         if ($status === 'katalog') {
             $query->where('is_active', true);
@@ -29,6 +33,23 @@ class AdminInventoryController extends Controller
                 : Inventory::sum('stock_kg'));
 
         return view('admin.inventory.index', compact('inventories', 'totalStock', 'status'));
+    }
+
+    public function update(Request $request, Inventory $inventory)
+    {
+        $validated = $request->validate([
+            'stock_kg' => 'required|numeric|min:0',
+            'price_per_kg' => 'required|numeric|min:0',
+            'discount_percent' => 'nullable|integer|min:0|max:100',
+        ]);
+
+        $inventory->update([
+            'stock_kg' => $validated['stock_kg'],
+            'price_per_kg' => $validated['price_per_kg'],
+            'discount_percent' => $validated['discount_percent'] ?? 0,
+        ]);
+
+        return redirect()->back()->with('success', 'Data stok berhasil diperbarui.');
     }
 
     public function toggleStatus(Inventory $inventory)

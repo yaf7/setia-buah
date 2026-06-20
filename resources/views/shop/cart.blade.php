@@ -85,7 +85,13 @@
                                                 @endif
                                                 
                                                 <span class="text-xs text-gray-400 font-medium">
-                                                    Rp {{ number_format(optional($item->inventory)->price_per_kg ?? 0, 0, ',', '.') }} / Kg
+                                                    @if(optional($item->inventory)->discount_percent > 0)
+                                                        <span class="line-through text-gray-300 mr-1">Rp {{ number_format(optional($item->inventory)->price_per_kg ?? 0, 0, ',', '.') }}</span>
+                                                        <span class="text-rose-600 font-extrabold">Rp {{ number_format(optional($item->inventory)->final_price ?? 0, 0, ',', '.') }}</span>
+                                                    @else
+                                                        Rp {{ number_format(optional($item->inventory)->price_per_kg ?? 0, 0, ',', '.') }}
+                                                    @endif
+                                                    / Kg
                                                 </span>
                                             </div>
                                         </div>
@@ -114,7 +120,7 @@
                                             <div class="text-right w-24">
                                                 <span class="block text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">Subtotal</span>
                                                 <span class="block font-heading font-black text-brand-700 text-sm sm:text-base mt-1">
-                                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->price_per_kg ?? 0)), 0, ',', '.') }}
+                                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->final_price ?? 0)), 0, ',', '.') }}
                                                 </span>
                                             </div>
                                         </div>

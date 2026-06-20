@@ -23,7 +23,7 @@ class CartController extends Controller
         $cartItems = $query->get();
         
         $total = $cartItems->sum(function ($item) {
-            return $item->quantity_kg * optional($item->inventory)->price_per_kg;
+            return $item->quantity_kg * optional($item->inventory)->final_price;
         });
 
         return view('shop.cart', compact('cartItems', 'total'));

@@ -2,7 +2,7 @@
     <x-slot name="meta">
         <x-seo-meta 
             title="{{ $product->fruit_type }} Grade {{ $product->grade }} - SetiaBuah"
-            description="Beli {{ $product->fruit_type }} berkualitas Grade {{ $product->grade }} langsung dari Setia Buah dengan harga Rp {{ number_format($product->price_per_kg, 0,',','.') }} per Kg."
+            description="Beli {{ $product->fruit_type }} berkualitas Grade {{ $product->grade }} langsung dari Setia Buah dengan harga Rp {{ number_format($product->final_price, 0,',','.') }} per Kg."
             image="{{ $product->image ? Storage::url($product->image) : asset('logo.png') }}"
             :json-ld="[
                 '@context' => 'https://schema.org',
@@ -13,7 +13,7 @@
                 'offers' => [
                     '@type' => 'Offer',
                     'priceCurrency' => 'IDR',
-                    'price' => $product->price_per_kg,
+                    'price' => $product->final_price,
                     'itemCondition' => 'https://schema.org/NewCondition',
                     'availability' => $product->stock_kg > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'
                 ]
@@ -137,11 +137,25 @@
                         </div>
 
                         <!-- Price Indicator Tag -->
-                        <div class="mt-6 sm:mt-8 flex items-baseline gap-1 text-brand-700 bg-brand-50/50 p-4 rounded-2xl border border-brand-100/30">
-                            <span class="text-sm font-bold">Rp</span>
-                            <span class="text-3xl sm:text-4xl font-black leading-none">{{ number_format($product->price_per_kg, 0, ',', '.') }}</span>
-                            <span class="text-xs font-extrabold text-gray-400">/ Kilogram (Kg)</span>
-                        </div>
+                        @if($product->discount_percent > 0)
+                            <div class="mt-6 sm:mt-8 flex flex-col gap-1.5 bg-rose-50/40 p-4 rounded-2xl border border-rose-100/30">
+                                <div class="flex items-center gap-2">
+                                    <span class="px-2 py-0.5 text-[10px] font-black text-white bg-rose-500 rounded-md shadow-sm">PROMO {{ $product->discount_percent }}% OFF</span>
+                                    <span class="text-xs font-extrabold text-gray-400 line-through">Rp {{ number_format($product->price_per_kg, 0, ',', '.') }}</span>
+                                </div>
+                                <div class="flex items-baseline gap-1 text-brand-700">
+                                    <span class="text-sm font-bold">Rp</span>
+                                    <span class="text-3xl sm:text-4xl font-black leading-none text-rose-600">{{ number_format($product->final_price, 0, ',', '.') }}</span>
+                                    <span class="text-xs font-extrabold text-gray-400">/ Kilogram (Kg)</span>
+                                </div>
+                            </div>
+                        @else
+                            <div class="mt-6 sm:mt-8 flex items-baseline gap-1 text-brand-700 bg-brand-50/50 p-4 rounded-2xl border border-brand-100/30">
+                                <span class="text-sm font-bold">Rp</span>
+                                <span class="text-3xl sm:text-4xl font-black leading-none">{{ number_format($product->price_per_kg, 0, ',', '.') }}</span>
+                                <span class="text-xs font-extrabold text-gray-400">/ Kilogram (Kg)</span>
+                            </div>
+                        @endif
 
                         <!-- Stocks Info -->
                         <div class="mt-4 flex items-center gap-3 text-xs sm:text-sm font-bold">

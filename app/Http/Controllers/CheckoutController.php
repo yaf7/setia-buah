@@ -46,7 +46,7 @@ class CheckoutController extends Controller
         }
 
         $total = $cartItems->sum(function ($item) {
-            return $item->quantity_kg * optional($item->inventory)->price_per_kg;
+            return $item->quantity_kg * optional($item->inventory)->final_price;
         });
 
         return view('shop.checkout', compact('cartItems', 'total'));
@@ -145,7 +145,7 @@ class CheckoutController extends Controller
                 'name' => $item->inventory->fruit_type ?? 'Produk',
                 'quantity' => (int) max(1, round($item->quantity_kg, 0)),
                 'weight' => max(1, $weightGram),
-                'value' => (int) round($item->quantity_kg * ($item->inventory->price_per_kg ?? 0), 0),
+                'value' => (int) round($item->quantity_kg * ($item->inventory->final_price ?? 0), 0),
             ];
         })->values()->all();
 
@@ -244,7 +244,7 @@ class CheckoutController extends Controller
         }
 
         $subtotalAmount = $cartItems->sum(function ($item) {
-            return $item->quantity_kg * optional($item->inventory)->price_per_kg;
+            return $item->quantity_kg * optional($item->inventory)->final_price;
         });
 
         $shippingCost = (float) $data['shipping_cost'];
@@ -273,13 +273,13 @@ class CheckoutController extends Controller
 
                 foreach ($cartItems as $item) {
                     if ($item->inventory) {
-                        $subtotal = $item->quantity_kg * $item->inventory->price_per_kg;
+                        $subtotal = $item->quantity_kg * $item->inventory->final_price;
 
                         OrderItem::create([
                             'order_id' => $order->id,
                             'inventory_id' => $item->inventory_id,
                             'quantity_kg' => $item->quantity_kg,
-                            'price_per_kg' => $item->inventory->price_per_kg,
+                            'price_per_kg' => $item->inventory->final_price,
                             'subtotal' => $subtotal,
                         ]);
                     }
@@ -307,7 +307,7 @@ class CheckoutController extends Controller
 
         try {
             $itemDetails = $cartItems->map(function ($item) {
-                $subtotal = $item->quantity_kg * ($item->inventory->price_per_kg ?? 0);
+                $subtotal = $item->quantity_kg * ($item->inventory->final_price ?? 0);
 
                 return [
                     'id' => 'INV-'.$item->inventory_id,

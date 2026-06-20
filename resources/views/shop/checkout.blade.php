@@ -131,10 +131,10 @@
                             <li class="flex justify-between items-start gap-4 text-xs">
                                 <div class="space-y-1">
                                     <span class="block font-bold text-gray-700 line-clamp-1">{{ $item->inventory->fruit_type ?? 'Produk' }}</span>
-                                    <span class="block text-gray-400 font-extrabold">({{ $item->quantity_kg }} Kg x Rp {{ number_format(optional($item->inventory)->price_per_kg ?? 0, 0, ',', '.') }})</span>
+                                    <span class="block text-gray-400 font-extrabold">({{ $item->quantity_kg }} Kg x Rp {{ number_format(optional($item->inventory)->final_price ?? 0, 0, ',', '.') }})</span>
                                 </div>
                                 <span class="font-black text-gray-800 shrink-0">
-                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->price_per_kg ?? 0)), 0, ',', '.') }}
+                                    Rp {{ number_format(($item->quantity_kg * (optional($item->inventory)->final_price ?? 0)), 0, ',', '.') }}
                                 </span>
                             </li>
                         @endforeach
