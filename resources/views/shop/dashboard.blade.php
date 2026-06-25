@@ -204,9 +204,9 @@
                                     @if($order->status === 'shipped')
                                         <form action="{{ route('buyer.orders.receive', $order) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin telah menerima pesanan ini dengan baik?');">
                                             @csrf
-                                            <button type="submit" class="px-5 py-2.5 bg-brand-650 hover:bg-brand-750 text-white rounded-xl text-xs font-bold shadow-md shadow-brand-500/10 transition flex items-center gap-1.5">
+                                            <button type="submit" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs font-bold shadow-md shadow-brand-500/10 transition flex items-center gap-1.5">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                                <span>Pesanan Diterima</span>
+                                                <span>Konfirmasi Paket Diterima</span>
                                             </button>
                                         </form>
                                     @endif

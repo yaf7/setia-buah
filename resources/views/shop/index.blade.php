@@ -3,9 +3,6 @@
         <x-seo-meta title="Katalog Buah Segar Pilihan - SetiaBuah" />
     </x-slot>
 
-    <!-- ========================================== -->
-    <!-- BANNER HERO (SLIDESHOW GAMBAR BERJALAN)    -->
-    <!-- ========================================== -->
     <div 
         x-data="{
             activeSlide: 0,
@@ -125,7 +122,6 @@
                                 <option value="">Semua Kualitas (Grade)</option>
                                 <option value="A" {{ request('grade') == 'A' ? 'selected' : '' }}>Grade A (Premium Konsumsi)</option>
                                 <option value="B" {{ request('grade') == 'B' ? 'selected' : '' }}>Grade B (Standar Harian)</option>
-                                <option value="C" {{ request('grade') == 'C' ? 'selected' : '' }}>Grade C (Olahan Industri)</option>
                             </select>
                         </div>
 
