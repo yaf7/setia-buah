@@ -1,4 +1,4 @@
 # setia-buah
 
 Proyek sistem informasi berbasis web Laravel.
-yafa dan faishal.
+Dibuat oleh yafa dan faishal.
